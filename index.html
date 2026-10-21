@@ -32,23 +32,24 @@
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      padding: 10px;
+      align-items: center; /* Centrado vertical para mejor aspecto de libro */
+      padding: 12px;
       overflow-x: hidden;
     }
 
+    /* Proporción de la Libreta Ajustada (Menos alargada) */
     .book-container {
       width: 100%;
-      max-width: 480px;
+      max-width: 440px;
       background: #fffdfd;
       border-radius: 16px;
       box-shadow: 0 12px 30px rgba(255, 133, 162, 0.15), inset 0 0 0 3px #f8bbd0, inset 12px 0 20px rgba(0,0,0,0.03);
       position: relative;
-      min-height: 88vh;
+      min-height: 620px; /* Altura fija óptima para que no se alargue en pantallas grandes */
+      max-height: 90vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      margin-top: 10px;
     }
 
     /* Portada Estilo Libro Real */
@@ -104,13 +105,13 @@
     .bl { bottom: -12px; left: -12px; }
     .br { bottom: -12px; right: -12px; }
 
-    /* ESTILOS Y POSICIONES PARA 4 CALCOMANÍAS */
+    /* STICKERS MÁS GRANDES Y MEJOR PROPORCIONADOS */
     .sticker {
       position: absolute;
       background: #ffffff;
-      padding: 4px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15), 0 0 0 2px #ffffff;
+      padding: 5px;
+      border-radius: 10px;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.18), 0 0 0 2px #ffffff;
       pointer-events: none;
       z-index: 10;
       transition: transform 0.3s ease;
@@ -118,34 +119,34 @@
 
     .sticker img {
       display: block;
-      width: 58px;
-      height: 58px;
+      width: 80px;  /* Tamaño incrementado de 58px a 80px */
+      height: 80px;
       object-fit: cover;
-      border-radius: 6px;
+      border-radius: 8px;
     }
 
-    /* Ubicaciones repartidas */
+    /* Ubicaciones de los 4 Stickers */
     .sticker-1 {
-      top: 35px;
-      left: 25px;
+      top: 25px;
+      left: 20px;
       transform: rotate(-12deg);
     }
 
     .sticker-2 {
-      top: 45px;
-      right: 20px;
+      top: 30px;
+      right: 18px;
       transform: rotate(14deg);
     }
 
     .sticker-3 {
-      bottom: 50px;
-      left: 25px;
+      bottom: 40px;
+      left: 20px;
       transform: rotate(-8deg);
     }
 
     .sticker-4 {
-      bottom: 60px;
-      right: 20px;
+      bottom: 45px;
+      right: 18px;
       transform: rotate(10deg);
     }
 
@@ -524,22 +525,22 @@
       
       <!-- Calcomanía 1 (Arriba Izquierda) -->
       <div class="sticker sticker-1">
-        <img id="stickerImg1" src="./sticker1.png" alt="Sticker 1" onerror="this.src='https://via.placeholder.com/58/ff85a2/ffffff?text=✨'">
+        <img id="stickerImg1" src="./sticker1.png" alt="Sticker 1" onerror="this.src='https://via.placeholder.com/80/ff85a2/ffffff?text=✨'">
       </div>
 
       <!-- Calcomanía 2 (Arriba Derecha) -->
       <div class="sticker sticker-2">
-        <img id="stickerImg2" src="./sticker2.png" alt="Sticker 2" onerror="this.src='https://via.placeholder.com/58/f8bbd0/3d3234?text=🐽'">
+        <img id="stickerImg2" src="./sticker2.png" alt="Sticker 2" onerror="this.src='https://via.placeholder.com/80/f8bbd0/3d3234?text=🐽'">
       </div>
 
       <!-- Calcomanía 3 (Abajo Izquierda) -->
       <div class="sticker sticker-3">
-        <img id="stickerImg3" src="./sticker3.png" alt="Sticker 3" onerror="this.src='https://via.placeholder.com/58/ff5c8a/ffffff?text=🌱'">
+        <img id="stickerImg3" src="./sticker3.png" alt="Sticker 3" onerror="this.src='https://via.placeholder.com/80/ff5c8a/ffffff?text=🌱'">
       </div>
 
       <!-- Calcomanía 4 (Abajo Derecha) -->
       <div class="sticker sticker-4">
-        <img id="stickerImg4" src="./sticker4.png" alt="Sticker 4" onerror="this.src='https://via.placeholder.com/58/fce4ec/3d3234?text=💫'">
+        <img id="stickerImg4" src="./sticker4.png" alt="Sticker 4" onerror="this.src='https://via.placeholder.com/80/fce4ec/3d3234?text=💫'">
       </div>
 
       <div class="cover-box" id="openCoverBtn">
@@ -679,7 +680,6 @@
     ];
 
     function loadRandomStickers() {
-      // Mezclar los stickers disponibles y elegir 4 diferentes
       let shuffled = [...availableStickers].sort(() => 0.5 - Math.random());
       
       if (shuffled[0]) document.getElementById('stickerImg1').src = shuffled[0];
