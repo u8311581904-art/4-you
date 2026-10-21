@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
-  <!-- Control de Caché para forzar la actualización en todos los navegadores -->
+  <!-- Control de Caché -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -85,6 +85,7 @@
       box-shadow: 0 6px 20px rgba(255, 133, 162, 0.25);
       position: relative;
       cursor: pointer;
+      z-index: 5;
     }
 
     .cover-title {
@@ -103,12 +104,58 @@
     .bl { bottom: -12px; left: -12px; }
     .br { bottom: -12px; right: -12px; }
 
+    /* ESTILOS Y POSICIONES PARA 4 CALCOMANÍAS */
+    .sticker {
+      position: absolute;
+      background: #ffffff;
+      padding: 4px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15), 0 0 0 2px #ffffff;
+      pointer-events: none;
+      z-index: 10;
+      transition: transform 0.3s ease;
+    }
+
+    .sticker img {
+      display: block;
+      width: 58px;
+      height: 58px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    /* Ubicaciones repartidas */
+    .sticker-1 {
+      top: 35px;
+      left: 25px;
+      transform: rotate(-12deg);
+    }
+
+    .sticker-2 {
+      top: 45px;
+      right: 20px;
+      transform: rotate(14deg);
+    }
+
+    .sticker-3 {
+      bottom: 50px;
+      left: 25px;
+      transform: rotate(-8deg);
+    }
+
+    .sticker-4 {
+      bottom: 60px;
+      right: 20px;
+      transform: rotate(10deg);
+    }
+
     .cover-hint {
       margin-top: 35px;
       font-size: 1rem;
       font-weight: 700;
       color: #ad1457;
       animation: bounce 1.8s infinite;
+      z-index: 5;
     }
 
     @keyframes bounce {
@@ -472,8 +519,29 @@
 <body>
 
   <div class="book-container">
-    <!-- Portada -->
+    <!-- Portada con 4 Calcomanías Repartidas -->
     <div class="cover-overlay" id="cover">
+      
+      <!-- Calcomanía 1 (Arriba Izquierda) -->
+      <div class="sticker sticker-1">
+        <img id="stickerImg1" src="./sticker1.png" alt="Sticker 1" onerror="this.src='https://via.placeholder.com/58/ff85a2/ffffff?text=✨'">
+      </div>
+
+      <!-- Calcomanía 2 (Arriba Derecha) -->
+      <div class="sticker sticker-2">
+        <img id="stickerImg2" src="./sticker2.png" alt="Sticker 2" onerror="this.src='https://via.placeholder.com/58/f8bbd0/3d3234?text=🐽'">
+      </div>
+
+      <!-- Calcomanía 3 (Abajo Izquierda) -->
+      <div class="sticker sticker-3">
+        <img id="stickerImg3" src="./sticker3.png" alt="Sticker 3" onerror="this.src='https://via.placeholder.com/58/ff5c8a/ffffff?text=🌱'">
+      </div>
+
+      <!-- Calcomanía 4 (Abajo Derecha) -->
+      <div class="sticker sticker-4">
+        <img id="stickerImg4" src="./sticker4.png" alt="Sticker 4" onerror="this.src='https://via.placeholder.com/58/fce4ec/3d3234?text=💫'">
+      </div>
+
       <div class="cover-box" id="openCoverBtn">
         <span class="cover-doodle tl">✨</span>
         <span class="cover-doodle tr">🌱</span>
@@ -597,6 +665,29 @@
   </div>
 
   <script>
+    // TU LISTA DE STICKERS SUBIDOS A GITHUB
+    const availableStickers = [
+      './sticker1.png',
+      './sticker2.png',
+      './sticker3.png',
+      './sticker4.jpg',
+      './sticker5.jpg',
+      './sticker6.png',
+      './sticker7.jpg',
+      './sticker8.jpg',
+      './sticker9.jpg'
+    ];
+
+    function loadRandomStickers() {
+      // Mezclar los stickers disponibles y elegir 4 diferentes
+      let shuffled = [...availableStickers].sort(() => 0.5 - Math.random());
+      
+      if (shuffled[0]) document.getElementById('stickerImg1').src = shuffled[0];
+      if (shuffled[1]) document.getElementById('stickerImg2').src = shuffled[1];
+      if (shuffled[2]) document.getElementById('stickerImg3').src = shuffled[2];
+      if (shuffled[3]) document.getElementById('stickerImg4').src = shuffled[3];
+    }
+
     const phrases = [
       "creo en ti 🐽",
       "Un pequeño recordatorio para hoy: tómate un respiro, lo estás haciendo genial, Sami.",
@@ -848,7 +939,7 @@
     canvas.addEventListener('touchmove', drawing, { passive: false });
     canvas.addEventListener('touchend', stopDraw);
 
-    // Limpiar Service Workers anteriores si existieran
+    // Limpiar Service Workers anteriores
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(function(registrations) {
         for(let registration of registrations) {
@@ -858,6 +949,7 @@
     }
 
     window.onload = () => {
+      loadRandomStickers();
       updateDailyPhrase();
     };
   </script>
