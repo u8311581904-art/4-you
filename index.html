@@ -12,7 +12,7 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #fffaf0;
-      color: #333333; /* Color de texto oscuro y legible */
+      color: #333333;
       margin: 0;
       padding: 0;
       display: flex;
@@ -36,17 +36,17 @@
     }
 
     h1 {
-      color: #ff4757; /* Rojo/Rosa fuerte y visible */
+      color: #ff4757;
       font-size: 2.2rem;
       margin: 10px 0;
       font-weight: bold;
     }
 
     .subtitulo {
-      color: #555555; /* Gris oscuro para que se lea perfecto */
+      color: #555555;
       font-size: 1.05rem;
       line-height: 1.5;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
       font-weight: 500;
     }
 
@@ -57,13 +57,22 @@
       margin-bottom: 25px;
       box-shadow: 0px 4px 15px rgba(255, 182, 193, 0.3);
       border: 2px solid #ffe4e8;
+      text-align: left;
     }
 
     .seccion-tarjeta h3 {
       color: #ff4757;
       font-size: 1.3rem;
       margin-top: 0;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .seccion-tarjeta p {
+      color: #555555;
+      font-size: 0.98rem;
+      line-height: 1.6;
+      margin: 10px 0;
     }
 
     .galeria-fotos {
@@ -126,6 +135,9 @@
       cursor: pointer;
       box-shadow: 0px 4px 12px rgba(255, 71, 87, 0.4);
       margin-top: 10px;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     /* PANTALLA INDEPENDIENTE DEL LIENZO */
@@ -240,10 +252,17 @@
       </div>
     </div>
 
-    <!-- Mensaje Especial para hoy -->
+    <!-- Un recordatorio constante... -->
     <div class="seccion-tarjeta">
+      <h3>Un recordatorio constante...</h3>
+      <p>Quería crear algo único que fuera completamente tuyo, algo que nunca se vaya a perder. Un lugar que puedas abrir en cualquier momento para recordarte que <strong>"siempre estaré a tu lado, escuchándote, cuidándote y apoyándote"</strong>.</p>
+      <p>Nunca dejarás de importarme. Sin importar lo que pase, aquí tienes un espacio seguro pensado solo para ti, donde siempre serás muy valorada y apreciada.</p>
+    </div>
+
+    <!-- Mensaje Especial para hoy -->
+    <div class="seccion-tarjeta" style="text-align: center;">
       <h3>Un mensaje especial para hoy ✨</h3>
-      <p id="textoNota" style="font-style: italic; color: #d63031; font-weight: 600; font-size: 1.05rem;">
+      <p id="textoNota" style="font-style: italic; color: #d63031; font-weight: 600; font-size: 1.05rem; text-align: center;">
         "Admiro mucho tu manera de ser y el gran corazón que tienes."
       </p>
       <button class="btn-principal" onclick="cambiarNota()">Ver otra nota al azar 🎲</button>
@@ -269,7 +288,7 @@
     </div>
 
     <!-- Acceso al Lienzo de Garabatos -->
-    <div style="margin: 30px 0;">
+    <div style="margin: 20px 0 40px 0;">
       <button class="btn-principal" onclick="abrirLienzo()">🎨 Abrir Lienzo de Garabatos</button>
     </div>
 
