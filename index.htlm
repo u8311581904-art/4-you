@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para Ti, Chaparrita ❤️</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .animate-float { animation: float 3s ease-in-out infinite; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-rose-100 via-pink-50 to-purple-100 min-h-screen text-gray-800 font-sans p-4 md:p-8">
+
+  <!-- Encabezado Principal -->
+  <header class="max-w-2xl mx-auto text-center mt-6 mb-10">
+    <div class="inline-block p-3 bg-white/60 backdrop-blur-md rounded-full shadow-sm mb-4 animate-float">
+      💖
+    </div>
+    <h1 class="text-3xl md:text-5xl font-extrabold text-rose-600 tracking-tight">
+      Siempre estaré aquí para ti
+    </h1>
+    <p class="text-gray-600 mt-3 text-base md:text-lg">
+      Un pequeño rincón digital hecho especialmente para ti, chaparrita, para recordarte lo mucho que me importas.
+    </p>
+  </header>
+
+  <!-- Tarjeta de Mensaje Principal -->
+  <main class="max-w-2xl mx-auto space-y-8">
+    <section class="bg-white/80 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-md border border-rose-100">
+      <h2 class="text-xl font-bold text-rose-500 mb-3">Un recordatorio constante...</h2>
+      <p class="text-gray-700 leading-relaxed mb-4">
+        Quería crear algo único que fuera completamente tuyo, algo que nunca se vaya a perder. Un lugar que puedas abrir en cualquier momento para recordarte que *siempre estaré a tu lado, escuchándote, cuidándote y apoyándote*.
+      </p>
+      <p class="text-gray-700 leading-relaxed">
+        Nunca dejarás de importarme. Sin importar lo que pase, aquí tienes un espacio seguro pensado solo para ti, donde siempre serás muy valorada y apreciada.
+      </p>
+    </section>
+
+    <!-- Galería de Momentos / Fotos -->
+    <section id="gallery-section" class="bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-md border border-rose-100 hidden">
+      <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Nuestros Momentos 📸</h3>
+      <div id="gallery-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Las fotos se cargarán aquí automáticamente -->
+      </div>
+    </section>
+
+    <!-- Mensaje Dinámico (Cambia cada 12 horas) -->
+    <section class="bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-md border border-rose-100 text-center">
+      <h3 class="text-lg font-semibold text-gray-800 mb-1">Un mensaje especial para hoy ✨</h3>
+      <p class="text-xs text-gray-400 mb-3">(Este mensaje cambia automáticamente cada 12 horas)</p>
+      
+      <p id="reason-text" class="text-rose-600 italic font-medium my-4 min-h-[4rem] flex items-center justify-center px-4">
+        Cargando tu nota especial...
+      </p>
+      
+      <button onclick="getRandomReason()" class="bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2 px-6 rounded-full shadow-md transition duration-300 transform active:scale-95 text-sm">
+        Ver otra nota al azar 🎲
+      </button>
+    </section>
+
+    <!-- Sección "Abre esto cuando..." -->
+    <section class="bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-md border border-rose-100">
+      <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Buzón Especial 📩</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <button onclick="openModal('Tengas un hermoso día', '¡Me alegra muchísimo! Disfruta cada segundo, ilumina todo con tu sonrisa y recuerda que ver la vida bonita en ti me hace muy feliz.')" class="p-4 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl font-medium transition text-left border border-rose-200">
+          ☀️ Abre si estás teniendo un gran día
+        </button>
+        <button onclick="openModal('Te sientas triste', 'Recuerda que no estás sola. Es normal tener días difíciles, pero nunca olvides lo fuerte que eres y que siempre puedes contar conmigo para escucharte y abrazarte.')" class="p-4 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-xl font-medium transition text-left border border-purple-200">
+          🌧️ Abre si te sientes triste o abrumada
+        </button>
+        <button onclick="openModal('Dudes de ti misma', 'Eres una mujer increíble, hermosa por dentro y por fuera, y capaz de lograr todo lo que te propongas. Que un momento difícil jamás borre lo valiosa que eres.')" class="p-4 bg-pink-50 hover:bg-pink-100 text-pink-700 rounded-xl font-medium transition text-left border border-pink-200">
+          ✨ Abre si dudas de tu valor
+        </button>
+        <button onclick="openModal('Extrañes platicar', 'Sabes que solo basta un mensaje o una llamada. Siempre encontraré tiempo para ti, sin importar qué tan ocupado esté.')" class="p-4 bg-amber-50 hover:bg-amber-100 text-amber-700 rounded-xl font-medium transition text-left border border-amber-200">
+          💬 Abre si quieres hablar conmigo
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal / Ventana Emergente para el Buzón -->
+  <div id="modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl p-6 md:p-8 max-w-md w-full shadow-2xl text-center transform transition-all">
+      <h4 id="modal-title" class="text-xl font-bold text-rose-600 mb-3"></h4>
+      <p id="modal-body" class="text-gray-600 leading-relaxed mb-6"></p>
+      <button onclick="closeModal()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-6 rounded-full transition">
+        Cerrar
+      </button>
+    </div>
+  </div>
+
+  <footer class="text-center mt-12 text-gray-500 text-sm">
+    Hecho con todo mi corazón, especialmente para ti, chaparrita. ❤️
+  </footer>
+
+  <script>
+    // --- CONFIGURACIÓN DE FOTOS ---
+    // Pon aquí los nombres exactos de tus fotos subidas a GitHub:
+    const photos = ['foto1.jpg', 'foto2.jpg']; 
+
+    // --- CÓDIGO DE FRASES ---
+    const reasons = [
+      "Ver tu sonrisa siempre me alegra el día, chaparrita.",
+      "Aprecio infinitamente la hermosa persona que eres.",
+      "Tu presencia hace que cualquier día común se vuelva inolvidable.",
+      "No olvides que en mí siempre tendrás a alguien que estará para ti incondicionalmente.",
+      "Gracias por cada plática, cada risa y cada momento que compartimos.",
+      "Incluso en los días más ocupados, siempre estás en mis pensamientos.",
+      "Eres de esas personas que hacen que el mundo sea un lugar mucho más bonito.",
+      "Me encanta la manera en que ves la vida y la contagias a los demás.",
+      "Si alguna vez necesitas un lugar seguro para hablar, aquí estoy.",
+      "Nunca dudes de la increíble fortaleza que llevas dentro.",
+      "Tus logros, por pequeños que parezcan, me hacen sentir muy orgulloso de ti.",
+      "Gracias por ser esa luz cuando las cosas se ponen oscuras.",
+      "No importa la distancia ni el tiempo, siempre me importarás, chaparrita.",
+      "Tu felicidad siempre será algo que me llene el corazón.",
+      "Admiro mucho tu manera de ser y el gran corazón que tienes.",
+      "Cada momento compartido contigo vale oro para mí.",
+      "Espero que hoy tengas un día tan hermoso como la persona que eres.",
+      "Nunca olvides lo valiosa e importante que eres en mi vida.",
+      "Que nada ni nadie apague la chispa tan especial que tienes.",
+      "Aquí estaré siempre, en las buenas, en las malas y en todas las demás."
+    ];
+
+    function getTimedReason() {
+      const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
+      const currentPeriod = Math.floor(Date.now() / TWELVE_HOURS_MS);
+      const index = currentPeriod % reasons.length;
+      document.getElementById('reason-text').innerText = "${reasons[index]}";
+    }
+
+    function getRandomReason() {
+      const randomIndex = Math.floor(Math.random() * reasons.length);
+      document.getElementById('reason-text').innerText = "${reasons[randomIndex]}";
+    }
+
+    function loadGallery() {
+      const gallerySection = document.getElementById('gallery-section');
+      const galleryContainer = document.getElementById('gallery-container');
+
+      if (photos.length > 0) {
+        gallerySection.classList.remove('hidden');
+        
+        photos.forEach(photoName => {
+          const photoDiv = document.createElement('div');
+          photoDiv.className = "bg-rose-50/50 p-3 rounded-xl border border-rose-100";
+          
+          const img = document.createElement('img');
+          img.src = photoName;
+          img.alt = "Nuestros momentos";
+          img.className = "w-full h-48 object-cover rounded-lg shadow-sm";
+          
+          const p = document.createElement('p');
+          p.className = "text-xs text-rose-600 text-center font-medium mt-2";
+          p.innerText = "❤️";
+
+          photoDiv.appendChild(img);
+          photoDiv.appendChild(p);
+          galleryContainer.appendChild(photoDiv);
+        });
+      }
+    }
+
+    function openModal(title, text) {
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-body').innerText = text;
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('modal').classList.remove('flex');
+    }
+
+    getTimedReason();
+    loadGallery();
+  </script>
+</body>
+</html>
