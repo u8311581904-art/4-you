@@ -2,824 +2,559 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>4-You — Diario para Sami 💖</title>
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4-You | Cuaderno Especial</title>
+
+  <!-- Cache Control Guardrails -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <!-- Manifest PWA & Theme Color -->
   <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#ffb6c1">
+  <meta name="theme-color" content="#fdf6f6">
+  <link rel="apple-touch-icon" href="./foto1.jpg">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Comfortaa (Títulos) & Inter (Lectura) -->
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --bg-color: #fffaf0;
-      --primary: #ff4757;
-      --primary-hover: #ff6b81;
-      --accent: #ffb6c1;
-      --accent-light: #ffe4e8;
-      --text-dark: #333333;
-      --card-bg: #ffffff;
-      --book-border: #f0a8b7;
-      --binder-ring: #d88a9a;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-
     body {
-      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-      background-color: #f3e5db;
-      background-image: radial-gradient(#e2cebe 1px, transparent 0);
-      background-size: 16px 16px;
-      color: var(--text-dark);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 10px;
-      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
+      background-color: #fdf6f6;
+      background-image: radial-gradient(#e5c7c9 1px, transparent 1px);
+      background-size: 22px 22px;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
-    /* ENVOLTORIO DEL LIBRO/CUADERNO */
-    .libro-wrapper {
-      width: 100%;
-      max-width: 500px;
-      height: 92vh;
-      max-height: 840px;
-      background-color: var(--bg-color);
-      border-radius: 24px;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.18), 0 6px 18px rgba(255,182,193,0.35);
-      border: 4px solid var(--book-border);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+    h1, h2, h3, .font-notebook {
+      font-family: 'Comfortaa', cursive;
     }
 
-    /* ANILLAS DE CUADERNO (DETALLE LATERAL) */
-    .libro-anillas {
-      position: absolute;
-      left: 6px;
-      top: 60px;
-      bottom: 20px;
-      width: 12px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      z-index: 50;
-      pointer-events: none;
+    /* Anillos de espiral lateral para efecto de libreta */
+    .binder-ring {
+      background: linear-gradient(90deg, #c5cad3 0%, #ffffff 50%, #9ca3af 100%);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.3), 1px 2px 4px rgba(0,0,0,0.15);
     }
 
-    .anilla {
-      width: 16px;
-      height: 8px;
-      background: linear-gradient(90deg, #b0b0b0, #ffffff, #888888);
-      border-radius: 4px;
-      box-shadow: 1px 2px 4px rgba(0,0,0,0.25);
+    /* Scrollbar personalizada suave */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #fdf6f6;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #f4a261;
+      border-radius: 10px;
     }
 
-    /* PORTADA DEL CUADERNO */
-    .portada {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, #fffaf0 55%, #ffe4e8 100%);
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 30px;
-      transition: transform 0.75s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.5s ease;
-      cursor: pointer;
+    /* Transición suave para la portada estilo libro */
+    #coverScreen {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
     }
-
-    .portada.abierta {
-      transform: translateY(-100%);
+    #coverScreen.cover-closed {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #coverScreen.cover-open {
+      transform: translateY(-110%);
       opacity: 0;
       pointer-events: none;
     }
-
-    /* GARABATOS EN LAS ESQUINAS DE LA PORTADA */
-    .esquina-garabato {
-      position: absolute;
-      width: 55px;
-      height: 55px;
-      opacity: 0.75;
-    }
-
-    .esquina-tl { top: 20px; left: 20px; border-top: 3px dashed var(--primary); border-left: 3px dashed var(--primary); border-radius: 12px 0 0 0; }
-    .esquina-tr { top: 20px; right: 20px; border-top: 3px dashed var(--primary); border-right: 3px dashed var(--primary); border-radius: 0 12px 0 0; }
-    .esquina-bl { bottom: 20px; left: 20px; border-bottom: 3px dashed var(--primary); border-left: 3px dashed var(--primary); border-radius: 0 0 0 12px; }
-    .esquina-br { bottom: 20px; right: 20px; border-bottom: 3px dashed var(--primary); border-right: 3px dashed var(--primary); border-radius: 0 0 12px 0; }
-
-    .portada-marco {
-      border: 3px double var(--primary);
-      border-radius: 22px;
-      padding: 45px 25px;
-      text-align: center;
-      background-color: #ffffff;
-      box-shadow: 0 10px 25px rgba(255,182,193,0.4);
-      width: 85%;
-      position: relative;
-    }
-
-    .portada-titulo {
-      font-size: 3.4rem;
-      font-family: 'Georgia', serif;
-      color: var(--primary);
-      font-weight: bold;
-      letter-spacing: 2px;
-      margin-bottom: 8px;
-    }
-
-    .portada-sub {
-      font-size: 1.05rem;
-      color: #666;
-      font-style: italic;
-      line-height: 1.4;
-    }
-
-    .flecha-abrir {
-      margin-top: 35px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1rem;
-      color: var(--primary);
-      font-weight: 600;
-      animation: rebotar 1.8s infinite;
-    }
-
-    @keyframes rebotar {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
-    /* CABECERA CON PESTAÑAS (1, 2, 3) Y MÚSICA */
-    .header-pestañas {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      background-color: var(--accent-light);
-      padding: 12px 18px 0 28px;
-      border-bottom: 2px solid var(--accent);
-    }
-
-    .tabs-grupo {
-      display: flex;
-      gap: 8px;
-    }
-
-    .tab-btn {
-      background: #f1cfd5;
-      border: 2px solid var(--accent);
-      border-bottom: none;
-      border-radius: 12px 12px 0 0;
-      padding: 8px 20px;
-      font-size: 1.15rem;
-      font-weight: bold;
-      color: #777;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      position: relative;
-    }
-
-    .tab-btn.activa {
-      background: var(--bg-color);
-      color: var(--primary);
-      padding-top: 11px;
-      margin-bottom: -2px;
-      border-color: var(--book-border);
-      z-index: 10;
-    }
-
-    .btn-portada-mini {
-      margin-bottom: 6px;
-      background: #ffffff;
-      color: var(--primary);
-      border: 1.5px solid var(--accent);
-      padding: 6px 12px;
-      border-radius: 15px;
-      font-size: 0.82rem;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      transition: background 0.2s;
-    }
-
-    .btn-portada-mini:active {
-      background: var(--accent-light);
-    }
-
-    /* CONTENEDOR DE PÁGINAS DEL DIARIO */
-    .contenido-paginas {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px 20px 20px 28px;
-      position: relative;
-    }
-
-    .pagina {
-      display: none;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .pagina.activa {
-      display: flex;
-    }
-
-    /* TARJETAS ESTILO DIARIO */
-    .seccion-tarjeta {
-      background: var(--card-bg);
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0px 4px 12px rgba(255, 182, 193, 0.25);
-      border: 1.5px solid var(--accent-light);
-    }
-
-    .seccion-tarjeta h3 {
-      color: var(--primary);
-      font-size: 1.2rem;
-      margin-bottom: 12px;
-      text-align: center;
-    }
-
-    .seccion-tarjeta p {
-      color: #444;
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
-
-    /* GALERÍA DE FOTOS */
-    .galeria-fotos {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-    }
-
-    .foto-marco {
-      width: 48%;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #fff;
-      padding: 5px;
-      border: 2px solid var(--accent);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-    }
-
-    .foto-marco img {
-      width: 100%;
-      height: 135px;
-      object-fit: cover;
-      border-radius: 10px;
-      display: block;
-    }
-
-    /* BUZÓN GRID */
-    .grid-buzon {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .item-buzon {
-      background: #fff5f7;
-      border: 1.5px solid var(--accent);
-      border-radius: 14px;
-      padding: 12px 10px;
-      font-size: 0.88rem;
-      color: #444;
-      font-weight: 600;
-      cursor: pointer;
-      text-align: center;
-      transition: background 0.2s, transform 0.1s;
-    }
-
-    .item-buzon:active {
-      transform: scale(0.96);
-      background: var(--accent-light);
-    }
-
-    /* BOTONES GENERALES */
-    .btn-principal {
-      background: linear-gradient(135deg, var(--primary-hover) 0%, var(--primary) 100%);
-      color: #ffffff;
-      border: none;
-      padding: 12px 20px;
-      font-size: 0.98rem;
-      font-weight: bold;
-      border-radius: 20px;
-      cursor: pointer;
-      box-shadow: 0px 4px 10px rgba(255, 71, 87, 0.3);
-      width: 100%;
-      margin-top: 8px;
-    }
-
-    .btn-principal:active {
-      transform: scale(0.98);
-    }
-
-    /* PÁGINA 2: LIENZO */
-    .lienzo-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      height: 100%;
-    }
-
-    #canvasDibujo {
-      background: #ffffff;
-      border: 2px dashed var(--accent);
-      border-radius: 16px;
-      touch-action: none;
-      cursor: crosshair;
-      width: 100%;
-      height: 360px;
-    }
-
-    .herramientas-lienzo {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      background: #ffffff;
-      padding: 8px 14px;
-      border-radius: 25px;
-      border: 1px solid var(--accent-light);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      flex-wrap: wrap;
-      justify-content: center;
-      width: 100%;
-    }
-
-    .btn-herramienta {
-      background: #f0f0f0;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .btn-herramienta.activo {
-      background: var(--primary);
-      color: white;
-    }
-
-    /* PÁGINA 3: MÚSICA & NOTAS */
-    .reproductor-card {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 22px;
-      text-align: center;
-      border: 1.5px solid var(--accent);
-      box-shadow: 0 4px 12px rgba(255,182,193,0.3);
-    }
-
-    .disco-animado {
-      width: 85px;
-      height: 85px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #333 30%, #111 70%);
-      margin: 0 auto 15px auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 2rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    }
-
-    .disco-animado.girando {
-      animation: girar 4s linear infinite;
-    }
-
-    @keyframes girar {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    /* MODAL DENTRO DE LA APP (REEMPLAZO DE ALERT) */
-    .modal-overlay {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.45);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
-      padding: 20px;
-      backdrop-filter: blur(2px);
-    }
-
-    .modal-box {
-      background: #ffffff;
-      border-radius: 22px;
-      padding: 24px 20px;
-      text-align: center;
-      max-width: 340px;
-      width: 100%;
-      border: 2px solid var(--accent);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-
-    .modal-box p {
-      font-size: 1.02rem;
-      color: #333;
-      margin-bottom: 20px;
-      line-height: 1.45;
-    }
   </style>
 </head>
-<body>
+<body class="min-h-screen text-slate-800 flex flex-col items-center justify-start p-3 sm:p-5 pb-12">
 
-  <!-- CONTENEDOR TIPO CUADERNO/LIBRO -->
-  <div class="libro-wrapper">
+  <!-- ==================== PORTADA DEL LIBRO (PANTALLA DE INICIO) ==================== -->
+  <div id="coverScreen" class="fixed inset-0 bg-[#fbf2ef] z-50 flex items-center justify-center p-4 cover-closed shadow-2xl">
+    <div onclick="openBook()" class="relative w-full max-w-sm bg-[#fffdf9] border-4 border-rose-200 rounded-3xl p-8 shadow-2xl cursor-pointer hover:scale-[1.01] transition duration-300 flex flex-col items-center justify-between min-h-[480px]">
+      
+      <!-- Garabato Esquina Superior Izquierda -->
+      <svg class="absolute top-3 left-3 w-10 h-10 text-rose-300" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6">
+        <path d="M 20 20 Q 50 10 80 20 Q 90 50 80 80 Q 50 90 20 80 Q 10 50 20 20 Z" />
+        <path d="M 30 30 Q 50 25 70 30" />
+      </svg>
 
-    <!-- ANILLAS LATERALES DE CUADERNO -->
-    <div class="libro-anillas">
-      <div class="anilla"></div>
-      <div class="anilla"></div>
-      <div class="anilla"></div>
-      <div class="anilla"></div>
-      <div class="anilla"></div>
-      <div class="anilla"></div>
-      <div class="anilla"></div>
-      <div class="anilla"></div>
-    </div>
+      <!-- Garabato Esquina Superior Derecha -->
+      <svg class="absolute top-3 right-3 w-10 h-10 text-rose-300" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6">
+        <path d="M 20 20 C 40 5 60 35 80 20 C 95 40 65 60 80 80 C 60 95 40 65 20 80 C 5 60 35 40 20 20 Z" />
+      </svg>
 
-    <!-- PORTADA DEL LIBRO -->
-    <div id="portadaLibro" class="portada" onclick="abrirLibro()">
-      <div class="esquina-garabato esquina-tl"></div>
-      <div class="esquina-garabato esquina-tr"></div>
-      <div class="esquina-garabato esquina-bl"></div>
-      <div class="esquina-garabato esquina-br"></div>
+      <!-- Garabato Esquina Inferior Izquierda -->
+      <svg class="absolute bottom-3 left-3 w-10 h-10 text-rose-300" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6">
+        <circle cx="50" cy="50" r="30" />
+        <path d="M 50 10 L 50 90 M 10 50 L 90 50" />
+      </svg>
 
-      <div class="portada-marco">
-        <div class="portada-titulo">4-You</div>
-        <div class="portada-sub">Un espacio hecho con todo el corazón para Sami 💖</div>
+      <!-- Garabato Esquina Inferior Derecha -->
+      <svg class="absolute bottom-3 right-3 w-10 h-10 text-rose-300" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6">
+        <path d="M 10 50 Q 50 10 90 50 Q 50 90 10 50 Z" />
+      </svg>
+
+      <div class="mt-8 text-center">
+        <span class="text-xs font-bold uppercase tracking-widest text-rose-400">Cuaderno Personal</span>
       </div>
 
-      <div class="flecha-abrir">
-        <span>Toca para abrir el diario</span> 📖 ➡
-      </div>
-    </div>
-
-    <!-- PESTAÑAS SUPERIORES (1, 2, 3) -->
-    <div class="header-pestañas">
-      <div class="tabs-grupo">
-        <button class="tab-btn activa" onclick="cambiarPagina(1)">1</button>
-        <button class="tab-btn" onclick="cambiarPagina(2)">2</button>
-        <button class="tab-btn" onclick="cambiarPagina(3)">3</button>
+      <!-- Recuadro Central "4-You" -->
+      <div class="my-auto w-full border-4 border-dashed border-rose-300 rounded-2xl p-6 text-center bg-rose-50/50 shadow-inner">
+        <h1 class="text-3xl sm:text-4xl font-bold text-rose-600 tracking-wider font-notebook">
+          4-You
+        </h1>
+        <p class="text-xs text-rose-400 mt-2 font-medium">Un rincón especial para Sami</p>
       </div>
 
-      <button class="btn-portada-mini" onclick="cerrarLibro()">📕 Portada</button>
-    </div>
-
-    <!-- CONTENIDO DE LAS PÁGINAS -->
-    <div class="contenido-paginas">
-
-      <!-- PÁGINA 1: PRINCIPAL / INICIO -->
-      <div id="pag1" class="pagina activa">
-        
-        <!-- Galería de fotos -->
-        <div class="galeria-fotos">
-          <div class="foto-marco">
-            <img src="foto1.jpg" alt="Foto 1" onerror="this.src='https://placehold.co/200x200/ffb6c1/ffffff?text=Foto+1'">
-          </div>
-          <div class="foto-marco">
-            <img src="foto2.jpg" alt="Foto 2" onerror="this.src='https://placehold.co/200x200/ffb6c1/ffffff?text=Foto+2'">
-          </div>
-        </div>
-
-        <!-- Mensaje Automático 12 Horas -->
-        <div class="seccion-tarjeta" style="text-align: center;">
-          <h3>Un mensaje especial para hoy ✨</h3>
-          <p style="font-size: 0.78rem; color: #888; margin-bottom: 8px;">(Se actualiza automáticamente cada 12 horas)</p>
-          <p id="textoNota" style="font-style: italic; color: var(--primary); font-weight: 600; font-size: 1.05rem;">
-            "Cargando mensaje..."
-          </p>
-          <button class="btn-principal" onclick="cambiarNotaManual()">Ver otra nota al azar 🎲</button>
-        </div>
-
-        <!-- Carta / Recordatorio constante -->
-        <div class="seccion-tarjeta">
-          <h3>Un recordatorio constante...</h3>
-          <p>Quería crear algo único que fuera completamente tuyo, algo que nunca se vaya a perder. Un lugar que puedas abrir en cualquier momento para recordarte que <strong>"siempre estaré a tu lado, escuchándote, cuidándote y apoyándote"</strong>.</p>
-          <p style="margin-top: 8px;">Nunca dejarás de importarme, chaparrita. Aquí tienes tu espacio seguro.</p>
-        </div>
-
-        <!-- Buzón Especial -->
-        <div class="seccion-tarjeta">
-          <h3>Buzón Especial 📬</h3>
-          <div class="grid-buzon">
-            <div class="item-buzon" onclick="mostrarModal('🌼 Recuerda que cada día es una nueva oportunidad. ¡Sonríe y da lo mejor de ti, chaparra!')">
-              🌼 Si tienes un gran día
-            </div>
-            <div class="item-buzon" onclick="mostrarModal('🌧️ Aquí estoy contigo, Sami. No estás sola, tómate un respiro y recuerda lo fuerte que eres.')">
-              🌧️ Si te sientes triste
-            </div>
-            <div class="item-buzon" onclick="mostrarModal('✨ Vales muchísimo más de lo que imaginas. Nunca lo dudes, chaparrita.')">
-              ✨ Si dudas de tu valor
-            </div>
-            <div class="item-buzon" onclick="mostrarModal('💬 Sabes que solo estás a un mensaje de distancia. Escríbeme cuando quieras.')">
-              💬 Si quieres hablar conmigo
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- PÁGINA 2: LIENZO DE GARABATOS -->
-      <div id="pag2" class="pagina">
-        <div class="seccion-tarjeta" style="text-align: center; padding: 12px;">
-          <h3>🎨 Lienzo de Garabatos</h3>
-          <p style="font-size: 0.85rem; color: #666;">Dibuja lo que quieras, tus trazos se guardan automáticamente.</p>
-        </div>
-
-        <div class="lienzo-container">
-          <canvas id="canvasDibujo"></canvas>
-
-          <div class="herramientas-lienzo">
-            <button id="btnPincel" onclick="activarPincel()" class="btn-herramienta activo">✏️ Pincel</button>
-            <button id="btnBorrador" onclick="activarBorrador()" class="btn-herramienta">🧹 Borrador</button>
-            <input type="color" id="colorPincel" value="#ff4757" style="border:none; width:28px; height:28px; cursor:pointer; background:none;">
-            <input type="range" id="grosorPincel" min="2" max="25" value="6" style="width:70px;">
-            <button onclick="borrarLienzo()" class="btn-herramienta" style="background:#ff4757; color:white;">🗑️ Limpiar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- PÁGINA 3: MÚSICA & NOTAS -->
-      <div id="pag3" class="pagina">
-        <div class="reproductor-card">
-          <div id="disco" class="disco-animado">🎧</div>
-          <h3 style="margin-bottom: 6px;">Nuestra Música 🎶</h3>
-          <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">Una canción especial para acompañar tu lectura.</p>
-
-          <button class="btn-principal" onclick="toggleMusica()" id="btnMusicaTexto">
-            ▶️ Reproducir canción
-          </button>
-
-          <audio id="musicaFondo" src="cancion.mp3" loop></audio>
-        </div>
-
-        <div class="seccion-tarjeta">
-          <h3>Notas de Música & Recuerdos 📝</h3>
-          <p>Esta página está pensada para que la música te acompañe mientras lees tus frases o te inspires dibujando en la pestaña 2.</p>
-          <p style="margin-top: 10px; font-style: italic; color: #777; text-align: center;">"La música expresa todo aquello que no se puede decir con palabras..." 💖</p>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- MODAL PERSONALIZADO (REEMPLAZA AL ALERT TRADICIONAL) -->
-    <div id="modalBuzon" class="modal-overlay">
-      <div class="modal-box">
-        <p id="modalTexto">Mensaje aquí...</p>
-        <button class="btn-principal" onclick="cerrarModal()">Cerrar ✨</button>
+      <div class="mb-4 text-center space-y-2">
+        <p class="text-xs text-slate-400 animate-pulse font-medium">✨ Toca en cualquier parte para abrir ✨</p>
       </div>
     </div>
-
   </div>
 
+  <!-- ==================== CONTENEDOR PRINCIPAL DEL CUADERNO ==================== -->
+  <header class="w-full max-w-xl flex justify-between items-center mb-2 px-2">
+    <div class="text-xs font-bold text-rose-500 bg-rose-100/80 px-3 py-1 rounded-full border border-rose-200">
+      📖 Libreta de Sami
+    </div>
+    <button onclick="closeBook()" class="flex items-center gap-1.5 text-xs font-bold text-rose-600 bg-white hover:bg-rose-50 border border-rose-300 px-3 py-1.5 rounded-xl shadow-sm transition active:scale-95">
+      📕 Portada
+    </button>
+  </header>
+
+  <main class="w-full max-w-xl bg-white/95 backdrop-blur-md rounded-3xl shadow-xl border-2 border-rose-100 p-4 sm:p-6 relative transition-all duration-300">
+    
+    <!-- Espiral Lateral (Efecto Libreta Física) -->
+    <div class="absolute -left-2 top-12 bottom-12 flex flex-col justify-between pointer-events-none z-10">
+      <div class="w-4 h-4 rounded-full binder-ring border border-slate-400"></div>
+      <div class="w-4 h-4 rounded-full binder-ring border border-slate-400"></div>
+      <div class="w-4 h-4 rounded-full binder-ring border border-slate-400"></div>
+      <div class="w-4 h-4 rounded-full binder-ring border border-slate-400"></div>
+      <div class="w-4 h-4 rounded-full binder-ring border border-slate-400"></div>
+      <div class="w-4 h-4 rounded-full binder-ring border border-slate-400"></div>
+    </div>
+
+    <!-- Navegación por Pestañas (Tabs 1, 2, 3) -->
+    <div class="flex gap-2 mb-6 border-b-2 border-rose-100 pb-2 pl-4">
+      <button onclick="switchTab(1)" id="tab-1-btn" class="tab-btn px-5 py-2 rounded-t-2xl font-bold text-sm sm:text-base transition-all bg-rose-400 text-white shadow-md">
+        1
+      </button>
+      <button onclick="switchTab(2)" id="tab-2-btn" class="tab-btn px-5 py-2 rounded-t-2xl font-bold text-sm sm:text-base transition-all bg-rose-100 text-rose-600 hover:bg-rose-200">
+        2 🎨
+      </button>
+      <button onclick="switchTab(3)" id="tab-3-btn" class="tab-btn px-5 py-2 rounded-t-2xl font-bold text-sm sm:text-base transition-all bg-rose-100 text-rose-600 hover:bg-rose-200">
+        3 🎧
+      </button>
+    </div>
+
+    <!-- ==================== PESTAÑA 1: INICIO & MENSAJES ==================== -->
+    <section id="tab-1" class="tab-content pl-2 sm:pl-3 space-y-6">
+      
+      <!-- 1. Título Principal Arriba -->
+      <div class="text-center space-y-1.5 pt-1">
+        <h1 class="text-xl sm:text-2xl font-bold text-rose-600 flex items-center justify-center gap-2 font-notebook">
+          Siempre estaré aquí para ti ✨
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
+          Un pequeño rincón digital hecho especialmente para ti, chaparrita, para recordarte lo mucho que vales.
+        </p>
+      </div>
+
+      <!-- 2. Galería de Fotos (Polaroid) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-2">
+        <div class="bg-amber-50/80 p-3 rounded-2xl border border-amber-200/80 shadow-sm transform -rotate-1 hover:rotate-0 transition duration-300">
+          <div class="overflow-hidden rounded-xl aspect-square bg-slate-100">
+            <img src="./foto1.jpg" alt="Foto 1" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x400/fecdd3/e11d48?text=Nuestra+Foto+1'">
+          </div>
+        </div>
+        <div class="bg-amber-50/80 p-3 rounded-2xl border border-amber-200/80 shadow-sm transform rotate-1 hover:rotate-0 transition duration-300">
+          <div class="overflow-hidden rounded-xl aspect-square bg-slate-100">
+            <img src="./foto2.jpg" alt="Foto 2" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x400/fecdd3/e11d48?text=Nuestra+Foto+2'">
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Recordatorio Constante bajo las fotos -->
+      <div class="bg-rose-50/80 border border-rose-200 rounded-2xl p-5 shadow-sm text-center space-y-2.5">
+        <h2 class="text-sm sm:text-base font-bold text-rose-700 font-notebook">
+          Un recordatorio constante...
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          Quería crear algo único que fuera completamente tuyo, algo que nunca se vaya a perder. Un lugar que puedas abrir en cualquier momento para recordarte que siempre estaré a tu lado, escuchándote, cuidándote y apoyándote en todo lo que hagas.
+        </p>
+      </div>
+
+      <!-- 4. Un mensaje especial para hoy (Rotación 12 hrs + Botón Azar) -->
+      <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200/90 rounded-2xl p-5 shadow-sm text-center space-y-3">
+        <h2 class="text-sm sm:text-base font-bold text-amber-800 font-notebook flex items-center justify-center gap-1.5">
+          Un mensaje especial para hoy ✨
+        </h2>
+        <p class="text-[10px] text-amber-600/80 font-medium">
+          (Se actualiza automáticamente cada 12 horas)
+        </p>
+        <div class="min-h-[50px] flex items-center justify-center px-2">
+          <p id="dailyMessage" class="text-xs sm:text-sm italic font-medium text-slate-700">
+            "Cargando nota del día..."
+          </p>
+        </div>
+        <button onclick="getRandomMessage()" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm hover:shadow transition transform active:scale-95 flex items-center justify-center gap-1.5 mx-auto">
+          Ver otra nota al azar 🎲
+        </button>
+      </div>
+
+      <!-- 5. Buzón Especial al final de la página -->
+      <div class="space-y-3 pt-1">
+        <h3 class="text-xs font-bold text-slate-700 flex items-center gap-1.5 uppercase tracking-wider">
+          📬 Buzón Especial
+        </h3>
+        <div class="grid grid-cols-2 gap-3">
+          <button onclick="openMailModal('Cuando te sientas triste 🌧️', 'Recuerda que no estás sola, Sami. Todos tenemos días difíciles, pero confío plenamente en ti y sé lo fuerte que eres. Tómate las cosas un paso a la vez, aquí estoy si quieres hablar o solo estar en silencio.')" class="bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-800 rounded-xl p-3 text-left transition flex flex-col justify-between shadow-sm active:scale-95">
+            <span class="text-[10px] font-bold uppercase text-blue-500">Abre cuando...</span>
+            <span class="text-xs font-semibold mt-1">te sientas triste 🌧️</span>
+          </button>
+          
+          <button onclick="openMailModal('Cuando sientas estrés ⚡', 'Inhala profundo, chaparrita. Nada es tan grave como parece en este momento. Tómate un respiro, bebe un poco de agua y recuerda que lo estás haciendo súper bien.')" class="bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 rounded-xl p-3 text-left transition flex flex-col justify-between shadow-sm active:scale-95">
+            <span class="text-[10px] font-bold uppercase text-amber-500">Abre cuando...</span>
+            <span class="text-xs font-semibold mt-1">sientas estrés ⚡</span>
+          </button>
+
+          <button onclick="openMailModal('Cuando quieras sonreír 😊', '¿Sabías que tu sonrisa ilumina todo a tu alrededor? Gracias por ser esa persona tan auténtica y genial. Nunca dejes de brillar.')" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 rounded-xl p-3 text-left transition flex flex-col justify-between shadow-sm active:scale-95">
+            <span class="text-[10px] font-bold uppercase text-emerald-500">Abre cuando...</span>
+            <span class="text-xs font-semibold mt-1">quieras sonreír 😊</span>
+          </button>
+
+          <button onclick="openMailModal('Cuando tengas dudas 🤔', 'Dudes de lo que dudes, nunca dudes de tus capacidades ni de lo especial que eres. ¡Creo firmemente en ti! 🐽')" class="bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-800 rounded-xl p-3 text-left transition flex flex-col justify-between shadow-sm active:scale-95">
+            <span class="text-[10px] font-bold uppercase text-purple-500">Abre cuando...</span>
+            <span class="text-xs font-semibold mt-1">tengas dudas 🤔</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== PESTAÑA 2: LIENZO DE GARABATOS ==================== -->
+    <section id="tab-2" class="tab-content pl-2 sm:pl-3 space-y-4 hidden">
+      <div class="text-center space-y-1">
+        <h2 class="text-lg font-bold text-rose-600 font-notebook flex items-center justify-center gap-2">
+          Lienzo de Garabatos 🎨
+        </h2>
+        <p class="text-xs text-slate-500">Un espacio libre para inspirarte y dibujar lo que quieras.</p>
+      </div>
+
+      <!-- Contenedor del Canvas -->
+      <div class="relative bg-white border-2 border-dashed border-rose-200 rounded-2xl overflow-hidden shadow-inner flex justify-center items-center">
+        <canvas id="doodleCanvas" class="w-full h-80 touch-none cursor-crosshair"></canvas>
+      </div>
+
+      <!-- Herramientas de Dibujo -->
+      <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <input type="color" id="colorPicker" value="#f43f5e" class="w-8 h-8 rounded-lg cursor-pointer border border-slate-300">
+          <select id="brushSize" class="text-xs bg-white border border-slate-300 rounded-lg p-1.5 font-medium">
+            <option value="2">Pincel Fino</option>
+            <option value="5" selected>Medio</option>
+            <option value="12">Grueso</option>
+          </select>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="setEraser()" id="eraserBtn" class="bg-white border border-slate-300 text-slate-600 text-xs px-3 py-1.5 rounded-lg hover:bg-slate-100 font-medium transition">
+            🧹 Borrador
+          </button>
+          <button onclick="clearCanvas()" class="bg-rose-100 text-rose-600 text-xs px-3 py-1.5 rounded-lg hover:bg-rose-200 font-medium transition">
+            🗑️ Limpiar
+          </button>
+        </div>
+      </div>
+      <p class="text-[11px] text-center text-slate-400">Tu dibujo se guarda automáticamente ✨</p>
+    </section>
+
+    <!-- ==================== PESTAÑA 3: MÚSICA ==================== -->
+    <section id="tab-3" class="tab-content pl-2 sm:pl-3 space-y-6 hidden">
+      <div class="text-center space-y-2">
+        <div class="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mx-auto shadow-md">
+          <span class="text-3xl">🎧</span>
+        </div>
+        <!-- Título exacto "Tu Música 🎧" -->
+        <h2 class="text-lg font-bold text-slate-800 font-notebook">Tu Música 🎧</h2>
+        <p class="text-xs text-slate-500">Una canción especial para acompañar tu lectura.</p>
+      </div>
+
+      <!-- Reproductor de Audio -->
+      <div class="bg-rose-50 border border-rose-200 rounded-2xl p-4 text-center space-y-3 max-w-md mx-auto shadow-sm">
+        <audio id="bgAudio" loop>
+          <source src="./cancion.mp3" type="audio/mpeg">
+        </audio>
+        <button id="playAudioBtn" onclick="toggleAudio()" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-6 rounded-xl shadow transition transform active:scale-95 flex items-center justify-center gap-2">
+          <span id="playIcon">▶️</span> <span id="playText">Reproducir canción</span>
+        </button>
+        <p id="musicStatus" class="text-[11px] text-slate-400 hidden">
+          (Sube tu archivo 'cancion.mp3' a GitHub para escuchar tu música)
+        </p>
+      </div>
+
+      <!-- Sección de Notas de Música -->
+      <div class="border-t border-rose-100 pt-4 space-y-2 text-center">
+        <h3 class="text-xs font-bold text-rose-700 font-notebook uppercase tracking-wider">
+          Notas de Música & Recuerdos 📝
+        </h3>
+        <p class="text-xs text-slate-600 max-w-sm mx-auto leading-relaxed">
+          Esta página está pensada para que la música te acompañe mientras lees tus frases o te inspires dibujando en la pestaña 2.
+        </p>
+        <!-- Frase final con carita feliz exacta :) -->
+        <p class="text-xs italic text-slate-500 pt-2 font-medium">
+          "La música expresa todo aquello que no se puede decir con palabras :)"
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal personalizado para el Buzón Especial -->
+  <div id="mailModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-rose-100 space-y-4 text-center">
+      <h3 id="modalTitle" class="text-sm font-bold text-rose-600 font-notebook"></h3>
+      <p id="modalBody" class="text-xs sm:text-sm text-slate-600 leading-relaxed"></p>
+      <button onclick="closeMailModal()" class="bg-rose-500 text-white text-xs font-bold px-5 py-2 rounded-xl hover:bg-rose-600 transition shadow">
+        Cerrar ❤️
+      </button>
+    </div>
+  </div>
+
+  <!-- SCRIPT DE LÓGICA PRINCIPAL -->
   <script>
-    // --- LISTA DE FRASES PERSONALIZADAS PARA SAMI (+25 FRASES) ---
-    const notas = [
-      '"creo en ti 🐽"',
-      '"Admiro mucho tu manera de ser y el gran corazón que tienes, chaparrita."',
-      '"Gracias por ser esa luz que ilumina incluso los días más grises, Sami."',
-      '"Nunca olvides lo capaz, inteligente e increíble que eres, chaparra."',
-      '"Aquí siempre tendrás a alguien que cree en ti sin dudarlo un solo segundo, Sami."',
-      '"Tu sonrisa tiene el poder de alegrar cualquier momento difícil, chaparrita."',
-      '"Eres una persona sumamente valiosa y mereces puras cosas bonitas en la vida, chaparra."',
-      '"No importa la distancia ni el tiempo, mi apoyo para ti siempre es incondicional, Sami."',
-      '"Eres de lo más bonito que tengo en la vida, chaparrita, nunca lo olvides."',
-      '"Me encanta platicar contigo y cómo haces que todo se sienta más tranquilo, Sami."',
-      '"Eres una guerrera muy fuerte, chaparra, y admiro todo lo que te esfuerzas."',
-      '"Un pequeño recordatorio para hoy: tómate un respiro, lo estás haciendo genial, Sami."',
-      '"Tu presencia hace que cualquier lugar sea mucho más bonito, chaparrita."',
-      '"Siempre voy a estar orgulloso de todo lo que logras día a día, chaparra."',
-      '"Sami, nunca dejes que nada ni nadie apague esa vibra tan bonita que tienes."',
-      '"Para el mundo puedes ser una persona más, pero para mí eres muy especial, chaparrita."',
-      '"Que tengas un día increíble, chaparra; recuerda que aquí estoy para lo que necesites."',
-      '"Cada logro tuyo, por pequeño que parezca, para mí es un motivo gigante de orgullo, Sami."',
-      '"Nunca dudas de tu potencial, chaparrita, puedes con absolutamente todo lo que te propongas."',
-      '"Espero que hoy encuentres mil razones para sonreír, chaparra."',
-      '"Tenerte en mi vida hace que todo valga la pena, Sami."',
-      '"Tómate las cosas con calma hoy, chaparrita; estás avanzando muy bien."',
-      '"Tu dedicación y esfuerzo son de verdad admirables, chaparra."',
-      '"Siempre serás una de mis personas favoritas en el mundo, Sami."',
-      '"Acuérdate de brillar hoy como siempre lo haces, chaparrita."'
+    // Frases cariñosas (+25 frases)
+    const dailyMessages = [
+      "Un pequeño recordatorio para hoy: tómate un respiro, lo estás haciendo genial, Sami.",
+      "Recuerda que creo plenamente en ti 🐽",
+      "No te preocupes si las cosas tardan un poco, cada paso cuenta, chaparrita.",
+      "Hoy es un gran día para estar orgullosa de todo lo que has logrado.",
+      "Siempre confía en tu intuición y en tu talento.",
+      "Tu esfuerzo constante dará frutos muy pronto, ¡ánimo, Sami!",
+      "Estaré aquí para apoyarte en cada idea que tengas.",
+      "Si te cansas, aprende a descansar, no a rendirte ✨",
+      "Tienes una mente maravillosa y una gran determinación.",
+      "Un abrazo fuerte para hoy, chaparrita.",
+      "Nunca dudes de lo capaz y fuerte que eres.",
+      "Recuerda darte crédito por todo el trabajo que haces.",
+      "Hoy tómate un momento para consentirte y disfrutar.",
+      "Eres súper valiosa y súper capaz, no lo olvides.",
+      "¡Paso a paso, Sami! Estás avanzando más de lo que crees.",
+      "Que hoy sea un día tranquilo y bonito para ti.",
+      "Nada puede detenerte cuando te propones algo.",
+      "Tu dedicación es verdaderamente admirable.",
+      "Confía en el proceso, lo estás haciendo excelente.",
+      "Estar a tu lado en tu camino es una alegría.",
+      "Sonríe un poco hoy, te queda genial 😊",
+      "Sigue adelante, chaparrita, que vas por muy buen camino.",
+      "Cada día es una nueva oportunidad para brillar.",
+      "Recuerda que no estás sola en esto, cuenta conmigo.",
+      "¡Vamos por un excelente día hoy, Sami!"
     ];
 
-    let indiceActual = -1;
-
-    // --- ABRIR Y CERRAR LIBRO/PORTADA ---
-    function abrirLibro() {
-      document.getElementById('portadaLibro').classList.add('abierta');
+    // Control de Portada
+    function openBook() {
+      document.getElementById('coverScreen').classList.remove('cover-closed');
+      document.getElementById('coverScreen').classList.add('cover-open');
     }
 
-    function cerrarLibro() {
-      document.getElementById('portadaLibro').classList.remove('abierta');
+    function closeBook() {
+      document.getElementById('coverScreen').classList.remove('cover-open');
+      document.getElementById('coverScreen').classList.add('cover-closed');
     }
 
-    // --- SISTEMA DE PESTAÑAS (1, 2, 3) ---
-    function cambiarPagina(numPagina) {
-      const botones = document.querySelectorAll('.tab-btn');
-      const paginas = document.querySelectorAll('.pagina');
+    // Gestor de Frases automáticas (12 horas)
+    function loadDailyMessage() {
+      const now = new Date().getTime();
+      const twelveHours = 12 * 60 * 60 * 1000;
+      const savedTime = localStorage.getItem('4you_msg_time');
+      const savedIndex = localStorage.getItem('4you_msg_index');
 
-      botones.forEach((btn, idx) => {
-        btn.classList.toggle('activa', idx === numPagina - 1);
-      });
-
-      paginas.forEach((pag, idx) => {
-        pag.classList.toggle('activa', idx === numPagina - 1);
-      });
-
-      if (numPagina === 2) {
-        setTimeout(redimensionarCanvas, 50);
-      }
-    }
-
-    // --- ROTACIÓN DE FRASES CADA 12 HORAS ---
-    function gestionarNotaAutomatica() {
-      const ahora = new Date().getTime();
-      const intervalo12Horas = 12 * 60 * 60 * 1000;
-      
-      let ultimaTimestamp = localStorage.getItem('timestampNota_4you');
-      let indiceGuardado = localStorage.getItem('indiceNota_4you');
-
-      if (!ultimaTimestamp || !indiceGuardado || (ahora - parseInt(ultimaTimestamp) > intervalo12Horas)) {
-        let nuevoIndice = Math.floor(Math.random() * notas.length);
-        localStorage.setItem('indiceNota_4you', nuevoIndice);
-        localStorage.setItem('timestampNota_4you', ahora);
-        indiceActual = nuevoIndice;
-        document.getElementById('textoNota').innerText = notas[nuevoIndice];
+      if (savedTime && savedIndex && (now - savedTime < twelveHours)) {
+        document.getElementById('dailyMessage').textContent = `"${dailyMessages[savedIndex]}"`;
       } else {
-        indiceActual = parseInt(indiceGuardado);
-        document.getElementById('textoNota').innerText = notas[indiceGuardado];
+        const randomIndex = Math.floor(Math.random() * dailyMessages.length);
+        localStorage.setItem('4you_msg_time', now);
+        localStorage.setItem('4you_msg_index', randomIndex);
+        document.getElementById('dailyMessage').textContent = `"${dailyMessages[randomIndex]}"`;
       }
     }
 
-    function cambiarNotaManual() {
-      let nuevoIndice;
-      do {
-        nuevoIndice = Math.floor(Math.random() * notas.length);
-      } while (nuevoIndice === indiceActual);
-
-      indiceActual = nuevoIndice;
-      document.getElementById('textoNota').innerText = notas[nuevoIndice];
+    function getRandomMessage() {
+      const randomIndex = Math.floor(Math.random() * dailyMessages.length);
+      document.getElementById('dailyMessage').textContent = `"${dailyMessages[randomIndex]}"`;
     }
 
-    // --- MODALES (BUZÓN) ---
-    function mostrarModal(texto) {
-      document.getElementById('modalTexto').innerText = texto;
-      document.getElementById('modalBuzon').style.display = 'flex';
+    // Navegación entre Pestañas
+    function switchTab(tabNumber) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-rose-400', 'text-white', 'shadow-md');
+        btn.classList.add('bg-rose-100', 'text-rose-600');
+      });
+
+      document.getElementById(`tab-${tabNumber}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`tab-${tabNumber}-btn`);
+      activeBtn.classList.remove('bg-rose-100', 'text-rose-600');
+      activeBtn.classList.add('bg-rose-400', 'text-white', 'shadow-md');
+
+      if(tabNumber === 2) {
+        resizeCanvas();
+      }
     }
 
-    function cerrarModal() {
-      document.getElementById('modalBuzon').style.display = 'none';
+    // Modales Buzón
+    function openMailModal(title, body) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalBody').textContent = body;
+      document.getElementById('mailModal').classList.remove('hidden');
     }
 
-    // --- REPRODUCTOR DE MÚSICA ---
-    const audio = document.getElementById('musicaFondo');
-    const disco = document.getElementById('disco');
-    const btnTexto = document.getElementById('btnMusicaTexto');
-    let reproduciendo = false;
+    function closeMailModal() {
+      document.getElementById('mailModal').classList.add('hidden');
+    }
 
-    function toggleMusica() {
-      if (reproduciendo) {
+    // Reproductor Audio
+    let isPlaying = false;
+    function toggleAudio() {
+      const audio = document.getElementById('bgAudio');
+      const icon = document.getElementById('playIcon');
+      const text = document.getElementById('playText');
+      const status = document.getElementById('musicStatus');
+
+      if (isPlaying) {
         audio.pause();
-        disco.classList.remove('girando');
-        if (btnTexto) btnTexto.innerText = "▶️ Reproducir canción";
+        icon.textContent = "▶️";
+        text.textContent = "Reproducir canción";
+        isPlaying = false;
       } else {
         audio.play().then(() => {
-          disco.classList.add('girando');
-          if (btnTexto) btnTexto.innerText = "⏸️ Pausar canción";
-        }).catch((err) => {
-          mostrarModal("⚠️ Para escuchar la canción, primero debes subir el archivo 'cancion.mp3' a tu repositorio de GitHub.");
+          icon.textContent = "⏸️";
+          text.textContent = "Pausar canción";
+          status.classList.add('hidden');
+          isPlaying = true;
+        }).catch(() => {
+          status.classList.remove('hidden');
         });
       }
-      reproduciendo = !reproduciendo;
     }
 
-    // --- LIENZO DE GARABATOS ---
-    const canvas = document.getElementById('canvasDibujo');
+    // Lienzo Pestaña 2
+    const canvas = document.getElementById('doodleCanvas');
     const ctx = canvas.getContext('2d');
-    const colorInput = document.getElementById('colorPincel');
-    const grosorInput = document.getElementById('grosorPincel');
-    const btnPincel = document.getElementById('btnPincel');
-    const btnBorrador = document.getElementById('btnBorrador');
+    let isDrawing = false;
+    let isEraser = false;
 
-    let dibujando = false;
-    let esBorrador = false;
-
-    function redimensionarCanvas() {
-      const container = canvas.parentElement;
-      canvas.width = container.clientWidth - 10;
-      canvas.height = 360;
-      
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      cargarDibujoGuardado();
+    function resizeCanvas() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      if (canvas.width !== rect.width || canvas.height !== rect.height) {
+        const tempImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+        ctx.putImageData(tempImageData, 0, 0);
+        loadSavedCanvas();
+      }
     }
 
-    function obtenerPosicion(e) {
+    function getPos(e) {
       const rect = canvas.getBoundingClientRect();
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      return { x: clientX - rect.left, y: clientY - rect.top };
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+      };
     }
 
-    function iniciarDibujo(e) {
-      dibujando = true;
-      const pos = obtenerPosicion(e);
+    function startDrawing(e) {
+      isDrawing = true;
+      const pos = getPos(e);
       ctx.beginPath();
       ctx.moveTo(pos.x, pos.y);
     }
 
-    function dibujar(e) {
-      if (!dibujando) return;
+    function draw(e) {
+      if (!isDrawing) return;
       e.preventDefault();
-      const pos = obtenerPosicion(e);
-      ctx.lineTo(pos.x, pos.y);
-      ctx.strokeStyle = esBorrador ? '#ffffff' : colorInput.value;
-      ctx.lineWidth = grosorInput.value;
+      const pos = getPos(e);
+
+      ctx.lineWidth = document.getElementById('brushSize').value;
       ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
+
+      if (isEraser) {
+        ctx.strokeStyle = '#ffffff';
+      } else {
+        ctx.strokeStyle = document.getElementById('colorPicker').value;
+      }
+
+      ctx.lineTo(pos.x, pos.y);
       ctx.stroke();
     }
 
-    function detenerDibujo() {
-      if (dibujando) {
-        dibujando = false;
+    function stopDrawing() {
+      if (isDrawing) {
         ctx.closePath();
-        guardarDibujo();
+        isDrawing = false;
+        saveCanvas();
       }
     }
 
-    canvas.addEventListener('mousedown', iniciarDibujo);
-    canvas.addEventListener('mousemove', dibujar);
-    canvas.addEventListener('mouseup', detenerDibujo);
-    canvas.addEventListener('mouseleave', detenerDibujo);
-
-    canvas.addEventListener('touchstart', iniciarDibujo);
-    canvas.addEventListener('touchmove', dibujar);
-    canvas.addEventListener('touchend', detenerDibujo);
-
-    function activarPincel() {
-      esBorrador = false;
-      btnPincel.classList.add('activo');
-      btnBorrador.classList.remove('activo');
+    function setEraser() {
+      isEraser = !isEraser;
+      const btn = document.getElementById('eraserBtn');
+      if (isEraser) {
+        btn.classList.add('bg-rose-200', 'text-rose-700');
+      } else {
+        btn.classList.remove('bg-rose-200', 'text-rose-700');
+      }
     }
 
-    function activarBorrador() {
-      esBorrador = true;
-      btnBorrador.classList.add('activo');
-      btnPincel.classList.remove('activo');
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      localStorage.removeItem('4you_canvas_data');
     }
 
-    colorInput.addEventListener('change', activarPincel);
-
-    function guardarDibujo() {
-      localStorage.setItem('dibujoGuardado_4you', canvas.toDataURL());
+    function saveCanvas() {
+      localStorage.setItem('4you_canvas_data', canvas.toDataURL());
     }
 
-    function cargarDibujoGuardado() {
-      const guardado = localStorage.getItem('dibujoGuardado_4you');
-      if (guardado) {
+    function loadSavedCanvas() {
+      const savedData = localStorage.getItem('4you_canvas_data');
+      if (savedData) {
         const img = new Image();
-        img.src = guardado;
-        img.onload = () => ctx.drawImage(img, 0, 0);
+        img.onload = function () {
+          ctx.drawImage(img, 0, 0);
+        };
+        img.src = savedData;
       }
     }
 
-    function borrarLienzo() {
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      localStorage.removeItem('dibujoGuardado_4you');
-    }
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseleave', stopDrawing);
 
-    window.addEventListener('DOMContentLoaded', () => {
-      gestionarNotaAutomatica();
-    });
+    canvas.addEventListener('touchstart', startDrawing, { passive: false });
+    canvas.addEventListener('touchmove', draw, { passive: false });
+    canvas.addEventListener('touchend', stopDrawing);
 
+    // Registro de Service Worker PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-          .then((reg) => console.log('SW ok:', reg.scope))
-          .catch((err) => console.log('SW error:', err));
+        navigator.serviceWorker.register('./sw.js?v=' + Date.now()).catch(err => {
+          console.log('SW registration failure', err);
+        });
       });
     }
+
+    window.onload = function() {
+      loadDailyMessage();
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+    };
   </script>
 </body>
 </html>
