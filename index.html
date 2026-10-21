@@ -2,187 +2,381 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Para Ti, Chaparrita ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>4 You</title>
   
-  <!-- Configuración de PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#e11d48">
+  <!-- Manifest para la PWA -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#ffb6c1">
 
-  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
+    /* Estilos Generales de la App */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fffaf0;
+      color: #4a4a4a;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    .animate-float { animation: float 3s ease-in-out infinite; }
+
+    /* Contenedor Principal */
+    .app-container {
+      width: 100%;
+      max-width: 500px;
+      padding: 30px 20px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .corazon-icon {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      color: #ff6b81;
+      font-size: 2.2rem;
+      margin: 10px 0;
+      font-weight: 700;
+    }
+
+    .subtitulo {
+      color: #b5a0a8;
+      font-size: 1.05rem;
+      line-height: 1.5;
+      margin-bottom: 40px;
+    }
+
+    .seccion-tarjeta {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 25px 20px;
+      margin-bottom: 25px;
+      box-shadow: 0px 4px 15px rgba(255, 182, 193, 0.15);
+      text-align: left;
+    }
+
+    .seccion-tarjeta h2 {
+      color: #ff8fa3;
+      font-size: 1.3rem;
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .seccion-tarjeta p {
+      color: #6c757d;
+      font-size: 0.98rem;
+      line-height: 1.6;
+      margin: 10px 0;
+    }
+
+    .btn-principal {
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+      color: #ffffff;
+      border: none;
+      padding: 14px 28px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0px 4px 12px rgba(255, 107, 129, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin: 20px 0;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .btn-principal:active {
+      transform: scale(0.96);
+    }
+
+    /* ------------------------------------------------------------- */
+    /* PANTALLA INDEPENDIENTE DEL LIENZO                              */
+    /* ------------------------------------------------------------- */
+    #pantallaLienzo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #fffaf0;
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      box-sizing: border-box;
+    }
+
+    /* Cabecera del Lienzo */
+    .header-lienzo {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-lienzo h2 {
+      font-size: 1.2rem;
+      color: #ff6b81;
+      margin: 0;
+    }
+
+    .btn-volver, .btn-limpiar {
+      background: #ffb6c1;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 15px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .btn-limpiar {
+      background: #ff6b6b;
+    }
+
+    /* El Canvas/Lienzo de dibujo */
+    #canvasDibujo {
+      background: #ffffff;
+      border: 3px dashed #ffb6c1;
+      border-radius: 20px;
+      touch-action: none;
+      cursor: crosshair;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Barra de herramientas */
+    .herramientas-lienzo {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      background: #ffffff;
+      padding: 10px 18px;
+      border-radius: 30px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-herramienta {
+      background: #f0f0f0;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #4a4a4a;
+    }
+
+    .btn-herramienta.activo {
+      background: #ffb6c1;
+      color: white;
+    }
+
+    input[type="color"] {
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      background: none;
+    }
+
+    input[type="range"] {
+      width: 80px;
+    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-rose-100 via-pink-50 to-purple-100 min-h-screen text-gray-800 font-sans p-4 md:p-8">
+<body>
 
-  <!-- Encabezado Principal -->
-  <header class="max-w-2xl mx-auto text-center mt-6 mb-10">
-    <div class="inline-block p-3 bg-white/60 backdrop-blur-md rounded-full shadow-sm mb-4 animate-float">
-      💖
+  <!-- CONTENIDO DE LA PANTALLA PRINCIPAL -->
+  <div class="app-container">
+    <div class="corazon-icon">💖</div>
+    <h1>Siempre estaré aquí para ti</h1>
+    <p class="subtitulo">Un pequeño rincón digital hecho especialmente para ti, chaparrita, para recordarte lo mucho que me importas.</p>
+
+    <div class="seccion-tarjeta">
+      <h2>Un recordatorio constante...</h2>
+      <p>Quería crear algo único que fuera completamente tuyo, algo que nunca se vaya a perder. Un lugar que puedas abrir en cualquier momento para recordarte que **siempre estaré a tu lado, escuchándote, cuidándote y apoyándote**.</p>
+      <p>Nunca dejarás de importarme. Sin importar lo que pase, aquí tienes un espacio seguro pensado solo para ti, donde siempre serás muy valorada y apreciada.</p>
     </div>
-    <h1 class="text-3xl md:text-5xl font-extrabold text-rose-600 tracking-tight">
-      Siempre estaré aquí para ti
-    </h1>
-    <p class="text-gray-600 mt-3 text-base md:text-lg">
-      Un pequeño rincón digital hecho especialmente para ti, chaparrita, para recordarte lo mucho que me importas.
-    </p>
-  </header>
 
-  <!-- Tarjeta de Mensaje Principal -->
-  <main class="max-w-2xl mx-auto space-y-8">
-    <section class="bg-white/80 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-md border border-rose-100">
-      <h2 class="text-xl font-bold text-rose-500 mb-3">Un recordatorio constante...</h2>
-      <p class="text-gray-700 leading-relaxed mb-4">
-        Quería crear algo único que fuera completamente tuyo, algo que nunca se vaya a perder. Un lugar que puedas abrir en cualquier momento para recordarte que **siempre estaré a tu lado, escuchándote, cuidándote y apoyándote**.
-      </p>
-      <p class="text-gray-700 leading-relaxed">
-        Nunca dejarás de importarme. Sin importar lo que pase, aquí tienes un espacio seguro pensado solo para ti, donde siempre serás muy valorada y apreciada.
-      </p>
-    </section>
-
-    <!-- Galería de Momentos / Fotos -->
-    <section id="gallery-section" class="bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-md border border-rose-100 hidden">
-      <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Nuestros Momentos 📸</h3>
-      <div id="gallery-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Las fotos se cargarán aquí automáticamente -->
-      </div>
-    </section>
-
-    <!-- Mensaje Dinámico (Cambia cada 12 horas) -->
-    <section class="bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-md border border-rose-100 text-center">
-      <h3 class="text-lg font-semibold text-gray-800 mb-1">Un mensaje especial para hoy ✨</h3>
-      <p class="text-xs text-gray-400 mb-3">(Este mensaje cambia automáticamente cada 12 horas)</p>
-      
-      <p id="reason-text" class="text-rose-600 italic font-medium my-4 min-h-[4rem] flex items-center justify-center px-4">
-        Cargando tu nota especial...
-      </p>
-      
-      <button onclick="getRandomReason()" class="bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2 px-6 rounded-full shadow-md transition duration-300 transform active:scale-95 text-sm">
-        Ver otra nota al azar 🎲
-      </button>
-    </section>
-
-    <!-- Sección "Abre esto cuando..." -->
-    <section class="bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-md border border-rose-100">
-      <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Buzón Especial 📩</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <button onclick="openModal('Tengas un hermoso día', '¡Me alegra muchísimo! Disfruta cada segundo, ilumina todo con tu sonrisa y recuerda que ver la vida bonita en ti me hace muy feliz.')" class="p-4 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl font-medium transition text-left border border-rose-200">
-          ☀️ Abre si estás teniendo un gran día
-        </button>
-        <button onclick="openModal('Te sientas triste', 'Recuerda que no estás sola. Es normal tener días difíciles, pero nunca olvides lo fuerte que eres y que siempre puedes contar conmigo para escucharte y abrazarte.')" class="p-4 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-xl font-medium transition text-left border border-purple-200">
-          🌧️ Abre si te sientes triste o abrumada
-        </button>
-        <button onclick="openModal('Dudes de ti misma', 'Eres una mujer increíble, hermosa por dentro y por fuera, y capaz de lograr todo lo que te propongas. Que un momento difícil jamás borre lo valiosa que eres.')" class="p-4 bg-pink-50 hover:bg-pink-100 text-pink-700 rounded-xl font-medium transition text-left border border-pink-200">
-          ✨ Abre si dudas de tu valor
-        </button>
-        <button onclick="openModal('Extrañes platicar', 'Sabes que solo basta un mensaje o una llamada. Siempre encontraré tiempo para ti, sin importar qué tan ocupado esté.')" class="p-4 bg-amber-50 hover:bg-amber-100 text-amber-700 rounded-xl font-medium transition text-left border border-amber-200">
-          💬 Abre si quieres hablar conmigo
-        </button>
-      </div>
-    </section>
-  </main>
-
-  <!-- Modal / Ventana Emergente para el Buzón -->
-  <div id="modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-    <div class="bg-white rounded-2xl p-6 md:p-8 max-w-md w-full shadow-2xl text-center transform transition-all">
-      <h4 id="modal-title" class="text-xl font-bold text-rose-600 mb-3"></h4>
-      <p id="modal-body" class="text-gray-600 leading-relaxed mb-6"></p>
-      <button onclick="closeModal()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-6 rounded-full transition">
-        Cerrar
-      </button>
-    </div>
+    <!-- Botón para abrir la pantalla flotante del lienzo -->
+    <button class="btn-principal" onclick="abrirLienzo()">🎨 Abrir Lienzo de Garabatos</button>
   </div>
 
-  <footer class="text-center mt-12 text-gray-500 text-sm">
-    Hecho con todo mi corazón, especialmente para ti, chaparrita. ❤️
-  </footer>
+  <!-- PANTALLA INDEPENDIENTE: LIENZO DE DIBUJO -->
+  <div id="pantallaLienzo">
+    
+    <div class="header-lienzo">
+      <button onclick="cerrarLienzo()" class="btn-volver">⬅ Volver</button>
+      <h2>🎨 Nuestro Lienzo</h2>
+      <button onclick="borrarLienzo()" class="btn-limpiar">🗑️ Limpiar</button>
+    </div>
 
+    <!-- ÁREA DE DIBUJO -->
+    <canvas id="canvasDibujo"></canvas>
+
+    <!-- BARRA DE HERRAMIENTAS -->
+    <div class="herramientas-lienzo">
+      <button id="btnPincel" onclick="activarPincel()" class="btn-herramienta activo">✏️ Pincel</button>
+      <button id="btnBorrador" onclick="activarBorrador()" class="btn-herramienta">🧹 Borrador</button>
+      
+      <input type="color" id="colorPincel" value="#ff6b81" title="Elegir color">
+      <input type="range" id="grosorPincel" min="2" max="25" value="6" title="Grosor del pincel">
+    </div>
+
+  </div>
+
+  <!-- LOGICA JAVASCRIPT -->
   <script>
-    // --- CONFIGURACIÓN DE FOTOS ---
-    const photos = ['foto1.jpg', 'foto2.jpg']; 
+    // --- VARIABLES Y ELEMENTOS DEL LIENZO ---
+    const canvas = document.getElementById('canvasDibujo');
+    const ctx = canvas.getContext('2d');
+    const colorInput = document.getElementById('colorPincel');
+    const grosorInput = document.getElementById('grosorPincel');
+    const btnPincel = document.getElementById('btnPincel');
+    const btnBorrador = document.getElementById('btnBorrador');
 
-    // --- CÓDIGO DE FRASES ---
-    const reasons = [
-      "Ver tu sonrisa siempre me alegra el día, chaparrita.",
-      "Aprecio infinitamente la hermosa persona que eres.",
-      "Tu presencia hace que cualquier día común se vuelva inolvidable.",
-      "No olvides que en mí siempre tendrás a alguien que estará para ti incondicionalmente.",
-      "Gracias por cada plática, cada risa y cada momento que compartimos.",
-      "Incluso en los días más ocupados, siempre estás en mis pensamientos.",
-      "Eres de esas personas que hacen que el mundo sea un lugar mucho más bonito.",
-      "Me encanta la manera en que ves la vida y la contagias a los demás.",
-      "Si alguna vez necesitas un lugar seguro para hablar, aquí estoy.",
-      "Nunca dudes de la increíble fortaleza que llevas dentro.",
-      "Tus logros, por pequeños que parezcan, me hacen sentir muy orgulloso de ti.",
-      "Gracias por ser esa luz cuando las cosas se ponen oscuras.",
-      "No importa la distancia ni el tiempo, siempre me importarás, chaparrita.",
-      "Tu felicidad siempre será algo que me llene el corazón.",
-      "Admiro mucho tu manera de ser y el gran corazón que tienes.",
-      "Cada momento compartido contigo vale oro para mí.",
-      "Espero que hoy tengas un día tan hermoso como la persona que eres.",
-      "Nunca olvides lo valiosa e importante que eres en mi vida.",
-      "Que nada ni nadie apague la chispa tan especial que tienes.",
-      "Aquí estaré siempre, en las buenas, en las malas y en todas las demás."
-    ];
+    let dibujando = false;
+    let esBorrador = false;
 
-    function getTimedReason() {
-      const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
-      const currentPeriod = Math.floor(Date.now() / TWELVE_HOURS_MS);
-      const index = currentPeriod % reasons.length;
-      document.getElementById('reason-text').innerText = '"' + reasons[index] + '"';
+    // --- ABRIR Y CERRAR LA SECCIÓN DEL LIENZO ---
+    function abrirLienzo() {
+      const pantalla = document.getElementById('pantallaLienzo');
+      pantalla.style.display = 'flex';
+      redimensionarCanvas();
     }
 
-    function getRandomReason() {
-      const randomIndex = Math.floor(Math.random() * reasons.length);
-      document.getElementById('reason-text').innerText = '"' + reasons[randomIndex] + '"';
+    function cerrarLienzo() {
+      document.getElementById('pantallaLienzo').style.display = 'none';
     }
 
-    function loadGallery() {
-      const gallerySection = document.getElementById('gallery-section');
-      const galleryContainer = document.getElementById('gallery-container');
+    // --- REDIMENSIONAR CANVAS Y CARGAR DIBUJO ---
+    function redimensionarCanvas() {
+      const ancho = Math.min(window.innerWidth * 0.9, 450);
+      const alto = window.innerHeight * 0.65;
+      
+      canvas.width = ancho;
+      canvas.height = alto;
+      
+      // Fondo blanco limpio
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      if (photos.length > 0) {
-        gallerySection.classList.remove('hidden');
-        
-        photos.forEach(photoName => {
-          const photoDiv = document.createElement('div');
-          photoDiv.className = "bg-rose-50/50 p-3 rounded-xl border border-rose-100";
-          
-          const img = document.createElement('img');
-          img.src = photoName;
-          img.alt = "Nuestros momentos";
-          img.className = "w-full h-48 object-cover rounded-lg shadow-sm";
-          
-          const p = document.createElement('p');
-          p.className = "text-xs text-rose-600 text-center font-medium mt-2";
-          p.innerText = "❤️";
+      // Cargar dibujo permanente si existe en memoria
+      cargarDibujoGuardado();
+    }
 
-          photoDiv.appendChild(img);
-          photoDiv.appendChild(p);
-          galleryContainer.appendChild(photoDiv);
-        });
+    // --- LÓGICA DE DIBUJO (TACTIL Y MOUSE) ---
+    function obtenerPosicion(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+      };
+    }
+
+    function iniciarDibujo(e) {
+      dibujando = true;
+      const pos = obtenerPosicion(e);
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+    }
+
+    function dibujar(e) {
+      if (!dibujando) return;
+      e.preventDefault(); // Evita scroll en pantalla táctil
+      
+      const pos = obtenerPosicion(e);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.strokeStyle = esBorrador ? '#ffffff' : colorInput.value;
+      ctx.lineWidth = grosorInput.value;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.stroke();
+    }
+
+    function detenerDibujo() {
+      if (dibujando) {
+        dibujando = false;
+        ctx.closePath();
+        guardarDibujo(); // 💾 Guardado automático en localStorage
       }
     }
 
-    function openModal(title, text) {
-      document.getElementById('modal-title').innerText = title;
-      document.getElementById('modal-body').innerText = text;
-      document.getElementById('modal').classList.remove('hidden');
-      document.getElementById('modal').classList.add('flex');
+    // Eventos de Mouse
+    canvas.addEventListener('mousedown', iniciarDibujo);
+    canvas.addEventListener('mousemove', dibujar);
+    canvas.addEventListener('mouseup', detenerDibujo);
+    canvas.addEventListener('mouseleave', detenerDibujo);
+
+    // Eventos Táctiles (Celulares)
+    canvas.addEventListener('touchstart', iniciarDibujo);
+    canvas.addEventListener('touchmove', dibujar);
+    canvas.addEventListener('touchend', detenerDibujo);
+
+    // --- SELECCIÓN DE HERRAMIENTAS (PINCEL / BORRADOR) ---
+    function activarPincel() {
+      esBorrador = false;
+      btnPincel.classList.add('activo');
+      btnBorrador.classList.remove('activo');
     }
 
-    function closeModal() {
-      document.getElementById('modal').classList.add('hidden');
-      document.getElementById('modal').classList.remove('flex');
+    function activarBorrador() {
+      esBorrador = true;
+      btnBorrador.classList.add('activo');
+      btnPincel.classList.remove('activo');
     }
 
-    getTimedReason();
-    loadGallery();
+    colorInput.addEventListener('change', () => {
+      activarPincel();
+    });
+
+    // --- GUARDADO PERMANENTE EN LOCALSTORAGE ---
+    function guardarDibujo() {
+      localStorage.setItem('dibujoGuardado_4you', canvas.toDataURL());
+    }
+
+    function cargarDibujoGuardado() {
+      const dibujoGuardado = localStorage.getItem('dibujoGuardado_4you');
+      if (dibujoGuardado) {
+        const img = new Image();
+        img.src = dibujoGuardado;
+        img.onload = () => {
+          ctx.drawImage(img, 0, 0);
+        };
+      }
+    }
+
+    function borrarLienzo() {
+      if (confirm("¿Quieres borrar el dibujo actual?")) {
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        localStorage.removeItem('dibujoGuardado_4you');
+      }
+    }
+
+    // --- REGISTRO DEL SERVICE WORKER (PWA) ---
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('Service Worker listo:', reg.scope))
+          .catch((err) => console.log('Error en Service Worker:', err));
+      });
+    }
   </script>
 </body>
 </html>
