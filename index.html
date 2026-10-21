@@ -259,13 +259,14 @@
       <p>Nunca dejarás de importarme. Sin importar lo que pase, aquí tienes un espacio seguro pensado solo para ti, donde siempre serás muy valorada y apreciada.</p>
     </div>
 
-    <!-- Mensaje Especial para hoy -->
+    <!-- Mensaje Especial para hoy (Cambia automático cada 12 horas) -->
     <div class="seccion-tarjeta" style="text-align: center;">
       <h3>Un mensaje especial para hoy ✨</h3>
+      <p style="font-size: 0.8rem; color: #888; margin-bottom: 8px;">(Se actualiza automáticamente cada 12 horas)</p>
       <p id="textoNota" style="font-style: italic; color: #d63031; font-weight: 600; font-size: 1.05rem; text-align: center;">
-        "Admiro mucho tu manera de ser y el gran corazón que tienes."
+        "Cargando mensaje..."
       </p>
-      <button class="btn-principal" onclick="cambiarNota()">Ver otra nota al azar 🎲</button>
+      <button class="btn-principal" onclick="cambiarNotaManual()">Ver otra nota al azar 🎲</button>
     </div>
 
     <!-- Buzón Especial -->
@@ -314,18 +315,52 @@
 
   <!-- JAVASCRIPT -->
   <script>
+    // --- LISTA DE FRASES ESPECIALES ---
     const notas = [
       '"Admiro mucho tu manera de ser y el gran corazón que tienes."',
       '"Gracias por ser esa luz que ilumina incluso los días más grises."',
-      '"Nunca olvides lo capaz e increíble que eres."',
-      '"Aquí siempre tendrás a alguien que cree en ti sin dudarlo."'
+      '"Nunca olvides lo capaz, inteligente e increíble que eres."',
+      '"Aquí siempre tendrás a alguien que cree en ti sin dudarlo un solo segundo."',
+      '"Tu sonrisa tiene el poder de alegrar cualquier momento difícil."',
+      '"Eres una persona sumamente valiosa y mereces puras cosas bonitas en la vida."',
+      '"No importa la distancia ni el tiempo, mi apoyo para ti siempre es incondicional."'
     ];
 
-    function cambiarNota() {
+    // --- LÓGICA DE ACTUALIZACIÓN AUTOMÁTICA CADA 12 HORAS ---
+    function gestionarNotaAutomatica() {
+      const ahora = new Date().getTime();
+      const intervalo12Horas = 12 * 60 * 60 * 1000; // 12 horas en milisegundos
+      
+      let ultimaTimestamp = localStorage.getItem('timestampNota_4you');
+      let indiceGuardado = localStorage.getItem('indiceNota_4you');
+
+      // Si es la primera vez o ya pasaron 12 horas, elegimos una nueva frase automáticamente
+      if (!ultimaTimestamp || !indiceGuardado || (ahora - ultimaTimestamp > intervalo12Horas)) {
+        // Elegir un índice aleatorio diferente al anterior si es posible
+        let nuevoIndice = Math.floor(Math.random() * notas.length);
+        
+        localStorage.setItem('indiceNota_4you', nuevoIndice);
+        localStorage.setItem('timestampNota_4you', ahora);
+        
+        document.getElementById('textoNota').innerText = notas[nuevoIndice];
+      } else {
+        // Mantiene la frase asignada durante esas 12 horas
+        document.getElementById('textoNota').innerText = notas[indiceGuardado];
+      }
+    }
+
+    // Botón manual por si quiere ver otra al azar en el momento
+    function cambiarNotaManual() {
       const idx = Math.floor(Math.random() * notas.length);
       document.getElementById('textoNota').innerText = notas[idx];
     }
 
+    // Ejecutar al cargar la página
+    window.addEventListener('DOMContentLoaded', () => {
+      gestionarNotaAutomatica();
+    });
+
+    // --- LIENZO DE DIBUJO ---
     const canvas = document.getElementById('canvasDibujo');
     const ctx = canvas.getContext('2d');
     const colorInput = document.getElementById('colorPincel');
