@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#fff0f3">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     * {
@@ -22,7 +22,7 @@
     body {
       font-family: 'Nunito', sans-serif;
       background-color: #fdf2f4;
-      color: #4a3e3d;
+      color: #3d3234;
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -35,25 +35,25 @@
       width: 100%;
       max-width: 480px;
       background: #fffdfd;
-      border-radius: 18px;
-      box-shadow: 0 10px 25px rgba(255, 133, 162, 0.12), inset 0 0 0 2px #fce4ec;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(255, 133, 162, 0.15), inset 0 0 0 3px #f8bbd0, inset 12px 0 20px rgba(0,0,0,0.03);
       position: relative;
-      min-height: 85vh;
+      min-height: 88vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
       margin-top: 10px;
     }
 
-    /* Portada Deslizable Rosa Pastel */
+    /* Portada Estilo Libro Real */
     .cover-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: #fff5f7;
-      border-radius: 18px;
+      background: linear-gradient(135deg, #fff5f7 0%, #fae1e6 100%);
+      border-radius: 16px;
       z-index: 100;
       display: flex;
       flex-direction: column;
@@ -61,8 +61,9 @@
       align-items: center;
       padding: 20px;
       transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-      border: 3px solid #f8bbd0;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      border: 4px solid #f48fb1;
+      border-left: 18px solid #ad1457; /* Lomo del libro */
     }
 
     .cover-overlay.open {
@@ -70,36 +71,37 @@
     }
 
     .cover-box {
-      border: 3px solid #ff85a2;
+      border: 3px dashed #ff85a2;
       border-radius: 14px;
-      padding: 25px 40px;
+      padding: 30px 45px;
       background: #ffffff;
       text-align: center;
-      box-shadow: 0 4px 15px rgba(255, 133, 162, 0.2);
+      box-shadow: 0 6px 20px rgba(255, 133, 162, 0.25);
       position: relative;
       cursor: pointer;
     }
 
     .cover-title {
       font-family: 'Caveat', cursive;
-      font-size: 3.2rem;
-      color: #ff5c8a;
+      font-size: 3.5rem;
+      color: #d81b60;
       font-weight: 700;
     }
 
     .cover-doodle {
       position: absolute;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
     }
-    .tl { top: -10px; left: -10px; }
-    .tr { top: -10px; right: -10px; }
-    .bl { bottom: -10px; left: -10px; }
-    .br { bottom: -10px; right: -10px; }
+    .tl { top: -12px; left: -12px; }
+    .tr { top: -12px; right: -12px; }
+    .bl { bottom: -12px; left: -12px; }
+    .br { bottom: -12px; right: -12px; }
 
     .cover-hint {
-      margin-top: 30px;
-      font-size: 0.95rem;
-      color: #d88c9a;
+      margin-top: 35px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ad1457;
       animation: bounce 1.8s infinite;
     }
 
@@ -108,46 +110,50 @@
       50% { transform: translateY(-6px); }
     }
 
-    /* Pestañas Superiores Pastel */
+    /* Pestañas Superiores Estilizadas y Separadas */
     .tabs-header {
       display: flex;
-      background: #fae1e6;
-      padding: 8px 8px 0 8px;
-      gap: 6px;
-      border-bottom: 2px solid #f3c2cb;
+      background: #fce4ec;
+      padding: 8px 6px 0 6px;
+      gap: 4px;
+      border-bottom: 2px solid #f8bbd0;
+      overflow-x: auto;
     }
 
     .tab-btn {
       flex: 1;
-      padding: 10px 0;
+      min-width: 42px;
+      padding: 8px 2px;
       border: none;
-      background: #f5cbd3;
-      border-radius: 10px 10px 0 0;
+      background: #f8bbd0;
+      border-radius: 8px 8px 0 0;
       font-family: 'Caveat', cursive;
-      font-size: 1.5rem;
+      font-size: 1.35rem;
       font-weight: 700;
-      color: #a86c78;
+      color: #880e4f;
       cursor: pointer;
       transition: all 0.2s ease;
+      box-shadow: inset 0 2px 4px rgba(255,255,255,0.4);
     }
 
     .tab-btn.active {
       background: #fffdfd;
-      color: #ff5c8a;
-      border-top: 3px solid #ff85a2;
-      box-shadow: 0 -2px 6px rgba(0,0,0,0.04);
+      color: #d81b60;
+      border-top: 3px solid #ff5c8a;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.05);
     }
 
     .cover-back-btn {
-      background: #fde2e4;
-      border: 1px solid #f8bbd0;
-      border-radius: 8px;
-      padding: 4px 10px;
-      font-size: 0.8rem;
-      color: #d65a78;
+      background: #f8bbd0;
+      border: 1px solid #f48fb1;
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #880e4f;
       cursor: pointer;
       align-self: center;
-      margin-left: auto;
+      margin-left: 4px;
     }
 
     /* Contenido de Páginas */
@@ -163,41 +169,61 @@
       display: flex;
     }
 
-    /* Pestaña 1 Estilos */
+    /* Pestaña 1: Estética de Cuaderno Rayado */
+    #tab1 {
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 27px, #fce4ec 27px, #fce4ec 28px);
+      background-size: 100% 28px;
+    }
+
     .main-title {
       font-family: 'Caveat', cursive;
-      font-size: 2.2rem;
+      font-size: 2.3rem;
       text-align: center;
-      color: #d65a78;
+      color: #ad1457;
       margin-bottom: 4px;
+      font-weight: 700;
     }
 
     .sub-title {
       text-align: center;
-      font-size: 0.85rem;
-      color: #b8979e;
+      font-size: 0.9rem;
+      color: #880e4f;
       margin-bottom: 16px;
+      font-weight: 600;
     }
 
     .photos-container {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       justify-content: center;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
 
     .photo-card {
       background: white;
       padding: 6px 6px 12px 6px;
       border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(255, 133, 162, 0.08);
-      border: 1px solid #fce4ec;
+      box-shadow: 0 4px 12px rgba(255, 133, 162, 0.15);
+      border: 1px solid #f8bbd0;
       width: 48%;
       transform: rotate(-2deg);
+      transition: transform 0.3s ease;
+      cursor: pointer;
     }
 
     .photo-card:nth-child(2) {
       transform: rotate(2deg);
+    }
+
+    /* Animación de sacudida al pasar el cursor o tocar */
+    .photo-card:hover, .photo-card:active {
+      animation: shake 0.5s ease-in-out infinite;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: rotate(-2deg) translateY(0); }
+      25% { transform: rotate(2deg) translateY(-3px); }
+      75% { transform: rotate(-2deg) translateY(3px); }
     }
 
     .photo-card img {
@@ -208,33 +234,35 @@
     }
 
     .card-box {
-      background: #fff;
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 14px;
       padding: 16px;
       margin-bottom: 18px;
-      border: 1px solid #fce4ec;
-      box-shadow: 0 2px 8px rgba(255, 133, 162, 0.04);
+      border: 2px solid #f8bbd0;
+      box-shadow: 0 3px 10px rgba(255, 133, 162, 0.08);
     }
 
     .section-h2 {
       font-family: 'Caveat', cursive;
-      font-size: 1.6rem;
-      color: #ff5c8a;
+      font-size: 1.7rem;
+      color: #d81b60;
       text-align: center;
       margin-bottom: 8px;
+      font-weight: 700;
     }
 
     .constant-text {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       line-height: 1.5;
-      color: #5a5050;
+      color: #3d3234;
       text-align: center;
+      font-weight: 600;
     }
 
     .dynamic-phrase {
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       font-style: italic;
-      color: #3d3536;
+      color: #ad1457;
       text-align: center;
       margin: 12px 0;
       min-height: 50px;
@@ -242,26 +270,27 @@
       align-items: center;
       justify-content: center;
       padding: 0 10px;
+      font-weight: 700;
     }
 
     .action-btn {
       display: block;
       width: 100%;
-      padding: 10px;
-      background: #ff85a2;
+      padding: 11px;
+      background: #ff5c8a;
       color: white;
       border: none;
       border-radius: 10px;
-      font-weight: 600;
-      font-size: 0.9rem;
+      font-weight: 700;
+      font-size: 0.95rem;
       cursor: pointer;
       text-align: center;
       transition: background 0.2s;
-      box-shadow: 0 3px 10px rgba(255, 133, 162, 0.25);
+      box-shadow: 0 4px 12px rgba(255, 92, 138, 0.3);
     }
 
     .action-btn:active {
-      background: #ff6b8b;
+      background: #e91e63;
     }
 
     /* Grid del Buzón */
@@ -274,66 +303,94 @@
 
     .mail-btn {
       background: #fff5f7;
-      border: 1px solid #f8bbd0;
+      border: 1px solid #f48fb1;
       border-radius: 12px;
       padding: 12px 8px;
-      font-size: 0.85rem;
-      color: #4a3e3d;
-      font-weight: 600;
+      font-size: 0.9rem;
+      color: #3d3234;
+      font-weight: 700;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 4px;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.1s;
     }
 
     .mail-btn:active {
-      background: #fde2e4;
+      background: #fce4ec;
+      transform: scale(0.97);
     }
 
     .mail-btn span {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
     }
 
-    /* Pestaña 2: Lienzo */
-    .canvas-controls {
+    /* Pestaña 2: Lienzo Pro con Controles Completos */
+    .canvas-toolbar {
       display: flex;
-      gap: 8px;
+      flex-wrap: wrap;
+      gap: 6px;
       margin-bottom: 10px;
       align-items: center;
       justify-content: space-between;
+      background: #fff5f7;
+      padding: 8px;
+      border-radius: 10px;
+      border: 1px solid #f8bbd0;
     }
 
-    .color-picker {
+    .tool-group {
       display: flex;
-      gap: 6px;
+      gap: 5px;
       align-items: center;
     }
 
-    .color-btn {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      border: 2px solid white;
+    .tool-btn {
+      background: #ffffff;
+      border: 1px solid #f48fb1;
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #ad1457;
       cursor: pointer;
-      box-shadow: 0 0 0 1px #d88c9a;
     }
 
-    .color-btn.active {
-      transform: scale(1.15);
-      box-shadow: 0 0 0 2px #ff5c8a;
+    .tool-btn.active {
+      background: #ff5c8a;
+      color: white;
+    }
+
+    .color-picker-input {
+      width: 28px;
+      height: 28px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      background: none;
     }
 
     #drawingCanvas {
       width: 100%;
-      height: 380px;
+      height: 350px;
       background: #ffffff;
-      border: 2px dashed #f8bbd0;
+      border: 2px dashed #f48fb1;
       border-radius: 14px;
       touch-action: none;
       -webkit-touch-callout: none;
       cursor: crosshair;
+    }
+
+    /* Fondos del lienzo */
+    .canvas-bg-white { background-image: none !important; }
+    .canvas-bg-grid {
+      background-image: linear-gradient(to right, #fce4ec 1px, transparent 1px), linear-gradient(to bottom, #fce4ec 1px, transparent 1px) !important;
+      background-size: 20px 20px !important;
+    }
+    .canvas-bg-lines {
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 24px, #fce4ec 24px, #fce4ec 25px) !important;
+      background-size: 100% 25px !important;
     }
 
     /* Pestaña 3: Música */
@@ -345,7 +402,7 @@
     .disc-icon {
       width: 90px;
       height: 90px;
-      background: #4a3e3d;
+      background: #3d3234;
       border-radius: 50%;
       margin: 0 auto 16px auto;
       display: flex;
@@ -354,27 +411,27 @@
       color: white;
       font-size: 2rem;
       border: 4px solid #fce4ec;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .play-btn {
       background: #ff5c8a;
       color: white;
       border: none;
-      padding: 12px 24px;
+      padding: 12px 26px;
       border-radius: 20px;
-      font-size: 1rem;
-      font-weight: 700;
+      font-size: 1.05rem;
+      font-weight: 800;
       cursor: pointer;
       margin-top: 15px;
-      box-shadow: 0 4px 12px rgba(255, 92, 138, 0.3);
+      box-shadow: 0 4px 12px rgba(255, 92, 138, 0.35);
     }
 
-    /* Modal emergente */
+    /* Modal Emergente con Emojis Dinámicos */
     .modal {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0,0,0,0.45);
       display: none;
       justify-content: center;
       align-items: center;
@@ -385,19 +442,27 @@
     .modal-content {
       background: white;
       border-radius: 16px;
-      padding: 20px;
+      padding: 22px;
       max-width: 360px;
       width: 100%;
       text-align: center;
-      border: 2px solid #ff85a2;
-      box-shadow: 0 10px 25px rgba(255, 133, 162, 0.2);
+      border: 3px solid #ff85a2;
+      box-shadow: 0 10px 30px rgba(255, 133, 162, 0.25);
+      position: relative;
+    }
+
+    .modal-emojis {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      animation: bounce 1.5s infinite;
     }
 
     .modal-text {
-      font-size: 0.95rem;
+      font-size: 1rem;
       line-height: 1.5;
-      color: #333;
-      margin-bottom: 16px;
+      color: #3d3234;
+      margin-bottom: 18px;
+      font-weight: 700;
     }
   </style>
 </head>
@@ -416,11 +481,13 @@
       <div class="cover-hint">Toca la libreta para abrir 📖</div>
     </div>
 
-    <!-- Navegación por pestañas -->
+    <!-- Navegación por Pestañas (Separadas y Pequeñas) -->
     <div class="tabs-header">
       <button class="tab-btn active" onclick="switchTab(1)">1</button>
       <button class="tab-btn" onclick="switchTab(2)">2</button>
       <button class="tab-btn" onclick="switchTab(3)">3</button>
+      <button class="tab-btn" onclick="switchTab(4)">?</button>
+      <button class="tab-btn" onclick="switchTab(5)">?</button>
       <button class="cover-back-btn" onclick="closeCover()">📕 Portada</button>
     </div>
 
@@ -462,24 +529,38 @@
       </div>
     </div>
 
-    <!-- Pestaña 2: Lienzo -->
+    <!-- Pestaña 2: Lienzo Pro -->
     <div class="page-content" id="tab2">
       <h2 class="section-h2">Lienzo de Garabatos 🎨</h2>
       <p class="sub-title">Un espacio libre para dibujar o escribir lo que quieras</p>
 
-      <div class="canvas-controls">
-        <div class="color-picker">
-          <div class="color-btn active" style="background: #4a3e3d;" onclick="setColor('#4a3e3d', this)"></div>
-          <div class="color-btn" style="background: #ff5c8a;" onclick="setColor('#ff5c8a', this)"></div>
-          <div class="color-btn" style="background: #0984e3;" onclick="setColor('#0984e3', this)"></div>
-          <div class="color-btn" style="background: #00b894;" onclick="setColor('#00b894', this)"></div>
-          <!-- Selector de color personalizado -->
-          <input type="color" id="customColor" onchange="setCustomColor(this.value)" title="Elegir otro color" style="width: 26px; height: 26px; border: none; border-radius: 50%; cursor: pointer; background: none;">
+      <div class="canvas-toolbar">
+        <div class="tool-group">
+          <input type="color" class="color-picker-input" id="colorPicker" value="#3d3234" onchange="setDrawingColor(this.value)" title="Color">
+          <button class="tool-btn active" id="btnBrush" onclick="setMode('brush')">✏️ Pincel</button>
+          <button class="tool-btn" id="btnEraser" onclick="setMode('eraser')">🧹 Borrador</button>
         </div>
-        <button class="action-btn" style="width: auto; padding: 6px 12px; background: #e84393;" onclick="clearCanvas()">Borrar</button>
+        <div class="tool-group">
+          <button class="tool-btn active" id="sizeThin" onclick="setThickness(2, 'sizeThin')">Fino</button>
+          <button class="tool-btn" id="sizeMid" onclick="setThickness(5, 'sizeMid')">Medio</button>
+          <button class="tool-btn" id="sizeThick" onclick="setThickness(10, 'sizeThick')">Grueso</button>
+        </div>
       </div>
 
-      <canvas id="drawingCanvas"></canvas>
+      <div class="canvas-toolbar" style="margin-bottom: 8px;">
+        <div class="tool-group">
+          <button class="tool-btn active" id="bgWhite" onclick="setCanvasBg('white', 'bgWhite')">Blanco</button>
+          <button class="tool-btn" id="bgGrid" onclick="setCanvasBg('grid', 'bgGrid')">Cuadrícula 📐</button>
+          <button class="tool-btn" id="bgLines" onclick="setCanvasBg('lines', 'bgLines')">Líneas 📝</button>
+        </div>
+        <div class="tool-group">
+          <button class="tool-btn" onclick="undoCanvas()" title="Deshacer último trazo">↩️ Deshacer</button>
+          <button class="tool-btn" style="background:#e91e63; color:white;" onclick="clearCanvas()">Limpiar</button>
+          <button class="tool-btn" style="background:#4caf50; color:white;" onclick="downloadCanvas()">💾 Descargar</button>
+        </div>
+      </div>
+
+      <canvas id="drawingCanvas" class="canvas-bg-white"></canvas>
     </div>
 
     <!-- Pestaña 3: Música -->
@@ -503,16 +584,17 @@
     </div>
   </div>
 
-  <!-- Modal Emergente -->
+  <!-- Modal Dinámico -->
   <div class="modal" id="customModal">
     <div class="modal-content">
+      <div class="modal-emojis" id="modalEmojis">✨</div>
       <div class="modal-text" id="modalText">Mensaje aquí</div>
       <button class="action-btn" onclick="closeModal()">Entendido ✨</button>
     </div>
   </div>
 
   <script>
-    // Frases ampliadas y variadas
+    // Frases variadas sin repetición consecutiva
     const phrases = [
       "creo en ti 🐽",
       "Un pequeño recordatorio para hoy: tómate un respiro, lo estás haciendo genial, Sami.",
@@ -556,7 +638,7 @@
       document.getElementById('phraseDisplay').innerText = `"${phrases[randomIndex]}"`;
     }
 
-    // Navegación de Portada
+    // Control de Portada y Pestañas
     document.getElementById('openCoverBtn').addEventListener('click', () => {
       document.getElementById('cover').classList.add('open');
     });
@@ -565,10 +647,14 @@
       document.getElementById('cover').classList.remove('open');
     }
 
-    // Control de Pestañas
     function switchTab(tabNumber) {
+      if (tabNumber === 4 || tabNumber === 5) {
+        showModal("¡Esta actualización está en camino, no desesperes!", "🚀⏳✨");
+        return;
+      }
+
       document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
-        btn.classList.toggle('active', idx + 1 === tabNumber);
+        if(idx < 3) btn.classList.toggle('active', idx + 1 === tabNumber);
       });
       document.querySelectorAll('.page-content').forEach((page, idx) => {
         page.classList.toggle('active', idx + 1 === tabNumber);
@@ -579,8 +665,9 @@
       }
     }
 
-    // Modal
-    function showModal(text) {
+    // Modales con Emojis Específicos
+    function showModal(text, emojis = "✨💖") {
+      document.getElementById('modalEmojis').innerText = emojis;
       document.getElementById('modalText').innerText = text;
       document.getElementById('customModal').style.display = 'flex';
     }
@@ -590,37 +677,57 @@
     }
 
     function openMail(type) {
-      showModal("¡Me alegra muchísimo saber eso! Sigue disfrutando tu día y compartiendo esa bonita energía. ☀️");
+      showModal("¡Me alegra muchísimo saber eso! Sigue disfrutando tu día y compartiendo esa bonita energía.", "☀️🐽✨");
     }
     function mailSad() {
-      showModal("Lamento que te sientas así. Recuerda tomarte las cosas con calma, respirar y recordar que esto también pasará. 🌧️");
+      showModal("Lamento que te sientas así. Recuerda tomarte las cosas con calma, respirar y recordar que esto también pasará.", "🫂🩷⭐");
     }
     function mailDoubt() {
-      showModal("Ese pensamiento no tiene la razón. Eres una persona increíblemente valiosa, inteligente y fuerte. No lo dudas nunca. 💭");
+      showModal("Ese pensamiento no tiene la razón. Eres una persona increíblemente valiosa, inteligente y fuerte. No lo dudas nunca.", "💪✨🌸");
     }
     function mailTalk() {
-      showModal("Sabes perfectamente que puedes mandarme un mensaje en cualquier momento. Aquí estoy para escucharte siempre. 💬");
+      showModal("Sabes perfectamente que puedes mandarme un mensaje en cualquier momento. Aquí estoy para escucharte siempre.", "💬🐽📝");
     }
 
-    // Control de Audio
+    // Reproductor de Música
     function toggleAudio() {
       const audio = document.getElementById('myAudio');
       if (audio.paused) {
         audio.play().then(() => {
-          showModal("Reproduciendo música 🎶");
+          showModal("Reproduciendo música", "🎶🎧✨");
         }).catch(() => {
-          showModal("Sube el archivo 'cancion.mp3' a tu repositorio de GitHub para escuchar la música ✨");
+          showModal("Sube el archivo 'cancion.mp3' a tu repositorio de GitHub para escuchar la música", "📁✨");
         });
       } else {
         audio.pause();
       }
     }
 
-    // --- LIENZO ROBUSTO CON COLOR PERSONALIZADO ---
+    // --- LIENZO PROFESIONAL (Pro Canvas) ---
     const canvas = document.getElementById('drawingCanvas');
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
-    let currentColor = '#4a3e3d';
+    let currentDrawingColor = '#3d3234';
+    let currentLineWidth = 2;
+    let currentTool = 'brush';
+    let historyStack = [];
+
+    function saveState() {
+      if (historyStack.length > 15) historyStack.shift();
+      historyStack.push(canvas.toDataURL());
+    }
+
+    function undoCanvas() {
+      if (historyStack.length > 0) {
+        const lastState = historyStack.pop();
+        const img = new Image();
+        img.onload = () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0);
+        };
+        img.src = lastState;
+      }
+    }
 
     function resizeAndDrawCanvas() {
       const rect = canvas.getBoundingClientRect();
@@ -637,24 +744,14 @@
         canvas.width = Math.floor(rect.width);
         canvas.height = Math.floor(rect.height);
 
-        ctx.lineWidth = 4;
+        ctx.lineWidth = currentLineWidth;
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
-        ctx.strokeStyle = currentColor;
+        ctx.strokeStyle = currentTool === 'eraser' ? '#ffffff' : currentDrawingColor;
 
-        const savedData = localStorage.getItem('sami_doodle');
-        if (savedData) {
-          const img = new Image();
-          img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          img.src = savedData;
-        } else if (tempCanvas.width > 0) {
+        if (tempCanvas.width > 0) {
           ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
         }
-      } else {
-        ctx.lineWidth = 4;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.strokeStyle = currentColor;
       }
     }
 
@@ -662,19 +759,15 @@
       const rect = canvas.getBoundingClientRect();
       let clientX = e.clientX;
       let clientY = e.clientY;
-
       if (e.touches && e.touches.length > 0) {
         clientX = e.touches[0].clientX;
         clientY = e.touches[0].clientY;
       }
-
-      return {
-        x: clientX - rect.left,
-        y: clientY - rect.top
-      };
+      return { x: clientX - rect.left, y: clientY - rect.top };
     }
 
     function startDraw(e) {
+      saveState();
       isDrawing = true;
       const coords = getCoords(e);
       ctx.beginPath();
@@ -693,31 +786,62 @@
       if (isDrawing) {
         isDrawing = false;
         ctx.closePath();
-        try {
-          localStorage.setItem('sami_doodle', canvas.toDataURL());
-        } catch(err) {}
       }
     }
 
-    function setColor(color, element) {
-      currentColor = color;
-      ctx.strokeStyle = color;
-      document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
-      element.classList.add('active');
+    function setDrawingColor(color) {
+      currentDrawingColor = color;
+      if (currentTool === 'brush') ctx.strokeStyle = color;
     }
 
-    function setCustomColor(color) {
-      currentColor = color;
-      ctx.strokeStyle = color;
-      document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
+    function setMode(mode) {
+      currentTool = mode;
+      document.getElementById('btnBrush').classList.toggle('active', mode === 'brush');
+      document.getElementById('btnEraser').classList.toggle('active', mode === 'eraser');
+      if (mode === 'eraser') {
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = currentLineWidth * 3; // Borrador más cómodo
+      } else {
+        ctx.strokeStyle = currentDrawingColor;
+        ctx.lineWidth = currentLineWidth;
+      }
+    }
+
+    function setThickness(width, btnId) {
+      currentLineWidth = width;
+      if (currentTool !== 'eraser') ctx.lineWidth = width;
+      document.getElementById('sizeThin').classList.remove('active');
+      document.getElementById('sizeMid').classList.remove('active');
+      document.getElementById('sizeThick').classList.remove('active');
+      document.getElementById(btnId).classList.add('active');
+    }
+
+    function setCanvasBg(bgType, btnId) {
+      canvas.className = '';
+      if (bgType === 'grid') canvas.classList.add('canvas-bg-grid');
+      else if (bgType === 'lines') canvas.classList.add('canvas-bg-lines');
+      else canvas.classList.add('canvas-bg-white');
+
+      document.getElementById('bgWhite').classList.remove('active');
+      document.getElementById('bgGrid').classList.remove('active');
+      document.getElementById('bgLines').classList.remove('active');
+      document.getElementById(btnId).classList.add('active');
     }
 
     function clearCanvas() {
+      saveState();
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      localStorage.removeItem('sami_doodle');
     }
 
-    // Eventos táctiles y ratón unificados
+    function downloadCanvas() {
+      const link = document.createElement('a');
+      link.download = 'mi-dibujo-sami.png';
+      link.link = canvas.toDataURL();
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // Eventos del Lienzo
     canvas.addEventListener('mousedown', startDraw);
     canvas.addEventListener('mousemove', drawing);
     canvas.addEventListener('mouseup', stopDraw);
@@ -727,7 +851,6 @@
     canvas.addEventListener('touchmove', drawing, { passive: false });
     canvas.addEventListener('touchend', stopDraw);
 
-    // Inicialización al cargar la ventana
     window.onload = () => {
       updateDailyPhrase();
     };
