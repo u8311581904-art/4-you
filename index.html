@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Para ti, Chaparrita 💖</title>
   
-  <!-- Manifest para la PWA -->
+  <!-- Manifest para PWA -->
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#ffb6c1">
 
   <style>
-    /* Estilos Generales de la App */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #fffaf0;
@@ -26,33 +25,110 @@
 
     .app-container {
       width: 100%;
-      max-width: 600px;
+      max-width: 550px;
       padding: 20px;
       box-sizing: border-box;
       text-align: center;
     }
 
+    .corazon-icon {
+      font-size: 2rem;
+      margin-bottom: 5px;
+    }
+
+    h1 {
+      color: #ff6b81;
+      font-size: 2.2rem;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+    .subtitulo {
+      color: #8e8e8e;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 30px;
+    }
+
+    /* Tarjetas de Secciones */
+    .seccion-tarjeta {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0px 4px 15px rgba(255, 182, 193, 0.2);
+    }
+
+    .seccion-tarjeta h3 {
+      color: #ff6b81;
+      font-size: 1.2rem;
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+
+    /* Galería de Fotos (Ajuste previo) */
+    .galeria-fotos {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 25px;
+    }
+
+    .foto-marco {
+      width: 48%;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+      background: #fff;
+      padding: 5px;
+    }
+
+    .foto-marco img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+      display: block;
+    }
+
+    /* Opciones del Buzón */
+    .grid-buzon {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .item-buzon {
+      background: #fffaf0;
+      border: 1px solid #ffe4e8;
+      border-radius: 15px;
+      padding: 12px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.2s;
+    }
+
+    .item-buzon:active {
+      transform: scale(0.97);
+      background: #ffe4e8;
+    }
+
+    /* Botón Principal */
     .btn-principal {
       background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
       color: #ffffff;
       border: none;
-      padding: 14px 28px;
-      font-size: 1.1rem;
+      padding: 12px 24px;
+      font-size: 1rem;
       font-weight: bold;
       border-radius: 25px;
       cursor: pointer;
       box-shadow: 0px 4px 12px rgba(255, 107, 129, 0.3);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      margin: 30px 0;
+      margin-top: 10px;
     }
 
-    .btn-principal:active {
-      transform: scale(0.96);
-    }
-
-    /* ------------------------------------------------------------- */
-    /* PANTALLA INDEPENDIENTE DEL LIENZO                              */
-    /* ------------------------------------------------------------- */
+    /* PANTALLA INDEPENDIENTE DEL LIENZO */
     #pantallaLienzo {
       position: fixed;
       top: 0;
@@ -91,11 +167,10 @@
       font-weight: bold;
       color: white;
       cursor: pointer;
-      font-size: 0.9rem;
     }
 
     .btn-limpiar {
-      background: #ffb6b6;
+      background: #ff6b6b;
     }
 
     #canvasDibujo {
@@ -115,8 +190,6 @@
       padding: 10px 18px;
       border-radius: 30px;
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-      flex-wrap: wrap;
-      justify-content: center;
     }
 
     .btn-herramienta {
@@ -127,7 +200,6 @@
       cursor: pointer;
       font-size: 0.9rem;
       font-weight: 600;
-      color: #4a4a4a;
     }
 
     .btn-herramienta.activo {
@@ -151,35 +223,59 @@
 </head>
 <body>
 
-  <!-- CONTENIDO PRINCIPAL (TUS SECCIONES ORIGINALES) -->
   <div class="app-container">
     
-    <!-- Aquí van tus componentes visuales, fotos, buzón y notas que ya tenías -->
-    <div style="margin-bottom: 20px;">
-      <!-- (Mantén tus secciones de fotos o encabezados aquí si las tienes separadas) -->
+    <div class="corazon-icon">❤️</div>
+    <h1>Siempre estaré aquí para ti</h1>
+    <p class="subtitulo">Un pequeño rincón digital hecho especialmente para ti, chaparrita, para recordarte lo mucho que me importas.</p>
+
+    <!-- Galería de fotos -->
+    <div class="galeria-fotos">
+      <div class="foto-marco">
+        <img src="foto1.jpg" alt="Foto 1" onerror="this.src='https://via.placeholder.com/150/ffb6c1/ffffff?text=Foto+1'">
+      </div>
+      <div class="foto-marco">
+        <img src="foto2.jpg" alt="Foto 2" onerror="this.src='https://via.placeholder.com/150/ffb6c1/ffffff?text=Foto+2'">
+      </div>
     </div>
 
+    <!-- Mensaje Especial para hoy -->
+    <div class="seccion-tarjeta">
+      <h3>Un mensaje especial para hoy ✨</h3>
+      <p id="textoNota" style="font-style: italic; color: #ff6b81; font-weight: 500;">
+        "Admiro mucho tu manera de ser y el gran corazón que tienes."
+      </p>
+      <button class="btn-principal" onclick="cambiarNota()">Ver otra nota al azar 🎲</button>
+    </div>
+
+    <!-- Buzón Especial -->
+    <div class="seccion-tarjeta">
+      <h3>Buzón Especial 📬</h3>
+      <div class="grid-buzon">
+        <div class="item-buzon" onclick="alert('🌼 Recuerda que cada día es una nueva oportunidad. ¡Sonríe y da lo mejor de ti!')">
+          🌼 Abre si estás teniendo un gran día
+        </div>
+        <div class="item-buzon" onclick="alert('🌧️ Aquí estoy contigo. No estás sola, tómate un respiro y recuerda lo fuerte que eres.')">
+          🌧️ Abre si te sientes triste o abrumada
+        </div>
+        <div class="item-buzon" onclick="alert('✨ Vales muchísimo más de lo que imaginas. Nunca lo dudes.')">
+          ✨ Abre si dudas de tu valor
+        </div>
+        <div class="item-buzon" onclick="alert('💬 Sabes que solo estás a un mensaje de distancia. Escríbeme cuando quieras.')">
+          💬 Abre si quieres hablar conmigo
+        </div>
+      </div>
+    </div>
+
+    <!-- Acceso al Lienzo de Garabatos -->
     <div style="margin: 30px 0;">
-      <h3 style="color: #ff6b81;">Un mensaje especial para hoy ✨</h3>
-      <p style="font-style: italic; color: #666;">"Admiro mucho tu manera de ser y el gran corazón que tienes."</p>
-      <!-- Botón de nota al azar si lo tenías -->
-    </div>
-
-    <div style="margin: 30px 0;">
-      <h3 style="color: #ff6b81;">Buzón Especial 💌</h3>
-      <!-- Tus accesos de buzón -->
-    </div>
-
-    <!-- 🎨 BOTÓN NUEVO PARA ABRIR EL LIENZO -->
-    <div>
-      <button class="btn-principal" onclick="abrirLienzo()">🎨 Abrir Lienzo de Garabatos</button>
+      <button class="btn-principal" style="padding: 14px 28px; font-size: 1.1rem;" onclick="abrirLienzo()">🎨 Abrir Lienzo de Garabatos</button>
     </div>
 
   </div>
 
   <!-- PANTALLA INDEPENDIENTE: LIENZO DE DIBUJO -->
   <div id="pantallaLienzo">
-    
     <div class="header-lienzo">
       <button onclick="cerrarLienzo()" class="btn-volver">⬅ Volver</button>
       <h2>🎨 Nuestro Lienzo</h2>
@@ -191,15 +287,27 @@
     <div class="herramientas-lienzo">
       <button id="btnPincel" onclick="activarPincel()" class="btn-herramienta activo">✏️ Pincel</button>
       <button id="btnBorrador" onclick="activarBorrador()" class="btn-herramienta">🧹 Borrador</button>
-      
-      <input type="color" id="colorPincel" value="#ff6b81" title="Elegir color">
-      <input type="range" id="grosorPincel" min="2" max="25" value="6" title="Grosor del pincel">
+      <input type="color" id="colorPincel" value="#ff6b81">
+      <input type="range" id="grosorPincel" min="2" max="25" value="6">
     </div>
-
   </div>
 
-  <!-- LOGICA JAVASCRIPT -->
+  <!-- JAVASCRIPT -->
   <script>
+    // --- NOTAS AL AZAR ---
+    const notas = [
+      '"Admiro mucho tu manera de ser y el gran corazón que tienes."',
+      '"Gracias por ser esa luz que ilumina incluso los días más grises."',
+      '"Nunca olvides lo capaz e increíble que eres."',
+      '"Aquí siempre tendrás a alguien que cree en ti sin dudarlo."'
+    ];
+
+    function cambiarNota() {
+      const idx = Math.floor(Math.random() * notas.length);
+      document.getElementById('textoNota').innerText = notas[idx];
+    }
+
+    // --- LIENZO DE DIBUJO ---
     const canvas = document.getElementById('canvasDibujo');
     const ctx = canvas.getContext('2d');
     const colorInput = document.getElementById('colorPincel');
@@ -211,8 +319,7 @@
     let esBorrador = false;
 
     function abrirLienzo() {
-      const pantalla = document.getElementById('pantallaLienzo');
-      pantalla.style.display = 'flex';
+      document.getElementById('pantallaLienzo').style.display = 'flex';
       redimensionarCanvas();
     }
 
@@ -223,7 +330,6 @@
     function redimensionarCanvas() {
       const ancho = Math.min(window.innerWidth * 0.9, 450);
       const alto = window.innerHeight * 0.65;
-      
       canvas.width = ancho;
       canvas.height = alto;
       
@@ -236,10 +342,7 @@
       const rect = canvas.getBoundingClientRect();
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      return {
-        x: clientX - rect.left,
-        y: clientY - rect.top
-      };
+      return { x: clientX - rect.left, y: clientY - rect.top };
     }
 
     function iniciarDibujo(e) {
@@ -290,22 +393,18 @@
       btnPincel.classList.remove('activo');
     }
 
-    colorInput.addEventListener('change', () => {
-      activarPincel();
-    });
+    colorInput.addEventListener('change', activarPincel);
 
     function guardarDibujo() {
       localStorage.setItem('dibujoGuardado_4you', canvas.toDataURL());
     }
 
     function cargarDibujoGuardado() {
-      const dibujoGuardado = localStorage.getItem('dibujoGuardado_4you');
-      if (dibujoGuardado) {
+      const guardado = localStorage.getItem('dibujoGuardado_4you');
+      if (guardado) {
         const img = new Image();
-        img.src = dibujoGuardado;
-        img.onload = () => {
-          ctx.drawImage(img, 0, 0);
-        };
+        img.src = guardado;
+        img.onload = () => ctx.drawImage(img, 0, 0);
       }
     }
 
@@ -317,11 +416,12 @@
       }
     }
 
+    // REGISTRO SERVICE WORKER
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-          .then((reg) => console.log('Service Worker listo:', reg.scope))
-          .catch((err) => console.log('Error en Service Worker:', err));
+          .then((reg) => console.log('SW ok:', reg.scope))
+          .catch((err) => console.log('SW error:', err));
       });
     }
   </script>
