@@ -37,7 +37,7 @@
       overflow-x: hidden;
     }
 
-    /* Libreta Principal con espacio superior para pestañas */
+    /* Libreta Principal */
     .book-container {
       width: 100%;
       max-width: 440px;
@@ -49,8 +49,8 @@
       max-height: 90vh;
       display: flex;
       flex-direction: column;
-      overflow: visible; /* Permite que las pestañas resalten sin recortarse */
-      margin-top: 15px;
+      overflow: visible;
+      margin-top: 20px;
     }
 
     /* Portada Estilo Libro Real */
@@ -146,26 +146,27 @@
       50% { transform: translateY(-6px); }
     }
 
-    /* Pestañas Superiores sin recortes */
+    /* Pestañas Superiores Alineadas y sin traslape */
     .tabs-header {
       display: flex;
       background: #fce4ec;
-      padding: 10px 8px 0 8px;
+      padding: 6px 8px 0 8px;
       gap: 5px;
       border-bottom: 2px solid #f8bbd0;
       border-radius: 16px 16px 0 0;
-      overflow-x: auto;
+      position: relative;
+      z-index: 20;
     }
 
     .tab-btn {
       flex: 1;
       min-width: 42px;
-      padding: 8px 4px;
+      padding: 6px 4px;
       border: none;
       background: #f8bbd0;
       border-radius: 10px 10px 0 0;
       font-family: 'Caveat', cursive;
-      font-size: 1.35rem;
+      font-size: 1.3rem;
       font-weight: 700;
       color: #880e4f;
       cursor: pointer;
@@ -193,10 +194,10 @@
       margin-left: 4px;
     }
 
-    /* Contenido de Páginas */
+    /* Contenido de Páginas con margen superior limpio */
     .page-content {
       display: none;
-      padding: 20px 16px;
+      padding: 24px 16px 20px 16px;
       flex: 1;
       flex-direction: column;
       overflow-y: auto;
