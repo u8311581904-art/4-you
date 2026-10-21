@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
+  <!-- Control de Caché para forzar la actualización en todos los navegadores -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
   <title>4 You</title>
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#fff0f3">
@@ -63,7 +69,7 @@
       transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
       box-shadow: 0 5px 20px rgba(0,0,0,0.1);
       border: 4px solid #f48fb1;
-      border-left: 18px solid #ad1457; /* Lomo del libro */
+      border-left: 18px solid #ad1457;
     }
 
     .cover-overlay.open {
@@ -110,7 +116,7 @@
       50% { transform: translateY(-6px); }
     }
 
-    /* Pestañas Superiores Estilizadas y Separadas */
+    /* Pestañas Superiores Separadas */
     .tabs-header {
       display: flex;
       background: #fce4ec;
@@ -169,7 +175,6 @@
       display: flex;
     }
 
-    /* Pestaña 1: Estética de Cuaderno Rayado */
     #tab1 {
       background-image: repeating-linear-gradient(0deg, transparent, transparent 27px, #fce4ec 27px, #fce4ec 28px);
       background-size: 100% 28px;
@@ -215,7 +220,6 @@
       transform: rotate(2deg);
     }
 
-    /* Animación de sacudida al pasar el cursor o tocar */
     .photo-card:hover, .photo-card:active {
       animation: shake 0.5s ease-in-out infinite;
     }
@@ -326,7 +330,7 @@
       font-size: 1.4rem;
     }
 
-    /* Pestaña 2: Lienzo Pro con Controles Completos */
+    /* Pestaña 2: Lienzo */
     .canvas-toolbar {
       display: flex;
       flex-wrap: wrap;
@@ -382,7 +386,6 @@
       cursor: crosshair;
     }
 
-    /* Fondos del lienzo */
     .canvas-bg-white { background-image: none !important; }
     .canvas-bg-grid {
       background-image: linear-gradient(to right, #fce4ec 1px, transparent 1px), linear-gradient(to bottom, #fce4ec 1px, transparent 1px) !important;
@@ -427,7 +430,7 @@
       box-shadow: 0 4px 12px rgba(255, 92, 138, 0.35);
     }
 
-    /* Modal Emergente con Emojis Dinámicos */
+    /* Modal Emergente */
     .modal {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -481,7 +484,7 @@
       <div class="cover-hint">Toca la libreta para abrir 📖</div>
     </div>
 
-    <!-- Navegación por Pestañas (Separadas y Pequeñas) -->
+    <!-- Navegación -->
     <div class="tabs-header">
       <button class="tab-btn active" onclick="switchTab(1)">1</button>
       <button class="tab-btn" onclick="switchTab(2)">2</button>
@@ -491,7 +494,7 @@
       <button class="cover-back-btn" onclick="closeCover()">📕 Portada</button>
     </div>
 
-    <!-- Pestaña 1: Notas y Mensajes -->
+    <!-- Pestaña 1 -->
     <div class="page-content active" id="tab1">
       <h1 class="main-title">Siempre estaré aquí para ti ✨</h1>
       <p class="sub-title">Un pequeño rincón hecho especialmente para Sami</p>
@@ -529,7 +532,7 @@
       </div>
     </div>
 
-    <!-- Pestaña 2: Lienzo Pro -->
+    <!-- Pestaña 2 -->
     <div class="page-content" id="tab2">
       <h2 class="section-h2">Lienzo de Garabatos 🎨</h2>
       <p class="sub-title">Un espacio libre para dibujar o escribir lo que quieras</p>
@@ -563,7 +566,7 @@
       <canvas id="drawingCanvas" class="canvas-bg-white"></canvas>
     </div>
 
-    <!-- Pestaña 3: Música -->
+    <!-- Pestaña 3 -->
     <div class="page-content" id="tab3">
       <div class="music-box">
         <div class="disc-icon">🎧</div>
@@ -584,7 +587,7 @@
     </div>
   </div>
 
-  <!-- Modal Dinámico -->
+  <!-- Modal -->
   <div class="modal" id="customModal">
     <div class="modal-content">
       <div class="modal-emojis" id="modalEmojis">✨</div>
@@ -594,7 +597,6 @@
   </div>
 
   <script>
-    // Frases variadas sin repetición consecutiva
     const phrases = [
       "creo en ti 🐽",
       "Un pequeño recordatorio para hoy: tómate un respiro, lo estás haciendo genial, Sami.",
@@ -638,7 +640,6 @@
       document.getElementById('phraseDisplay').innerText = `"${phrases[randomIndex]}"`;
     }
 
-    // Control de Portada y Pestañas
     document.getElementById('openCoverBtn').addEventListener('click', () => {
       document.getElementById('cover').classList.add('open');
     });
@@ -665,7 +666,6 @@
       }
     }
 
-    // Modales con Emojis Específicos
     function showModal(text, emojis = "✨💖") {
       document.getElementById('modalEmojis').innerText = emojis;
       document.getElementById('modalText').innerText = text;
@@ -680,7 +680,7 @@
       showModal("¡Me alegra muchísimo saber eso! Sigue disfrutando tu día y compartiendo esa bonita energía.", "☀️🐽✨");
     }
     function mailSad() {
-      showModal("Lamento que te sientas así. Recuerda tomarte las cosas con calma, respirar y recordar que esto también pasará.", "🫂🩷⭐");
+      showModal("Lamento que te sientas así. Recuerda tomarte las cosas con calma, respirar y recordar que esto también pasará.", "🌧️🌱✨");
     }
     function mailDoubt() {
       showModal("Ese pensamiento no tiene la razón. Eres una persona increíblemente valiosa, inteligente y fuerte. No lo dudas nunca.", "💪✨🌸");
@@ -689,7 +689,6 @@
       showModal("Sabes perfectamente que puedes mandarme un mensaje en cualquier momento. Aquí estoy para escucharte siempre.", "💬🐽📝");
     }
 
-    // Reproductor de Música
     function toggleAudio() {
       const audio = document.getElementById('myAudio');
       if (audio.paused) {
@@ -703,7 +702,7 @@
       }
     }
 
-    // --- LIENZO PROFESIONAL (Pro Canvas) ---
+    // Canvas
     const canvas = document.getElementById('drawingCanvas');
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
@@ -800,7 +799,7 @@
       document.getElementById('btnEraser').classList.toggle('active', mode === 'eraser');
       if (mode === 'eraser') {
         ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = currentLineWidth * 3; // Borrador más cómodo
+        ctx.lineWidth = currentLineWidth * 3;
       } else {
         ctx.strokeStyle = currentDrawingColor;
         ctx.lineWidth = currentLineWidth;
@@ -836,12 +835,10 @@
     function downloadCanvas() {
       const link = document.createElement('a');
       link.download = 'mi-dibujo-sami.png';
-      link.link = canvas.toDataURL();
       link.href = canvas.toDataURL('image/png');
       link.click();
     }
 
-    // Eventos del Lienzo
     canvas.addEventListener('mousedown', startDraw);
     canvas.addEventListener('mousemove', drawing);
     canvas.addEventListener('mouseup', stopDraw);
@@ -850,6 +847,15 @@
     canvas.addEventListener('touchstart', startDraw, { passive: false });
     canvas.addEventListener('touchmove', drawing, { passive: false });
     canvas.addEventListener('touchend', stopDraw);
+
+    // Limpiar Service Workers anteriores si existieran
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) {
+          registration.unregister();
+        }
+      });
+    }
 
     window.onload = () => {
       updateDailyPhrase();
