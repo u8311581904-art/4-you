@@ -259,7 +259,7 @@
       <p>Nunca dejarás de importarme. Sin importar lo que pase, aquí tienes un espacio seguro pensado solo para ti, donde siempre serás muy valorada y apreciada.</p>
     </div>
 
-    <!-- Mensaje Especial para hoy (Cambia automático cada 12 horas) -->
+    <!-- Mensaje Especial para hoy -->
     <div class="seccion-tarjeta" style="text-align: center;">
       <h3>Un mensaje especial para hoy ✨</h3>
       <p style="font-size: 0.8rem; color: #888; margin-bottom: 8px;">(Se actualiza automáticamente cada 12 horas)</p>
@@ -313,10 +313,11 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT -->
+  <!-- JAVASCRIPT MEJORADO -->
   <script>
-    // --- LISTA AMPLIADA DE FRASES CON APODOS PERSONALIZADOS ---
+    // --- LISTA EXTENSA DE FRASES PERSONALIZADAS PARA SAMI ---
     const notas = [
+      '"creo en ti 🐽"',
       '"Admiro mucho tu manera de ser y el gran corazón que tienes, chaparrita."',
       '"Gracias por ser esa luz que ilumina incluso los días más grises, Sami."',
       '"Nunca olvides lo capaz, inteligente e increíble que eres, chaparra."',
@@ -326,13 +327,29 @@
       '"No importa la distancia ni el tiempo, mi apoyo para ti siempre es incondicional, Sami."',
       '"Eres de lo más bonito que tengo en la vida, chaparrita, nunca lo olvides."',
       '"Me encanta platicar contigo y cómo haces que todo se sienta más tranquilo, Sami."',
-      '"Eres una guerrera muy fuerte, chaparra, y admiro todo lo que te esfuerzas."'
+      '"Eres una guerrera muy fuerte, chaparra, y admiro todo lo que te esfuerzas."',
+      '"Un pequeño recordatorio para hoy: tómate un respiro, lo estás haciendo genial, Sami."',
+      '"Tu presencia hace que cualquier lugar sea mucho más bonito, chaparrita."',
+      '"Siempre voy a estar orgulloso de todo lo que logras día a día, chaparra."',
+      '"Sami, nunca dejes que nada ni nadie apague esa vibra tan bonita que tienes."',
+      '"Para el mundo puedes ser una persona más, pero para mí eres muy especial, chaparrita."',
+      '"Que tengas un día increíble, chaparra; recuerda que aquí estoy para lo que necesites."',
+      '"Cada logro tuyo, por pequeño que parezca, para mí es un motivo gigante de orgullo, Sami."',
+      '"Nunca dudas de tu potencial, chaparrita, puedes con absolutamente todo lo que te propongas."',
+      '"Espero que hoy encuentres mil razones para sonreír, chaparra."',
+      '"Tenerte en mi vida hace que todo valga la pena, Sami."',
+      '"Tómate las cosas con calma hoy, chaparrita; estás avanzando muy bien."',
+      '"Tu dedicación y esfuerzo son de verdad admirables, chaparra."',
+      '"Siempre serás una de mis personas favoritas en el mundo, Sami."',
+      '"Acuérdate de brillar hoy como siempre lo haces, chaparrita."'
     ];
+
+    let indiceActual = -1;
 
     // --- LÓGICA DE ACTUALIZACIÓN AUTOMÁTICA CADA 12 HORAS ---
     function gestionarNotaAutomatica() {
       const ahora = new Date().getTime();
-      const intervalo12Horas = 12 * 60 * 60 * 1000; // 12 horas en milisegundos
+      const intervalo12Horas = 12 * 60 * 60 * 1000; // 12 horas
       
       let ultimaTimestamp = localStorage.getItem('timestampNota_4you');
       let indiceGuardado = localStorage.getItem('indiceNota_4you');
@@ -343,23 +360,30 @@
         localStorage.setItem('indiceNota_4you', nuevoIndice);
         localStorage.setItem('timestampNota_4you', ahora);
         
+        indiceActual = nuevoIndice;
         document.getElementById('textoNota').innerText = notas[nuevoIndice];
       } else {
+        indiceActual = parseInt(indiceGuardado);
         document.getElementById('textoNota').innerText = notas[indiceGuardado];
       }
     }
 
-    // Botón manual para ver otra al azar al instante
+    // --- BOTÓN MANUAL: GARANTIZA QUE NUNCA REPITA LA MISMA CONSECUTIVA ---
     function cambiarNotaManual() {
-      const idx = Math.floor(Math.random() * notas.length);
-      document.getElementById('textoNota').innerText = notas[idx];
+      let nuevoIndice;
+      do {
+        nuevoIndice = Math.floor(Math.random() * notas.length);
+      } while (nuevoIndice === indiceActual);
+
+      indiceActual = nuevoIndice;
+      document.getElementById('textoNota').innerText = notas[nuevoIndice];
     }
 
     window.addEventListener('DOMContentLoaded', () => {
       gestionarNotaAutomatica();
     });
 
-    // --- LIENZO DE DIBUJO ---
+    // --- LIENZO DE DIBUJO PERMANENTE ---
     const canvas = document.getElementById('canvasDibujo');
     const ctx = canvas.getContext('2d');
     const colorInput = document.getElementById('colorPincel');
