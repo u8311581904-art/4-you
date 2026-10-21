@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>4 You</title>
   <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#fdfbf7">
+  <meta name="theme-color" content="#fff0f3">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
 
     body {
       font-family: 'Nunito', sans-serif;
-      background-color: #f4ece1;
+      background-color: #fdf2f4;
       color: #4a3e3d;
       min-height: 100vh;
       display: flex;
@@ -34,9 +34,9 @@
     .book-container {
       width: 100%;
       max-width: 480px;
-      background: #fffdf9;
+      background: #fffdfd;
       border-radius: 18px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08), inset 0 0 0 2px #e8dec8;
+      box-shadow: 0 10px 25px rgba(255, 133, 162, 0.12), inset 0 0 0 2px #fce4ec;
       position: relative;
       min-height: 85vh;
       display: flex;
@@ -45,14 +45,14 @@
       margin-top: 10px;
     }
 
-    /* Portada Deslizable */
+    /* Portada Deslizable Rosa Pastel */
     .cover-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: #fdf6ec;
+      background: #fff5f7;
       border-radius: 18px;
       z-index: 100;
       display: flex;
@@ -61,8 +61,8 @@
       align-items: center;
       padding: 20px;
       transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      border: 3px solid #ebdcc5;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      border: 3px solid #f8bbd0;
     }
 
     .cover-overlay.open {
@@ -70,12 +70,12 @@
     }
 
     .cover-box {
-      border: 3px solid #8e7dbe;
-      border-radius: 12px;
+      border: 3px solid #ff85a2;
+      border-radius: 14px;
       padding: 25px 40px;
       background: #ffffff;
       text-align: center;
-      box-shadow: 0 4px 12px rgba(142, 125, 190, 0.15);
+      box-shadow: 0 4px 15px rgba(255, 133, 162, 0.2);
       position: relative;
       cursor: pointer;
     }
@@ -83,7 +83,7 @@
     .cover-title {
       font-family: 'Caveat', cursive;
       font-size: 3.2rem;
-      color: #6c5ce7;
+      color: #ff5c8a;
       font-weight: 700;
     }
 
@@ -99,7 +99,7 @@
     .cover-hint {
       margin-top: 30px;
       font-size: 0.95rem;
-      color: #95a5a6;
+      color: #d88c9a;
       animation: bounce 1.8s infinite;
     }
 
@@ -108,43 +108,43 @@
       50% { transform: translateY(-6px); }
     }
 
-    /* Pestañas Superiores */
+    /* Pestañas Superiores Pastel */
     .tabs-header {
       display: flex;
-      background: #eae2d6;
+      background: #fae1e6;
       padding: 8px 8px 0 8px;
       gap: 6px;
-      border-bottom: 2px solid #e0d5c3;
+      border-bottom: 2px solid #f3c2cb;
     }
 
     .tab-btn {
       flex: 1;
       padding: 10px 0;
       border: none;
-      background: #dfd4c3;
+      background: #f5cbd3;
       border-radius: 10px 10px 0 0;
       font-family: 'Caveat', cursive;
       font-size: 1.5rem;
       font-weight: 700;
-      color: #7f8c8d;
+      color: #a86c78;
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .tab-btn.active {
-      background: #fffdf9;
-      color: #6c5ce7;
-      border-top: 3px solid #8e7dbe;
+      background: #fffdfd;
+      color: #ff5c8a;
+      border-top: 3px solid #ff85a2;
       box-shadow: 0 -2px 6px rgba(0,0,0,0.04);
     }
 
     .cover-back-btn {
-      background: #f1dfd1;
-      border: 1px solid #e2c2a8;
+      background: #fde2e4;
+      border: 1px solid #f8bbd0;
       border-radius: 8px;
       padding: 4px 10px;
       font-size: 0.8rem;
-      color: #a86b43;
+      color: #d65a78;
       cursor: pointer;
       align-self: center;
       margin-left: auto;
@@ -168,14 +168,14 @@
       font-family: 'Caveat', cursive;
       font-size: 2.2rem;
       text-align: center;
-      color: #5c4b8b;
+      color: #d65a78;
       margin-bottom: 4px;
     }
 
     .sub-title {
       text-align: center;
       font-size: 0.85rem;
-      color: #8e9aaf;
+      color: #b8979e;
       margin-bottom: 16px;
     }
 
@@ -189,9 +189,9 @@
     .photo-card {
       background: white;
       padding: 6px 6px 12px 6px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-      border: 1px solid #f0e6d2;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(255, 133, 162, 0.08);
+      border: 1px solid #fce4ec;
       width: 48%;
       transform: rotate(-2deg);
     }
@@ -204,22 +204,22 @@
       width: 100%;
       height: 130px;
       object-fit: cover;
-      border-radius: 6px;
+      border-radius: 8px;
     }
 
     .card-box {
       background: #fff;
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 16px;
       margin-bottom: 18px;
-      border: 1px solid #ebdcc5;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      border: 1px solid #fce4ec;
+      box-shadow: 0 2px 8px rgba(255, 133, 162, 0.04);
     }
 
     .section-h2 {
       font-family: 'Caveat', cursive;
       font-size: 1.6rem;
-      color: #6c5ce7;
+      color: #ff5c8a;
       text-align: center;
       margin-bottom: 8px;
     }
@@ -234,32 +234,34 @@
     .dynamic-phrase {
       font-size: 1.05rem;
       font-style: italic;
-      color: #2d3436;
+      color: #3d3536;
       text-align: center;
       margin: 12px 0;
       min-height: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 0 10px;
     }
 
     .action-btn {
       display: block;
       width: 100%;
       padding: 10px;
-      background: #8e7dbe;
+      background: #ff85a2;
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       font-weight: 600;
       font-size: 0.9rem;
       cursor: pointer;
       text-align: center;
       transition: background 0.2s;
+      box-shadow: 0 3px 10px rgba(255, 133, 162, 0.25);
     }
 
     .action-btn:active {
-      background: #7a68ab;
+      background: #ff6b8b;
     }
 
     /* Grid del Buzón */
@@ -271,9 +273,9 @@
     }
 
     .mail-btn {
-      background: #fdf8f2;
-      border: 1px solid #e8dec8;
-      border-radius: 10px;
+      background: #fff5f7;
+      border: 1px solid #f8bbd0;
+      border-radius: 12px;
       padding: 12px 8px;
       font-size: 0.85rem;
       color: #4a3e3d;
@@ -283,6 +285,11 @@
       flex-direction: column;
       align-items: center;
       gap: 4px;
+      transition: background 0.2s;
+    }
+
+    .mail-btn:active {
+      background: #fde2e4;
     }
 
     .mail-btn span {
@@ -301,6 +308,7 @@
     .color-picker {
       display: flex;
       gap: 6px;
+      align-items: center;
     }
 
     .color-btn {
@@ -309,21 +317,22 @@
       border-radius: 50%;
       border: 2px solid white;
       cursor: pointer;
-      box-shadow: 0 0 0 1px #ccc;
+      box-shadow: 0 0 0 1px #d88c9a;
     }
 
     .color-btn.active {
       transform: scale(1.15);
-      box-shadow: 0 0 0 2px #6c5ce7;
+      box-shadow: 0 0 0 2px #ff5c8a;
     }
 
     #drawingCanvas {
       width: 100%;
-      height: 360px;
+      height: 380px;
       background: #ffffff;
-      border: 2px dashed #dcd0c0;
-      border-radius: 12px;
+      border: 2px dashed #f8bbd0;
+      border-radius: 14px;
       touch-action: none;
+      -webkit-touch-callout: none;
       cursor: crosshair;
     }
 
@@ -336,7 +345,7 @@
     .disc-icon {
       width: 90px;
       height: 90px;
-      background: #2d3436;
+      background: #4a3e3d;
       border-radius: 50%;
       margin: 0 auto 16px auto;
       display: flex;
@@ -344,12 +353,12 @@
       justify-content: center;
       color: white;
       font-size: 2rem;
-      border: 4px solid #dfe6e9;
+      border: 4px solid #fce4ec;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
     .play-btn {
-      background: #e84393;
+      background: #ff5c8a;
       color: white;
       border: none;
       padding: 12px 24px;
@@ -358,7 +367,7 @@
       font-weight: 700;
       cursor: pointer;
       margin-top: 15px;
-      box-shadow: 0 4px 12px rgba(232, 67, 147, 0.25);
+      box-shadow: 0 4px 12px rgba(255, 92, 138, 0.3);
     }
 
     /* Modal emergente */
@@ -375,13 +384,13 @@
 
     .modal-content {
       background: white;
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 20px;
       max-width: 360px;
       width: 100%;
       text-align: center;
-      border: 2px solid #8e7dbe;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      border: 2px solid #ff85a2;
+      box-shadow: 0 10px 25px rgba(255, 133, 162, 0.2);
     }
 
     .modal-text {
@@ -461,11 +470,13 @@
       <div class="canvas-controls">
         <div class="color-picker">
           <div class="color-btn active" style="background: #4a3e3d;" onclick="setColor('#4a3e3d', this)"></div>
-          <div class="color-btn" style="background: #e84393;" onclick="setColor('#e84393', this)"></div>
+          <div class="color-btn" style="background: #ff5c8a;" onclick="setColor('#ff5c8a', this)"></div>
           <div class="color-btn" style="background: #0984e3;" onclick="setColor('#0984e3', this)"></div>
           <div class="color-btn" style="background: #00b894;" onclick="setColor('#00b894', this)"></div>
+          <!-- Selector de color personalizado -->
+          <input type="color" id="customColor" onchange="setCustomColor(this.value)" title="Elegir otro color" style="width: 26px; height: 26px; border: none; border-radius: 50%; cursor: pointer; background: none;">
         </div>
-        <button class="action-btn" style="width: auto; padding: 6px 12px; background: #d63031;" onclick="clearCanvas()">Borrar</button>
+        <button class="action-btn" style="width: auto; padding: 6px 12px; background: #e84393;" onclick="clearCanvas()">Borrar</button>
       </div>
 
       <canvas id="drawingCanvas"></canvas>
@@ -501,7 +512,7 @@
   </div>
 
   <script>
-    // Frases de 12 horas
+    // Frases ampliadas y variadas
     const phrases = [
       "creo en ti 🐽",
       "Un pequeño recordatorio para hoy: tómate un respiro, lo estás haciendo genial, Sami.",
@@ -512,18 +523,36 @@
       "Tu esfuerzo vale totalmente la pena, no te rindas.",
       "Sonríe un poco, te ves mejor cuando estás tranquila.",
       "Cree en ti tanto como yo creo en ti.",
-      "Hoy es un buen día para estar orgullosa de lo que has logrado."
+      "Hoy es un buen día para estar orgullosa de lo que has logrado.",
+      "Confía en tu talento y en todo lo que llevas dentro.",
+      "Incluso en los días grises, brillas con luz propia.",
+      "Date el crédito que mereces por cada pequeño avance.",
+      "Recuerda que no tienes que ser perfecta en todo, solo haz tu mejor esfuerzo.",
+      "Tómate un vaso con agua y respira hondo, todo va a salir bien.",
+      "Me da mucho orgullo ver lo fuerte y dedicada que eres.",
+      "Si necesitas un respiro, tómalo sin culpa. Te lo mereces.",
+      "Cada pequeño paso cuenta, por más pequeño que parezca.",
+      "Eres más fuerte de lo que imaginas y más capaz de lo que crees.",
+      "Que nada apague esa bonita energía que tienes."
     ];
+
+    let lastPhraseIndex = -1;
 
     function updateDailyPhrase() {
       const now = new Date();
       const hours12Block = Math.floor(now.getTime() / (12 * 60 * 60 * 1000));
       const index = hours12Block % phrases.length;
+      lastPhraseIndex = index;
       document.getElementById('phraseDisplay').innerText = `"${phrases[index]}"`;
     }
 
     function getRandomPhrase() {
-      const randomIndex = Math.floor(Math.random() * phrases.length);
+      let randomIndex;
+      do {
+        randomIndex = Math.floor(Math.random() * phrases.length);
+      } while (randomIndex === lastPhraseIndex && phrases.length > 1);
+      
+      lastPhraseIndex = randomIndex;
       document.getElementById('phraseDisplay').innerText = `"${phrases[randomIndex]}"`;
     }
 
@@ -546,7 +575,7 @@
       });
 
       if (tabNumber === 2) {
-        setTimeout(initCanvas, 50); // Ajusta tamaño y carga garabatos
+        setTimeout(resizeAndDrawCanvas, 100);
       }
     }
 
@@ -567,7 +596,7 @@
       showModal("Lamento que te sientas así. Recuerda tomarte las cosas con calma, respirar y recordar que esto también pasará. 🌧️");
     }
     function mailDoubt() {
-      showModal("Ese pensamiento no tiene la razón. Eres una persona increíblemente valiosa, inteligente y fuerte. No lo dudes nunca. 💭");
+      showModal("Ese pensamiento no tiene la razón. Eres una persona increíblemente valiosa, inteligente y fuerte. No lo dudas nunca. 💭");
     }
     function mailTalk() {
       showModal("Sabes perfectamente que puedes mandarme un mensaje en cualquier momento. Aquí estoy para escucharte siempre. 💬");
@@ -587,70 +616,86 @@
       }
     }
 
-    // Canvas Corregido
+    // --- LIENZO ROBUSTO CON COLOR PERSONALIZADO ---
     const canvas = document.getElementById('drawingCanvas');
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
     let currentColor = '#4a3e3d';
 
-    function initCanvas() {
+    function resizeAndDrawCanvas() {
       const rect = canvas.getBoundingClientRect();
-      if (canvas.width !== rect.width || canvas.height !== rect.height) {
-        // Guardar dibujo previo
+      if (rect.width === 0 || rect.height === 0) return;
+
+      if (canvas.width !== Math.floor(rect.width) || canvas.height !== Math.floor(rect.height)) {
         const tempCanvas = document.createElement('canvas');
         tempCanvas.width = canvas.width;
         tempCanvas.height = canvas.height;
-        const tempCtx = tempCanvas.getContext('2d');
-        tempCtx.drawImage(canvas, 0, 0);
+        if (canvas.width > 0 && canvas.height > 0) {
+          tempCanvas.getContext('2d').drawImage(canvas, 0, 0);
+        }
 
-        canvas.width = rect.width;
-        canvas.height = rect.height;
+        canvas.width = Math.floor(rect.width);
+        canvas.height = Math.floor(rect.height);
 
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 4;
         ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
         ctx.strokeStyle = currentColor;
 
-        // Restaurar o cargar dibujo
         const savedData = localStorage.getItem('sami_doodle');
         if (savedData) {
           const img = new Image();
           img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           img.src = savedData;
-        } else {
+        } else if (tempCanvas.width > 0) {
           ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
         }
+      } else {
+        ctx.lineWidth = 4;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.strokeStyle = currentColor;
       }
     }
 
-    function getPos(e) {
+    function getCoords(e) {
       const rect = canvas.getBoundingClientRect();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      let clientX = e.clientX;
+      let clientY = e.clientY;
+
+      if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      }
+
       return {
         x: clientX - rect.left,
         y: clientY - rect.top
       };
     }
 
-    function startDrawing(e) {
+    function startDraw(e) {
       isDrawing = true;
-      const pos = getPos(e);
+      const coords = getCoords(e);
       ctx.beginPath();
-      ctx.moveTo(pos.x, pos.y);
+      ctx.moveTo(coords.x, coords.y);
     }
 
-    function draw(e) {
+    function drawing(e) {
       if (!isDrawing) return;
-      e.preventDefault();
-      const pos = getPos(e);
-      ctx.lineTo(pos.x, pos.y);
+      if (e.cancelable) e.preventDefault();
+      const coords = getCoords(e);
+      ctx.lineTo(coords.x, coords.y);
       ctx.stroke();
     }
 
-    function stopDrawing() {
+    function stopDraw() {
       if (isDrawing) {
         isDrawing = false;
-        localStorage.setItem('sami_doodle', canvas.toDataURL());
+        ctx.closePath();
+        try {
+          localStorage.setItem('sami_doodle', canvas.toDataURL());
+        } catch(err) {}
       }
     }
 
@@ -661,20 +706,26 @@
       element.classList.add('active');
     }
 
+    function setCustomColor(color) {
+      currentColor = color;
+      ctx.strokeStyle = color;
+      document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
+    }
+
     function clearCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       localStorage.removeItem('sami_doodle');
     }
 
-    // Eventos Canvas (Mouse y Touch)
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', stopDrawing);
-    canvas.addEventListener('mouseleave', stopDrawing);
+    // Eventos táctiles y ratón unificados
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', drawing);
+    canvas.addEventListener('mouseup', stopDraw);
+    canvas.addEventListener('mouseleave', stopDraw);
 
-    canvas.addEventListener('touchstart', startDrawing, { passive: false });
-    canvas.addEventListener('touchmove', draw, { passive: false });
-    canvas.addEventListener('touchend', stopDrawing);
+    canvas.addEventListener('touchstart', startDraw, { passive: false });
+    canvas.addEventListener('touchmove', drawing, { passive: false });
+    canvas.addEventListener('touchend', stopDraw);
 
     // Inicialización al cargar la ventana
     window.onload = () => {
