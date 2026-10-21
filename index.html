@@ -53,7 +53,7 @@
       margin-top: 20px;
     }
 
-    /* Portada Estilo Libro Real */
+    /* Portada Estilo Libro Real (Con overflow hidden para que no se salga al abrirse) */
     .cover-overlay {
       position: absolute;
       top: 0;
@@ -72,7 +72,7 @@
       box-shadow: 0 5px 20px rgba(0,0,0,0.1);
       border: 4px solid #f48fb1;
       border-left: 18px solid #ad1457;
-      overflow: hidden;
+      overflow: hidden; /* Esto oculta la portada dentro de sus propios límites al abrirse */
     }
 
     .cover-overlay.open {
@@ -146,7 +146,7 @@
       50% { transform: translateY(-6px); }
     }
 
-    /* Pestañas Superiores Alineadas y sin traslape */
+    /* Pestañas Superiores */
     .tabs-header {
       display: flex;
       background: #fce4ec;
@@ -194,7 +194,7 @@
       margin-left: 4px;
     }
 
-    /* Contenido de Páginas con margen superior limpio */
+    /* Contenido de Páginas */
     .page-content {
       display: none;
       padding: 24px 16px 20px 16px;
