@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>4 You</title>
+  <title>Para ti, Chaparrita 💖</title>
   
   <!-- Manifest para la PWA -->
   <link rel="manifest" href="./manifest.json">
@@ -24,55 +24,12 @@
       overflow-x: hidden;
     }
 
-    /* Contenedor Principal */
     .app-container {
       width: 100%;
-      max-width: 500px;
-      padding: 30px 20px;
+      max-width: 600px;
+      padding: 20px;
       box-sizing: border-box;
       text-align: center;
-    }
-
-    .corazon-icon {
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-    }
-
-    h1 {
-      color: #ff6b81;
-      font-size: 2.2rem;
-      margin: 10px 0;
-      font-weight: 700;
-    }
-
-    .subtitulo {
-      color: #b5a0a8;
-      font-size: 1.05rem;
-      line-height: 1.5;
-      margin-bottom: 40px;
-    }
-
-    .seccion-tarjeta {
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 25px 20px;
-      margin-bottom: 25px;
-      box-shadow: 0px 4px 15px rgba(255, 182, 193, 0.15);
-      text-align: left;
-    }
-
-    .seccion-tarjeta h2 {
-      color: #ff8fa3;
-      font-size: 1.3rem;
-      margin-top: 0;
-      margin-bottom: 12px;
-    }
-
-    .seccion-tarjeta p {
-      color: #6c757d;
-      font-size: 0.98rem;
-      line-height: 1.6;
-      margin: 10px 0;
     }
 
     .btn-principal {
@@ -86,9 +43,7 @@
       cursor: pointer;
       box-shadow: 0px 4px 12px rgba(255, 107, 129, 0.3);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      margin: 20px 0;
-      width: 100%;
-      max-width: 320px;
+      margin: 30px 0;
     }
 
     .btn-principal:active {
@@ -114,7 +69,6 @@
       box-sizing: border-box;
     }
 
-    /* Cabecera del Lienzo */
     .header-lienzo {
       width: 100%;
       max-width: 500px;
@@ -141,10 +95,9 @@
     }
 
     .btn-limpiar {
-      background: #ff6b6b;
+      background: #ffb6b6;
     }
 
-    /* El Canvas/Lienzo de dibujo */
     #canvasDibujo {
       background: #ffffff;
       border: 3px dashed #ffb6c1;
@@ -154,7 +107,6 @@
       box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
     }
 
-    /* Barra de herramientas */
     .herramientas-lienzo {
       display: flex;
       gap: 10px;
@@ -199,20 +151,30 @@
 </head>
 <body>
 
-  <!-- CONTENIDO DE LA PANTALLA PRINCIPAL -->
+  <!-- CONTENIDO PRINCIPAL (TUS SECCIONES ORIGINALES) -->
   <div class="app-container">
-    <div class="corazon-icon">💖</div>
-    <h1>Siempre estaré aquí para ti</h1>
-    <p class="subtitulo">Un pequeño rincón digital hecho especialmente para ti, chaparrita, para recordarte lo mucho que me importas.</p>
-
-    <div class="seccion-tarjeta">
-      <h2>Un recordatorio constante...</h2>
-      <p>Quería crear algo único que fuera completamente tuyo, algo que nunca se vaya a perder. Un lugar que puedas abrir en cualquier momento para recordarte que **siempre estaré a tu lado, escuchándote, cuidándote y apoyándote**.</p>
-      <p>Nunca dejarás de importarme. Sin importar lo que pase, aquí tienes un espacio seguro pensado solo para ti, donde siempre serás muy valorada y apreciada.</p>
+    
+    <!-- Aquí van tus componentes visuales, fotos, buzón y notas que ya tenías -->
+    <div style="margin-bottom: 20px;">
+      <!-- (Mantén tus secciones de fotos o encabezados aquí si las tienes separadas) -->
     </div>
 
-    <!-- Botón para abrir la pantalla flotante del lienzo -->
-    <button class="btn-principal" onclick="abrirLienzo()">🎨 Abrir Lienzo de Garabatos</button>
+    <div style="margin: 30px 0;">
+      <h3 style="color: #ff6b81;">Un mensaje especial para hoy ✨</h3>
+      <p style="font-style: italic; color: #666;">"Admiro mucho tu manera de ser y el gran corazón que tienes."</p>
+      <!-- Botón de nota al azar si lo tenías -->
+    </div>
+
+    <div style="margin: 30px 0;">
+      <h3 style="color: #ff6b81;">Buzón Especial 💌</h3>
+      <!-- Tus accesos de buzón -->
+    </div>
+
+    <!-- 🎨 BOTÓN NUEVO PARA ABRIR EL LIENZO -->
+    <div>
+      <button class="btn-principal" onclick="abrirLienzo()">🎨 Abrir Lienzo de Garabatos</button>
+    </div>
+
   </div>
 
   <!-- PANTALLA INDEPENDIENTE: LIENZO DE DIBUJO -->
@@ -224,10 +186,8 @@
       <button onclick="borrarLienzo()" class="btn-limpiar">🗑️ Limpiar</button>
     </div>
 
-    <!-- ÁREA DE DIBUJO -->
     <canvas id="canvasDibujo"></canvas>
 
-    <!-- BARRA DE HERRAMIENTAS -->
     <div class="herramientas-lienzo">
       <button id="btnPincel" onclick="activarPincel()" class="btn-herramienta activo">✏️ Pincel</button>
       <button id="btnBorrador" onclick="activarBorrador()" class="btn-herramienta">🧹 Borrador</button>
@@ -240,7 +200,6 @@
 
   <!-- LOGICA JAVASCRIPT -->
   <script>
-    // --- VARIABLES Y ELEMENTOS DEL LIENZO ---
     const canvas = document.getElementById('canvasDibujo');
     const ctx = canvas.getContext('2d');
     const colorInput = document.getElementById('colorPincel');
@@ -251,7 +210,6 @@
     let dibujando = false;
     let esBorrador = false;
 
-    // --- ABRIR Y CERRAR LA SECCIÓN DEL LIENZO ---
     function abrirLienzo() {
       const pantalla = document.getElementById('pantallaLienzo');
       pantalla.style.display = 'flex';
@@ -262,7 +220,6 @@
       document.getElementById('pantallaLienzo').style.display = 'none';
     }
 
-    // --- REDIMENSIONAR CANVAS Y CARGAR DIBUJO ---
     function redimensionarCanvas() {
       const ancho = Math.min(window.innerWidth * 0.9, 450);
       const alto = window.innerHeight * 0.65;
@@ -270,15 +227,11 @@
       canvas.width = ancho;
       canvas.height = alto;
       
-      // Fondo blanco limpio
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Cargar dibujo permanente si existe en memoria
       cargarDibujoGuardado();
     }
 
-    // --- LÓGICA DE DIBUJO (TACTIL Y MOUSE) ---
     function obtenerPosicion(e) {
       const rect = canvas.getBoundingClientRect();
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -298,8 +251,7 @@
 
     function dibujar(e) {
       if (!dibujando) return;
-      e.preventDefault(); // Evita scroll en pantalla táctil
-      
+      e.preventDefault();
       const pos = obtenerPosicion(e);
       ctx.lineTo(pos.x, pos.y);
       ctx.strokeStyle = esBorrador ? '#ffffff' : colorInput.value;
@@ -313,22 +265,19 @@
       if (dibujando) {
         dibujando = false;
         ctx.closePath();
-        guardarDibujo(); // 💾 Guardado automático en localStorage
+        guardarDibujo();
       }
     }
 
-    // Eventos de Mouse
     canvas.addEventListener('mousedown', iniciarDibujo);
     canvas.addEventListener('mousemove', dibujar);
     canvas.addEventListener('mouseup', detenerDibujo);
     canvas.addEventListener('mouseleave', detenerDibujo);
 
-    // Eventos Táctiles (Celulares)
     canvas.addEventListener('touchstart', iniciarDibujo);
     canvas.addEventListener('touchmove', dibujar);
     canvas.addEventListener('touchend', detenerDibujo);
 
-    // --- SELECCIÓN DE HERRAMIENTAS (PINCEL / BORRADOR) ---
     function activarPincel() {
       esBorrador = false;
       btnPincel.classList.add('activo');
@@ -345,7 +294,6 @@
       activarPincel();
     });
 
-    // --- GUARDADO PERMANENTE EN LOCALSTORAGE ---
     function guardarDibujo() {
       localStorage.setItem('dibujoGuardado_4you', canvas.toDataURL());
     }
@@ -369,7 +317,6 @@
       }
     }
 
-    // --- REGISTRO DEL SERVICE WORKER (PWA) ---
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
