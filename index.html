@@ -2,460 +2,623 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>4-You | Cuaderno Especial</title>
-
-  <!-- Cache Control Guardrails -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-
-  <!-- Manifest PWA & Theme Color -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>4 You</title>
   <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#fdf6f6">
-  <link rel="apple-touch-icon" href="./foto1.jpg">
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Google Fonts: Comfortaa (Títulos) & Inter (Lectura) -->
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
+  <meta name="theme-color" content="#fdfbf7">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #fdf6f6;
-      background-image: radial-gradient(#e5c7c9 1px, transparent 1px);
-      background-size: 22px 22px;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
       user-select: none;
       -webkit-user-select: none;
     }
 
-    h1, h2, h3, .font-notebook {
-      font-family: 'Comfortaa', cursive;
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: #f4ece1;
+      color: #4a3e3d;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 10px;
+      overflow-x: hidden;
     }
 
-    /* Anillos de espiral lateral para efecto de libreta */
-    .binder-ring {
-      background: linear-gradient(90deg, #c5cad3 0%, #ffffff 50%, #9ca3af 100%);
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.3), 1px 2px 4px rgba(0,0,0,0.15);
+    .book-container {
+      width: 100%;
+      max-width: 480px;
+      background: #fffdf9;
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08), inset 0 0 0 2px #e8dec8;
+      position: relative;
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      margin-top: 10px;
     }
 
-    /* Scrollbar personalizada suave */
-    ::-webkit-scrollbar {
-      width: 6px;
+    /* Portada Deslizable */
+    .cover-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fdf6ec;
+      border-radius: 18px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border: 3px solid #ebdcc5;
     }
-    ::-webkit-scrollbar-track {
-      background: #fdf6f6;
+
+    .cover-overlay.open {
+      transform: translateY(-100%);
     }
-    ::-webkit-scrollbar-thumb {
-      background: #f4a261;
+
+    .cover-box {
+      border: 3px solid #8e7dbe;
+      border-radius: 12px;
+      padding: 25px 40px;
+      background: #ffffff;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(142, 125, 190, 0.15);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .cover-title {
+      font-family: 'Caveat', cursive;
+      font-size: 3.2rem;
+      color: #6c5ce7;
+      font-weight: 700;
+    }
+
+    .cover-doodle {
+      position: absolute;
+      font-size: 1.2rem;
+    }
+    .tl { top: -10px; left: -10px; }
+    .tr { top: -10px; right: -10px; }
+    .bl { bottom: -10px; left: -10px; }
+    .br { bottom: -10px; right: -10px; }
+
+    .cover-hint {
+      margin-top: 30px;
+      font-size: 0.95rem;
+      color: #95a5a6;
+      animation: bounce 1.8s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* Pestañas Superiores */
+    .tabs-header {
+      display: flex;
+      background: #eae2d6;
+      padding: 8px 8px 0 8px;
+      gap: 6px;
+      border-bottom: 2px solid #e0d5c3;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 10px 0;
+      border: none;
+      background: #dfd4c3;
+      border-radius: 10px 10px 0 0;
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #7f8c8d;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: #fffdf9;
+      color: #6c5ce7;
+      border-top: 3px solid #8e7dbe;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.04);
+    }
+
+    .cover-back-btn {
+      background: #f1dfd1;
+      border: 1px solid #e2c2a8;
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      color: #a86b43;
+      cursor: pointer;
+      align-self: center;
+      margin-left: auto;
+    }
+
+    /* Contenido de Páginas */
+    .page-content {
+      display: none;
+      padding: 20px 16px;
+      flex: 1;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .page-content.active {
+      display: flex;
+    }
+
+    /* Pestaña 1 Estilos */
+    .main-title {
+      font-family: 'Caveat', cursive;
+      font-size: 2.2rem;
+      text-align: center;
+      color: #5c4b8b;
+      margin-bottom: 4px;
+    }
+
+    .sub-title {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #8e9aaf;
+      margin-bottom: 16px;
+    }
+
+    .photos-container {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .photo-card {
+      background: white;
+      padding: 6px 6px 12px 6px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+      border: 1px solid #f0e6d2;
+      width: 48%;
+      transform: rotate(-2deg);
+    }
+
+    .photo-card:nth-child(2) {
+      transform: rotate(2deg);
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .card-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 18px;
+      border: 1px solid #ebdcc5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+
+    .section-h2 {
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      color: #6c5ce7;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .constant-text {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #5a5050;
+      text-align: center;
+    }
+
+    .dynamic-phrase {
+      font-size: 1.05rem;
+      font-style: italic;
+      color: #2d3436;
+      text-align: center;
+      margin: 12px 0;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .action-btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: #8e7dbe;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .action-btn:active {
+      background: #7a68ab;
+    }
+
+    /* Grid del Buzón */
+    .mailbox-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .mail-btn {
+      background: #fdf8f2;
+      border: 1px solid #e8dec8;
       border-radius: 10px;
+      padding: 12px 8px;
+      font-size: 0.85rem;
+      color: #4a3e3d;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
     }
 
-    /* Transición suave para la portada estilo libro */
-    #coverScreen {
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+    .mail-btn span {
+      font-size: 1.3rem;
     }
-    #coverScreen.cover-closed {
-      transform: translateY(0);
-      opacity: 1;
-      pointer-events: auto;
+
+    /* Pestaña 2: Lienzo */
+    .canvas-controls {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+      align-items: center;
+      justify-content: space-between;
     }
-    #coverScreen.cover-open {
-      transform: translateY(-110%);
-      opacity: 0;
-      pointer-events: none;
+
+    .color-picker {
+      display: flex;
+      gap: 6px;
+    }
+
+    .color-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid white;
+      cursor: pointer;
+      box-shadow: 0 0 0 1px #ccc;
+    }
+
+    .color-btn.active {
+      transform: scale(1.15);
+      box-shadow: 0 0 0 2px #6c5ce7;
+    }
+
+    #drawingCanvas {
+      width: 100%;
+      height: 360px;
+      background: #ffffff;
+      border: 2px dashed #dcd0c0;
+      border-radius: 12px;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    /* Pestaña 3: Música */
+    .music-box {
+      text-align: center;
+      padding: 20px 10px;
+    }
+
+    .disc-icon {
+      width: 90px;
+      height: 90px;
+      background: #2d3436;
+      border-radius: 50%;
+      margin: 0 auto 16px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      border: 4px solid #dfe6e9;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .play-btn {
+      background: #e84393;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 20px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 15px;
+      box-shadow: 0 4px 12px rgba(232, 67, 147, 0.25);
+    }
+
+    /* Modal emergente */
+    .modal {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 200;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+      border: 2px solid #8e7dbe;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .modal-text {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #333;
+      margin-bottom: 16px;
     }
   </style>
 </head>
-<body class="min-h-screen text-slate-800 flex flex-col items-center justify-start p-3 sm:p-5 pb-12">
+<body>
 
-  <!-- ==================== PORTADA DEL LIBRO (PANTALLA DE INICIO) ==================== -->
-  <div id="coverScreen" class="fixed inset-0 bg-[#fbf2ef] z-50 flex items-center justify-center p-4 cover-closed shadow-2xl">
-    <div onclick="openBook()" class="relative w-full max-w-sm bg-[#fffdf9] border-4 border-rose-200 rounded-3xl p-8 shadow-2xl cursor-pointer hover:scale-[1.01] transition duration-300 flex flex-col items-center justify-between min-h-[480px]">
-      
-      <!-- Garabato Esquina Superior Izquierda -->
-      <svg class="absolute top-3 left-3 w-10 h-10 text-rose-300" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6">
-        <path d="M 20 20 Q 50 10 80 20 Q 90 50 80 80 Q 50 90 20 80 Q 10 50 20 20 Z" />
-        <path d="M 30 30 Q 50 25 70 30" />
-      </svg>
-
-      <!-- Garabato Esquina Superior Derecha -->
-      <svg class="absolute top-3 right-3 w-10 h-10 text-rose-300" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6">
-        <path d="M 20 20 C 40 5 60 35 80 20 C 95 40 65 60 80 80 C 60 95 40 65 20 80 C 5 60 35 40 20 20 Z" />
-      </svg>
-
-      <!-- Garabato Esquina Inferior Izquierda -->
-      <svg class="absolute bottom-3 left-3 w-10 h-10 text-rose-300" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6">
-        <circle cx="50" cy="50" r="30" />
-        <path d="M 50 10 L 50 90 M 10 50 L 90 50" />
-      </svg>
-
-      <!-- Garabato Esquina Inferior Derecha -->
-      <svg class="absolute bottom-3 right-3 w-10 h-10 text-rose-300" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6">
-        <path d="M 10 50 Q 50 10 90 50 Q 50 90 10 50 Z" />
-      </svg>
-
-      <div class="mt-8 text-center">
-        <span class="text-xs font-bold uppercase tracking-widest text-rose-400">Cuaderno Personal</span>
+  <div class="book-container">
+    <!-- Portada -->
+    <div class="cover-overlay" id="cover">
+      <div class="cover-box" id="openCoverBtn">
+        <span class="cover-doodle tl">✨</span>
+        <span class="cover-doodle tr">🌱</span>
+        <span class="cover-doodle bl">🐽</span>
+        <span class="cover-doodle br">💫</span>
+        <div class="cover-title">4-You</div>
       </div>
-
-      <!-- Recuadro Central "4-You" -->
-      <div class="my-auto w-full border-4 border-dashed border-rose-300 rounded-2xl p-6 text-center bg-rose-50/50 shadow-inner">
-        <h1 class="text-3xl sm:text-4xl font-bold text-rose-600 tracking-wider font-notebook">
-          4-You
-        </h1>
-        <p class="text-xs text-rose-400 mt-2 font-medium">Un rincón especial para Sami</p>
-      </div>
-
-      <div class="mb-4 text-center space-y-2">
-        <p class="text-xs text-slate-400 animate-pulse font-medium">✨ Toca en cualquier parte para abrir ✨</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== CONTENEDOR PRINCIPAL DEL CUADERNO ==================== -->
-  <header class="w-full max-w-xl flex justify-between items-center mb-2 px-2">
-    <div class="text-xs font-bold text-rose-500 bg-rose-100/80 px-3 py-1 rounded-full border border-rose-200">
-      📖 Libreta de Sami
-    </div>
-    <button onclick="closeBook()" class="flex items-center gap-1.5 text-xs font-bold text-rose-600 bg-white hover:bg-rose-50 border border-rose-300 px-3 py-1.5 rounded-xl shadow-sm transition active:scale-95">
-      📕 Portada
-    </button>
-  </header>
-
-  <main class="w-full max-w-xl bg-white/95 backdrop-blur-md rounded-3xl shadow-xl border-2 border-rose-100 p-4 sm:p-6 relative transition-all duration-300">
-    
-    <!-- Espiral Lateral (Efecto Libreta Física) -->
-    <div class="absolute -left-2 top-12 bottom-12 flex flex-col justify-between pointer-events-none z-10">
-      <div class="w-4 h-4 rounded-full binder-ring border border-slate-400"></div>
-      <div class="w-4 h-4 rounded-full binder-ring border border-slate-400"></div>
-      <div class="w-4 h-4 rounded-full binder-ring border border-slate-400"></div>
-      <div class="w-4 h-4 rounded-full binder-ring border border-slate-400"></div>
-      <div class="w-4 h-4 rounded-full binder-ring border border-slate-400"></div>
-      <div class="w-4 h-4 rounded-full binder-ring border border-slate-400"></div>
+      <div class="cover-hint">Toca la libreta para abrir 📖</div>
     </div>
 
-    <!-- Navegación por Pestañas (Tabs 1, 2, 3) -->
-    <div class="flex gap-2 mb-6 border-b-2 border-rose-100 pb-2 pl-4">
-      <button onclick="switchTab(1)" id="tab-1-btn" class="tab-btn px-5 py-2 rounded-t-2xl font-bold text-sm sm:text-base transition-all bg-rose-400 text-white shadow-md">
-        1
-      </button>
-      <button onclick="switchTab(2)" id="tab-2-btn" class="tab-btn px-5 py-2 rounded-t-2xl font-bold text-sm sm:text-base transition-all bg-rose-100 text-rose-600 hover:bg-rose-200">
-        2 🎨
-      </button>
-      <button onclick="switchTab(3)" id="tab-3-btn" class="tab-btn px-5 py-2 rounded-t-2xl font-bold text-sm sm:text-base transition-all bg-rose-100 text-rose-600 hover:bg-rose-200">
-        3 🎧
-      </button>
+    <!-- Navegación por pestañas -->
+    <div class="tabs-header">
+      <button class="tab-btn active" onclick="switchTab(1)">1</button>
+      <button class="tab-btn" onclick="switchTab(2)">2</button>
+      <button class="tab-btn" onclick="switchTab(3)">3</button>
+      <button class="cover-back-btn" onclick="closeCover()">📕 Portada</button>
     </div>
 
-    <!-- ==================== PESTAÑA 1: INICIO & MENSAJES ==================== -->
-    <section id="tab-1" class="tab-content pl-2 sm:pl-3 space-y-6">
-      
-      <!-- 1. Título Principal Arriba -->
-      <div class="text-center space-y-1.5 pt-1">
-        <h1 class="text-xl sm:text-2xl font-bold text-rose-600 flex items-center justify-center gap-2 font-notebook">
-          Siempre estaré aquí para ti ✨
-        </h1>
-        <p class="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
-          Un pequeño rincón digital hecho especialmente para ti, chaparrita, para recordarte lo mucho que vales.
-        </p>
-      </div>
+    <!-- Pestaña 1: Notas y Mensajes -->
+    <div class="page-content active" id="tab1">
+      <h1 class="main-title">Siempre estaré aquí para ti ✨</h1>
+      <p class="sub-title">Un pequeño rincón hecho especialmente para Sami</p>
 
-      <!-- 2. Galería de Fotos (Polaroid) -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-2">
-        <div class="bg-amber-50/80 p-3 rounded-2xl border border-amber-200/80 shadow-sm transform -rotate-1 hover:rotate-0 transition duration-300">
-          <div class="overflow-hidden rounded-xl aspect-square bg-slate-100">
-            <img src="./foto1.jpg" alt="Foto 1" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x400/fecdd3/e11d48?text=Nuestra+Foto+1'">
-          </div>
+      <div class="photos-container">
+        <div class="photo-card">
+          <img src="./foto1.jpg" alt="Foto 1" onerror="this.src='https://via.placeholder.com/150?text=Sami+%26+Uriel'">
         </div>
-        <div class="bg-amber-50/80 p-3 rounded-2xl border border-amber-200/80 shadow-sm transform rotate-1 hover:rotate-0 transition duration-300">
-          <div class="overflow-hidden rounded-xl aspect-square bg-slate-100">
-            <img src="./foto2.jpg" alt="Foto 2" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x400/fecdd3/e11d48?text=Nuestra+Foto+2'">
-          </div>
+        <div class="photo-card">
+          <img src="./foto2.jpg" alt="Foto 2" onerror="this.src='https://via.placeholder.com/150?text=Recuerdos'">
         </div>
       </div>
 
-      <!-- 3. Recordatorio Constante bajo las fotos -->
-      <div class="bg-rose-50/80 border border-rose-200 rounded-2xl p-5 shadow-sm text-center space-y-2.5">
-        <h2 class="text-sm sm:text-base font-bold text-rose-700 font-notebook">
-          Un recordatorio constante...
-        </h2>
-        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+      <div class="card-box">
+        <h2 class="section-h2">Un recordatorio constante...</h2>
+        <p class="constant-text">
           Quería crear algo único que fuera completamente tuyo, algo que nunca se vaya a perder. Un lugar que puedas abrir en cualquier momento para recordarte que siempre estaré a tu lado, escuchándote, cuidándote y apoyándote en todo lo que hagas.
         </p>
       </div>
 
-      <!-- 4. Un mensaje especial para hoy (Rotación 12 hrs + Botón Azar) -->
-      <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200/90 rounded-2xl p-5 shadow-sm text-center space-y-3">
-        <h2 class="text-sm sm:text-base font-bold text-amber-800 font-notebook flex items-center justify-center gap-1.5">
-          Un mensaje especial para hoy ✨
-        </h2>
-        <p class="text-[10px] text-amber-600/80 font-medium">
-          (Se actualiza automáticamente cada 12 horas)
-        </p>
-        <div class="min-h-[50px] flex items-center justify-center px-2">
-          <p id="dailyMessage" class="text-xs sm:text-sm italic font-medium text-slate-700">
-            "Cargando nota del día..."
-          </p>
-        </div>
-        <button onclick="getRandomMessage()" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm hover:shadow transition transform active:scale-95 flex items-center justify-center gap-1.5 mx-auto">
-          Ver otra nota al azar 🎲
-        </button>
+      <div class="card-box">
+        <h2 class="section-h2">Un mensaje especial para hoy ✨</h2>
+        <p id="phraseDisplay" class="dynamic-phrase">Cargando tu mensaje...</p>
+        <button class="action-btn" onclick="getRandomPhrase()">Ver otra nota al azar 🎲</button>
       </div>
 
-      <!-- 5. Buzón Especial al final de la página -->
-      <div class="space-y-3 pt-1">
-        <h3 class="text-xs font-bold text-slate-700 flex items-center gap-1.5 uppercase tracking-wider">
-          📬 Buzón Especial
-        </h3>
-        <div class="grid grid-cols-2 gap-3">
-          <button onclick="openMailModal('Cuando te sientas triste 🌧️', 'Recuerda que no estás sola, Sami. Todos tenemos días difíciles, pero confío plenamente en ti y sé lo fuerte que eres. Tómate las cosas un paso a la vez, aquí estoy si quieres hablar o solo estar en silencio.')" class="bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-800 rounded-xl p-3 text-left transition flex flex-col justify-between shadow-sm active:scale-95">
-            <span class="text-[10px] font-bold uppercase text-blue-500">Abre cuando...</span>
-            <span class="text-xs font-semibold mt-1">te sientas triste 🌧️</span>
-          </button>
-          
-          <button onclick="openMailModal('Cuando sientas estrés ⚡', 'Inhala profundo, chaparrita. Nada es tan grave como parece en este momento. Tómate un respiro, bebe un poco de agua y recuerda que lo estás haciendo súper bien.')" class="bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 rounded-xl p-3 text-left transition flex flex-col justify-between shadow-sm active:scale-95">
-            <span class="text-[10px] font-bold uppercase text-amber-500">Abre cuando...</span>
-            <span class="text-xs font-semibold mt-1">sientas estrés ⚡</span>
-          </button>
-
-          <button onclick="openMailModal('Cuando quieras sonreír 😊', '¿Sabías que tu sonrisa ilumina todo a tu alrededor? Gracias por ser esa persona tan auténtica y genial. Nunca dejes de brillar.')" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 rounded-xl p-3 text-left transition flex flex-col justify-between shadow-sm active:scale-95">
-            <span class="text-[10px] font-bold uppercase text-emerald-500">Abre cuando...</span>
-            <span class="text-xs font-semibold mt-1">quieras sonreír 😊</span>
-          </button>
-
-          <button onclick="openMailModal('Cuando tengas dudas 🤔', 'Dudes de lo que dudes, nunca dudes de tus capacidades ni de lo especial que eres. ¡Creo firmemente en ti! 🐽')" class="bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-800 rounded-xl p-3 text-left transition flex flex-col justify-between shadow-sm active:scale-95">
-            <span class="text-[10px] font-bold uppercase text-purple-500">Abre cuando...</span>
-            <span class="text-xs font-semibold mt-1">tengas dudas 🤔</span>
-          </button>
+      <div class="card-box">
+        <h2 class="section-h2">Buzón Especial 📬</h2>
+        <div class="mailbox-grid">
+          <button class="mail-btn" onclick="openMail('great')"><span>☀️</span>Tuviste un gran día</button>
+          <button class="mail-btn" onclick="mailSad()"><span>🌧️</span>Te sientes triste</button>
+          <button class="mail-btn" onclick="mailDoubt()"><span>💭</span>Dudas de tu valor</button>
+          <button class="mail-btn" onclick="mailTalk()"><span>💬</span>Quieres hablar</button>
         </div>
       </div>
+    </div>
 
-    </section>
+    <!-- Pestaña 2: Lienzo -->
+    <div class="page-content" id="tab2">
+      <h2 class="section-h2">Lienzo de Garabatos 🎨</h2>
+      <p class="sub-title">Un espacio libre para dibujar o escribir lo que quieras</p>
 
-    <!-- ==================== PESTAÑA 2: LIENZO DE GARABATOS ==================== -->
-    <section id="tab-2" class="tab-content pl-2 sm:pl-3 space-y-4 hidden">
-      <div class="text-center space-y-1">
-        <h2 class="text-lg font-bold text-rose-600 font-notebook flex items-center justify-center gap-2">
-          Lienzo de Garabatos 🎨
-        </h2>
-        <p class="text-xs text-slate-500">Un espacio libre para inspirarte y dibujar lo que quieras.</p>
-      </div>
-
-      <!-- Contenedor del Canvas -->
-      <div class="relative bg-white border-2 border-dashed border-rose-200 rounded-2xl overflow-hidden shadow-inner flex justify-center items-center">
-        <canvas id="doodleCanvas" class="w-full h-80 touch-none cursor-crosshair"></canvas>
-      </div>
-
-      <!-- Herramientas de Dibujo -->
-      <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 flex flex-wrap items-center justify-between gap-2">
-        <div class="flex items-center gap-2">
-          <input type="color" id="colorPicker" value="#f43f5e" class="w-8 h-8 rounded-lg cursor-pointer border border-slate-300">
-          <select id="brushSize" class="text-xs bg-white border border-slate-300 rounded-lg p-1.5 font-medium">
-            <option value="2">Pincel Fino</option>
-            <option value="5" selected>Medio</option>
-            <option value="12">Grueso</option>
-          </select>
+      <div class="canvas-controls">
+        <div class="color-picker">
+          <div class="color-btn active" style="background: #4a3e3d;" onclick="setColor('#4a3e3d', this)"></div>
+          <div class="color-btn" style="background: #e84393;" onclick="setColor('#e84393', this)"></div>
+          <div class="color-btn" style="background: #0984e3;" onclick="setColor('#0984e3', this)"></div>
+          <div class="color-btn" style="background: #00b894;" onclick="setColor('#00b894', this)"></div>
         </div>
-
-        <div class="flex items-center gap-2">
-          <button onclick="setEraser()" id="eraserBtn" class="bg-white border border-slate-300 text-slate-600 text-xs px-3 py-1.5 rounded-lg hover:bg-slate-100 font-medium transition">
-            🧹 Borrador
-          </button>
-          <button onclick="clearCanvas()" class="bg-rose-100 text-rose-600 text-xs px-3 py-1.5 rounded-lg hover:bg-rose-200 font-medium transition">
-            🗑️ Limpiar
-          </button>
-        </div>
-      </div>
-      <p class="text-[11px] text-center text-slate-400">Tu dibujo se guarda automáticamente ✨</p>
-    </section>
-
-    <!-- ==================== PESTAÑA 3: MÚSICA ==================== -->
-    <section id="tab-3" class="tab-content pl-2 sm:pl-3 space-y-6 hidden">
-      <div class="text-center space-y-2">
-        <div class="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mx-auto shadow-md">
-          <span class="text-3xl">🎧</span>
-        </div>
-        <!-- Título exacto "Tu Música 🎧" -->
-        <h2 class="text-lg font-bold text-slate-800 font-notebook">Tu Música 🎧</h2>
-        <p class="text-xs text-slate-500">Una canción especial para acompañar tu lectura.</p>
+        <button class="action-btn" style="width: auto; padding: 6px 12px; background: #d63031;" onclick="clearCanvas()">Borrar</button>
       </div>
 
-      <!-- Reproductor de Audio -->
-      <div class="bg-rose-50 border border-rose-200 rounded-2xl p-4 text-center space-y-3 max-w-md mx-auto shadow-sm">
-        <audio id="bgAudio" loop>
-          <source src="./cancion.mp3" type="audio/mpeg">
-        </audio>
-        <button id="playAudioBtn" onclick="toggleAudio()" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-6 rounded-xl shadow transition transform active:scale-95 flex items-center justify-center gap-2">
-          <span id="playIcon">▶️</span> <span id="playText">Reproducir canción</span>
-        </button>
-        <p id="musicStatus" class="text-[11px] text-slate-400 hidden">
-          (Sube tu archivo 'cancion.mp3' a GitHub para escuchar tu música)
+      <canvas id="drawingCanvas"></canvas>
+    </div>
+
+    <!-- Pestaña 3: Música -->
+    <div class="page-content" id="tab3">
+      <div class="music-box">
+        <div class="disc-icon">🎧</div>
+        <h2 class="section-h2" style="font-size: 2rem;">Tu Música 🎧</h2>
+        <p class="sub-title">Una canción especial para acompañar tu lectura.</p>
+
+        <button class="play-btn" onclick="toggleAudio()">► Reproducir canción</button>
+        <audio id="myAudio" src="./cancion.mp3"></audio>
+      </div>
+
+      <div class="card-box" style="margin-top: 20px;">
+        <h2 class="section-h2">Notas de Música & Recuerdos 📝</h2>
+        <p class="constant-text">
+          Esta página está pensada para que la música te acompañe mientras lees tus frases o te inspires dibujando en la pestaña 2.<br><br>
+          <em>La música expresa todo aquello que no se puede decir con palabras :)</em>
         </p>
       </div>
-
-      <!-- Sección de Notas de Música -->
-      <div class="border-t border-rose-100 pt-4 space-y-2 text-center">
-        <h3 class="text-xs font-bold text-rose-700 font-notebook uppercase tracking-wider">
-          Notas de Música & Recuerdos 📝
-        </h3>
-        <p class="text-xs text-slate-600 max-w-sm mx-auto leading-relaxed">
-          Esta página está pensada para que la música te acompañe mientras lees tus frases o te inspires dibujando en la pestaña 2.
-        </p>
-        <!-- Frase final con carita feliz exacta :) -->
-        <p class="text-xs italic text-slate-500 pt-2 font-medium">
-          "La música expresa todo aquello que no se puede decir con palabras :)"
-        </p>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Modal personalizado para el Buzón Especial -->
-  <div id="mailModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-rose-100 space-y-4 text-center">
-      <h3 id="modalTitle" class="text-sm font-bold text-rose-600 font-notebook"></h3>
-      <p id="modalBody" class="text-xs sm:text-sm text-slate-600 leading-relaxed"></p>
-      <button onclick="closeMailModal()" class="bg-rose-500 text-white text-xs font-bold px-5 py-2 rounded-xl hover:bg-rose-600 transition shadow">
-        Cerrar ❤️
-      </button>
     </div>
   </div>
 
-  <!-- SCRIPT DE LÓGICA PRINCIPAL -->
+  <!-- Modal Emergente -->
+  <div class="modal" id="customModal">
+    <div class="modal-content">
+      <div class="modal-text" id="modalText">Mensaje aquí</div>
+      <button class="action-btn" onclick="closeModal()">Entendido ✨</button>
+    </div>
+  </div>
+
   <script>
-    // Frases cariñosas (+25 frases)
-    const dailyMessages = [
+    // Frases de 12 horas
+    const phrases = [
+      "creo en ti 🐽",
       "Un pequeño recordatorio para hoy: tómate un respiro, lo estás haciendo genial, Sami.",
-      "Recuerda que creo plenamente en ti 🐽",
-      "No te preocupes si las cosas tardan un poco, cada paso cuenta, chaparrita.",
-      "Hoy es un gran día para estar orgullosa de todo lo que has logrado.",
-      "Siempre confía en tu intuición y en tu talento.",
-      "Tu esfuerzo constante dará frutos muy pronto, ¡ánimo, Sami!",
-      "Estaré aquí para apoyarte en cada idea que tengas.",
-      "Si te cansas, aprende a descansar, no a rendirte ✨",
-      "Tienes una mente maravillosa y una gran determinación.",
-      "Un abrazo fuerte para hoy, chaparrita.",
-      "Nunca dudes de lo capaz y fuerte que eres.",
-      "Recuerda darte crédito por todo el trabajo que haces.",
-      "Hoy tómate un momento para consentirte y disfrutar.",
-      "Eres súper valiosa y súper capaz, no lo olvides.",
-      "¡Paso a paso, Sami! Estás avanzando más de lo que crees.",
-      "Que hoy sea un día tranquilo y bonito para ti.",
-      "Nada puede detenerte cuando te propones algo.",
-      "Tu dedicación es verdaderamente admirable.",
-      "Confía en el proceso, lo estás haciendo excelente.",
-      "Estar a tu lado en tu camino es una alegría.",
-      "Sonríe un poco hoy, te queda genial 😊",
-      "Sigue adelante, chaparrita, que vas por muy buen camino.",
-      "Cada día es una nueva oportunidad para brillar.",
-      "Recuerda que no estás sola en esto, cuenta conmigo.",
-      "¡Vamos por un excelente día hoy, Sami!"
+      "Nunca olvides lo capaz que eres de lograr todo lo que te propones.",
+      "Si hoy fue un día pesado, descansa. Mañana será una nueva oportunidad.",
+      "Paso a paso, chaparrita. Vas a llegar muy lejos.",
+      "No importa qué tan difícil se ponga el día, aquí estoy para ti.",
+      "Tu esfuerzo vale totalmente la pena, no te rindas.",
+      "Sonríe un poco, te ves mejor cuando estás tranquila.",
+      "Cree en ti tanto como yo creo en ti.",
+      "Hoy es un buen día para estar orgullosa de lo que has logrado."
     ];
 
-    // Control de Portada
-    function openBook() {
-      document.getElementById('coverScreen').classList.remove('cover-closed');
-      document.getElementById('coverScreen').classList.add('cover-open');
+    function updateDailyPhrase() {
+      const now = new Date();
+      const hours12Block = Math.floor(now.getTime() / (12 * 60 * 60 * 1000));
+      const index = hours12Block % phrases.length;
+      document.getElementById('phraseDisplay').innerText = `"${phrases[index]}"`;
     }
 
-    function closeBook() {
-      document.getElementById('coverScreen').classList.remove('cover-open');
-      document.getElementById('coverScreen').classList.add('cover-closed');
+    function getRandomPhrase() {
+      const randomIndex = Math.floor(Math.random() * phrases.length);
+      document.getElementById('phraseDisplay').innerText = `"${phrases[randomIndex]}"`;
     }
 
-    // Gestor de Frases automáticas (12 horas)
-    function loadDailyMessage() {
-      const now = new Date().getTime();
-      const twelveHours = 12 * 60 * 60 * 1000;
-      const savedTime = localStorage.getItem('4you_msg_time');
-      const savedIndex = localStorage.getItem('4you_msg_index');
+    // Navegación de Portada
+    document.getElementById('openCoverBtn').addEventListener('click', () => {
+      document.getElementById('cover').classList.add('open');
+    });
 
-      if (savedTime && savedIndex && (now - savedTime < twelveHours)) {
-        document.getElementById('dailyMessage').textContent = `"${dailyMessages[savedIndex]}"`;
-      } else {
-        const randomIndex = Math.floor(Math.random() * dailyMessages.length);
-        localStorage.setItem('4you_msg_time', now);
-        localStorage.setItem('4you_msg_index', randomIndex);
-        document.getElementById('dailyMessage').textContent = `"${dailyMessages[randomIndex]}"`;
-      }
+    function closeCover() {
+      document.getElementById('cover').classList.remove('open');
     }
 
-    function getRandomMessage() {
-      const randomIndex = Math.floor(Math.random() * dailyMessages.length);
-      document.getElementById('dailyMessage').textContent = `"${dailyMessages[randomIndex]}"`;
-    }
-
-    // Navegación entre Pestañas
+    // Control de Pestañas
     function switchTab(tabNumber) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('bg-rose-400', 'text-white', 'shadow-md');
-        btn.classList.add('bg-rose-100', 'text-rose-600');
+      document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+        btn.classList.toggle('active', idx + 1 === tabNumber);
+      });
+      document.querySelectorAll('.page-content').forEach((page, idx) => {
+        page.classList.toggle('active', idx + 1 === tabNumber);
       });
 
-      document.getElementById(`tab-${tabNumber}`).classList.remove('hidden');
-      const activeBtn = document.getElementById(`tab-${tabNumber}-btn`);
-      activeBtn.classList.remove('bg-rose-100', 'text-rose-600');
-      activeBtn.classList.add('bg-rose-400', 'text-white', 'shadow-md');
-
-      if(tabNumber === 2) {
-        resizeCanvas();
+      if (tabNumber === 2) {
+        setTimeout(initCanvas, 50); // Ajusta tamaño y carga garabatos
       }
     }
 
-    // Modales Buzón
-    function openMailModal(title, body) {
-      document.getElementById('modalTitle').textContent = title;
-      document.getElementById('modalBody').textContent = body;
-      document.getElementById('mailModal').classList.remove('hidden');
+    // Modal
+    function showModal(text) {
+      document.getElementById('modalText').innerText = text;
+      document.getElementById('customModal').style.display = 'flex';
     }
 
-    function closeMailModal() {
-      document.getElementById('mailModal').classList.add('hidden');
+    function closeModal() {
+      document.getElementById('customModal').style.display = 'none';
     }
 
-    // Reproductor Audio
-    let isPlaying = false;
+    function openMail(type) {
+      showModal("¡Me alegra muchísimo saber eso! Sigue disfrutando tu día y compartiendo esa bonita energía. ☀️");
+    }
+    function mailSad() {
+      showModal("Lamento que te sientas así. Recuerda tomarte las cosas con calma, respirar y recordar que esto también pasará. 🌧️");
+    }
+    function mailDoubt() {
+      showModal("Ese pensamiento no tiene la razón. Eres una persona increíblemente valiosa, inteligente y fuerte. No lo dudes nunca. 💭");
+    }
+    function mailTalk() {
+      showModal("Sabes perfectamente que puedes mandarme un mensaje en cualquier momento. Aquí estoy para escucharte siempre. 💬");
+    }
+
+    // Control de Audio
     function toggleAudio() {
-      const audio = document.getElementById('bgAudio');
-      const icon = document.getElementById('playIcon');
-      const text = document.getElementById('playText');
-      const status = document.getElementById('musicStatus');
-
-      if (isPlaying) {
-        audio.pause();
-        icon.textContent = "▶️";
-        text.textContent = "Reproducir canción";
-        isPlaying = false;
-      } else {
+      const audio = document.getElementById('myAudio');
+      if (audio.paused) {
         audio.play().then(() => {
-          icon.textContent = "⏸️";
-          text.textContent = "Pausar canción";
-          status.classList.add('hidden');
-          isPlaying = true;
+          showModal("Reproduciendo música 🎶");
         }).catch(() => {
-          status.classList.remove('hidden');
+          showModal("Sube el archivo 'cancion.mp3' a tu repositorio de GitHub para escuchar la música ✨");
         });
+      } else {
+        audio.pause();
       }
     }
 
-    // Lienzo Pestaña 2
-    const canvas = document.getElementById('doodleCanvas');
+    // Canvas Corregido
+    const canvas = document.getElementById('drawingCanvas');
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
-    let isEraser = false;
+    let currentColor = '#4a3e3d';
 
-    function resizeCanvas() {
-      const rect = canvas.parentElement.getBoundingClientRect();
+    function initCanvas() {
+      const rect = canvas.getBoundingClientRect();
       if (canvas.width !== rect.width || canvas.height !== rect.height) {
-        const tempImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        // Guardar dibujo previo
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = canvas.width;
+        tempCanvas.height = canvas.height;
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCtx.drawImage(canvas, 0, 0);
+
         canvas.width = rect.width;
         canvas.height = rect.height;
-        ctx.putImageData(tempImageData, 0, 0);
-        loadSavedCanvas();
+
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = currentColor;
+
+        // Restaurar o cargar dibujo
+        const savedData = localStorage.getItem('sami_doodle');
+        if (savedData) {
+          const img = new Image();
+          img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          img.src = savedData;
+        } else {
+          ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
+        }
       }
     }
 
@@ -480,58 +643,30 @@
       if (!isDrawing) return;
       e.preventDefault();
       const pos = getPos(e);
-
-      ctx.lineWidth = document.getElementById('brushSize').value;
-      ctx.lineCap = 'round';
-
-      if (isEraser) {
-        ctx.strokeStyle = '#ffffff';
-      } else {
-        ctx.strokeStyle = document.getElementById('colorPicker').value;
-      }
-
       ctx.lineTo(pos.x, pos.y);
       ctx.stroke();
     }
 
     function stopDrawing() {
       if (isDrawing) {
-        ctx.closePath();
         isDrawing = false;
-        saveCanvas();
+        localStorage.setItem('sami_doodle', canvas.toDataURL());
       }
     }
 
-    function setEraser() {
-      isEraser = !isEraser;
-      const btn = document.getElementById('eraserBtn');
-      if (isEraser) {
-        btn.classList.add('bg-rose-200', 'text-rose-700');
-      } else {
-        btn.classList.remove('bg-rose-200', 'text-rose-700');
-      }
+    function setColor(color, element) {
+      currentColor = color;
+      ctx.strokeStyle = color;
+      document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
+      element.classList.add('active');
     }
 
     function clearCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      localStorage.removeItem('4you_canvas_data');
+      localStorage.removeItem('sami_doodle');
     }
 
-    function saveCanvas() {
-      localStorage.setItem('4you_canvas_data', canvas.toDataURL());
-    }
-
-    function loadSavedCanvas() {
-      const savedData = localStorage.getItem('4you_canvas_data');
-      if (savedData) {
-        const img = new Image();
-        img.onload = function () {
-          ctx.drawImage(img, 0, 0);
-        };
-        img.src = savedData;
-      }
-    }
-
+    // Eventos Canvas (Mouse y Touch)
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('mouseup', stopDrawing);
@@ -541,19 +676,9 @@
     canvas.addEventListener('touchmove', draw, { passive: false });
     canvas.addEventListener('touchend', stopDrawing);
 
-    // Registro de Service Worker PWA
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=' + Date.now()).catch(err => {
-          console.log('SW registration failure', err);
-        });
-      });
-    }
-
-    window.onload = function() {
-      loadDailyMessage();
-      resizeCanvas();
-      window.addEventListener('resize', resizeCanvas);
+    // Inicialización al cargar la ventana
+    window.onload = () => {
+      updateDailyPhrase();
     };
   </script>
 </body>
