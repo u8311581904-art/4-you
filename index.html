@@ -315,15 +315,18 @@
 
   <!-- JAVASCRIPT -->
   <script>
-    // --- LISTA DE FRASES ESPECIALES ---
+    // --- LISTA AMPLIADA DE FRASES CON APODOS PERSONALIZADOS ---
     const notas = [
-      '"Admiro mucho tu manera de ser y el gran corazón que tienes."',
-      '"Gracias por ser esa luz que ilumina incluso los días más grises."',
-      '"Nunca olvides lo capaz, inteligente e increíble que eres."',
-      '"Aquí siempre tendrás a alguien que cree en ti sin dudarlo un solo segundo."',
-      '"Tu sonrisa tiene el poder de alegrar cualquier momento difícil."',
-      '"Eres una persona sumamente valiosa y mereces puras cosas bonitas en la vida."',
-      '"No importa la distancia ni el tiempo, mi apoyo para ti siempre es incondicional."'
+      '"Admiro mucho tu manera de ser y el gran corazón que tienes, chaparrita."',
+      '"Gracias por ser esa luz que ilumina incluso los días más grises, Sami."',
+      '"Nunca olvides lo capaz, inteligente e increíble que eres, chaparra."',
+      '"Aquí siempre tendrás a alguien que cree en ti sin dudarlo un solo segundo, Sami."',
+      '"Tu sonrisa tiene el poder de alegrar cualquier momento difícil, chaparrita."',
+      '"Eres una persona sumamente valiosa y mereces puras cosas bonitas en la vida, chaparra."',
+      '"No importa la distancia ni el tiempo, mi apoyo para ti siempre es incondicional, Sami."',
+      '"Eres de lo más bonito que tengo en la vida, chaparrita, nunca lo olvides."',
+      '"Me encanta platicar contigo y cómo haces que todo se sienta más tranquilo, Sami."',
+      '"Eres una guerrera muy fuerte, chaparra, y admiro todo lo que te esfuerzas."'
     ];
 
     // --- LÓGICA DE ACTUALIZACIÓN AUTOMÁTICA CADA 12 HORAS ---
@@ -334,9 +337,7 @@
       let ultimaTimestamp = localStorage.getItem('timestampNota_4you');
       let indiceGuardado = localStorage.getItem('indiceNota_4you');
 
-      // Si es la primera vez o ya pasaron 12 horas, elegimos una nueva frase automáticamente
       if (!ultimaTimestamp || !indiceGuardado || (ahora - ultimaTimestamp > intervalo12Horas)) {
-        // Elegir un índice aleatorio diferente al anterior si es posible
         let nuevoIndice = Math.floor(Math.random() * notas.length);
         
         localStorage.setItem('indiceNota_4you', nuevoIndice);
@@ -344,18 +345,16 @@
         
         document.getElementById('textoNota').innerText = notas[nuevoIndice];
       } else {
-        // Mantiene la frase asignada durante esas 12 horas
         document.getElementById('textoNota').innerText = notas[indiceGuardado];
       }
     }
 
-    // Botón manual por si quiere ver otra al azar en el momento
+    // Botón manual para ver otra al azar al instante
     function cambiarNotaManual() {
       const idx = Math.floor(Math.random() * notas.length);
       document.getElementById('textoNota').innerText = notas[idx];
     }
 
-    // Ejecutar al cargar la página
     window.addEventListener('DOMContentLoaded', () => {
       gestionarNotaAutomatica();
     });
