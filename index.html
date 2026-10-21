@@ -3,319 +3,596 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Para ti, Chaparrita 💖</title>
+  <title>4-You — Diario para Sami 💖</title>
   
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#ffb6c1">
 
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #fffaf0;
-      color: #333333;
+    :root {
+      --bg-color: #fffaf0;
+      --primary: #ff4757;
+      --primary-hover: #ff6b81;
+      --accent: #ffb6c1;
+      --accent-light: #ffe4e8;
+      --text-dark: #333333;
+      --card-bg: #ffffff;
+      --book-border: #f0a8b7;
+      --binder-ring: #d88a9a;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      background-color: #f3e5db;
+      background-image: radial-gradient(#e2cebe 1px, transparent 0);
+      background-size: 16px 16px;
+      color: var(--text-dark);
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
       min-height: 100vh;
+      padding: 10px;
       overflow-x: hidden;
     }
 
-    .app-container {
+    /* ENVOLTORIO DEL LIBRO/CUADERNO */
+    .libro-wrapper {
       width: 100%;
-      max-width: 550px;
-      padding: 20px;
-      box-sizing: border-box;
+      max-width: 500px;
+      height: 92vh;
+      max-height: 840px;
+      background-color: var(--bg-color);
+      border-radius: 24px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.18), 0 6px 18px rgba(255,182,193,0.35);
+      border: 4px solid var(--book-border);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ANILLAS DE CUADERNO (DETALLE LATERAL) */
+    .libro-anillas {
+      position: absolute;
+      left: 6px;
+      top: 60px;
+      bottom: 20px;
+      width: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    .anilla {
+      width: 16px;
+      height: 8px;
+      background: linear-gradient(90deg, #b0b0b0, #ffffff, #888888);
+      border-radius: 4px;
+      box-shadow: 1px 2px 4px rgba(0,0,0,0.25);
+    }
+
+    /* PORTADA DEL CUADERNO */
+    .portada {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, #fffaf0 55%, #ffe4e8 100%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      transition: transform 0.75s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.5s ease;
+      cursor: pointer;
+    }
+
+    .portada.abierta {
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* GARABATOS EN LAS ESQUINAS DE LA PORTADA */
+    .esquina-garabato {
+      position: absolute;
+      width: 55px;
+      height: 55px;
+      opacity: 0.75;
+    }
+
+    .esquina-tl { top: 20px; left: 20px; border-top: 3px dashed var(--primary); border-left: 3px dashed var(--primary); border-radius: 12px 0 0 0; }
+    .esquina-tr { top: 20px; right: 20px; border-top: 3px dashed var(--primary); border-right: 3px dashed var(--primary); border-radius: 0 12px 0 0; }
+    .esquina-bl { bottom: 20px; left: 20px; border-bottom: 3px dashed var(--primary); border-left: 3px dashed var(--primary); border-radius: 0 0 0 12px; }
+    .esquina-br { bottom: 20px; right: 20px; border-bottom: 3px dashed var(--primary); border-right: 3px dashed var(--primary); border-radius: 0 0 12px 0; }
+
+    .portada-marco {
+      border: 3px double var(--primary);
+      border-radius: 22px;
+      padding: 45px 25px;
       text-align: center;
+      background-color: #ffffff;
+      box-shadow: 0 10px 25px rgba(255,182,193,0.4);
+      width: 85%;
+      position: relative;
     }
 
-    .corazon-icon {
-      font-size: 2.2rem;
-      margin-bottom: 5px;
-    }
-
-    h1 {
-      color: #ff4757;
-      font-size: 2.2rem;
-      margin: 10px 0;
+    .portada-titulo {
+      font-size: 3.4rem;
+      font-family: 'Georgia', serif;
+      color: var(--primary);
       font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
     }
 
-    .subtitulo {
-      color: #555555;
+    .portada-sub {
       font-size: 1.05rem;
-      line-height: 1.5;
-      margin-bottom: 25px;
-      font-weight: 500;
+      color: #666;
+      font-style: italic;
+      line-height: 1.4;
     }
 
-    .seccion-tarjeta {
+    .flecha-abrir {
+      margin-top: 35px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      color: var(--primary);
+      font-weight: 600;
+      animation: rebotar 1.8s infinite;
+    }
+
+    @keyframes rebotar {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* CABECERA CON PESTAÑAS (1, 2, 3) Y MÚSICA */
+    .header-pestañas {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      background-color: var(--accent-light);
+      padding: 12px 18px 0 28px;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .tabs-grupo {
+      display: flex;
+      gap: 8px;
+    }
+
+    .tab-btn {
+      background: #f1cfd5;
+      border: 2px solid var(--accent);
+      border-bottom: none;
+      border-radius: 12px 12px 0 0;
+      padding: 8px 20px;
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: #777;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .tab-btn.activa {
+      background: var(--bg-color);
+      color: var(--primary);
+      padding-top: 11px;
+      margin-bottom: -2px;
+      border-color: var(--book-border);
+      z-index: 10;
+    }
+
+    .btn-portada-mini {
+      margin-bottom: 6px;
       background: #ffffff;
-      border-radius: 20px;
-      padding: 22px;
-      margin-bottom: 25px;
-      box-shadow: 0px 4px 15px rgba(255, 182, 193, 0.3);
-      border: 2px solid #ffe4e8;
-      text-align: left;
+      color: var(--primary);
+      border: 1.5px solid var(--accent);
+      padding: 6px 12px;
+      border-radius: 15px;
+      font-size: 0.82rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: background 0.2s;
+    }
+
+    .btn-portada-mini:active {
+      background: var(--accent-light);
+    }
+
+    /* CONTENEDOR DE PÁGINAS DEL DIARIO */
+    .contenido-paginas {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 20px 20px 28px;
+      position: relative;
+    }
+
+    .pagina {
+      display: none;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .pagina.activa {
+      display: flex;
+    }
+
+    /* TARJETAS ESTILO DIARIO */
+    .seccion-tarjeta {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0px 4px 12px rgba(255, 182, 193, 0.25);
+      border: 1.5px solid var(--accent-light);
     }
 
     .seccion-tarjeta h3 {
-      color: #ff4757;
-      font-size: 1.3rem;
-      margin-top: 0;
+      color: var(--primary);
+      font-size: 1.2rem;
       margin-bottom: 12px;
       text-align: center;
     }
 
     .seccion-tarjeta p {
-      color: #555555;
-      font-size: 0.98rem;
-      line-height: 1.6;
-      margin: 10px 0;
+      color: #444;
+      font-size: 0.95rem;
+      line-height: 1.5;
     }
 
+    /* GALERÍA DE FOTOS */
     .galeria-fotos {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       justify-content: center;
-      margin-bottom: 25px;
     }
 
     .foto-marco {
       width: 48%;
-      border-radius: 15px;
+      border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
       background: #fff;
       padding: 5px;
-      border: 2px solid #ffb6c1;
+      border: 2px solid var(--accent);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
     }
 
     .foto-marco img {
       width: 100%;
-      height: 160px;
+      height: 135px;
       object-fit: cover;
       border-radius: 10px;
       display: block;
     }
 
+    /* BUZÓN GRID */
     .grid-buzon {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      text-align: left;
+      gap: 10px;
     }
 
     .item-buzon {
       background: #fff5f7;
-      border: 1px solid #ffb6c1;
-      border-radius: 15px;
-      padding: 12px;
-      font-size: 0.9rem;
-      color: #4a4a4a;
+      border: 1.5px solid var(--accent);
+      border-radius: 14px;
+      padding: 12px 10px;
+      font-size: 0.88rem;
+      color: #444;
       font-weight: 600;
       cursor: pointer;
-      transition: transform 0.2s, background-color 0.2s;
+      text-align: center;
+      transition: background 0.2s, transform 0.1s;
     }
 
     .item-buzon:active {
-      transform: scale(0.97);
-      background: #ffe0e6;
+      transform: scale(0.96);
+      background: var(--accent-light);
     }
 
+    /* BOTONES GENERALES */
     .btn-principal {
-      background: linear-gradient(135deg, #ff6b81 0%, #ff4757 100%);
+      background: linear-gradient(135deg, var(--primary-hover) 0%, var(--primary) 100%);
       color: #ffffff;
       border: none;
-      padding: 14px 28px;
-      font-size: 1.1rem;
+      padding: 12px 20px;
+      font-size: 0.98rem;
       font-weight: bold;
-      border-radius: 25px;
+      border-radius: 20px;
       cursor: pointer;
-      box-shadow: 0px 4px 12px rgba(255, 71, 87, 0.4);
-      margin-top: 10px;
-      display: block;
+      box-shadow: 0px 4px 10px rgba(255, 71, 87, 0.3);
       width: 100%;
-      box-sizing: border-box;
+      margin-top: 8px;
     }
 
-    /* PANTALLA INDEPENDIENTE DEL LIENZO */
-    #pantallaLienzo {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: #fffaf0;
-      z-index: 1000;
-      display: none;
+    .btn-principal:active {
+      transform: scale(0.98);
+    }
+
+    /* PÁGINA 2: LIENZO */
+    .lienzo-container {
+      display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      padding: 15px;
-      box-sizing: border-box;
-    }
-
-    .header-lienzo {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .header-lienzo h2 {
-      font-size: 1.2rem;
-      color: #ff4757;
-      margin: 0;
-    }
-
-    .btn-volver, .btn-limpiar {
-      background: #ffb6c1;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 15px;
-      font-weight: bold;
-      color: white;
-      cursor: pointer;
-    }
-
-    .btn-limpiar {
-      background: #ff4757;
+      gap: 12px;
+      height: 100%;
     }
 
     #canvasDibujo {
       background: #ffffff;
-      border: 3px dashed #ffb6c1;
-      border-radius: 20px;
+      border: 2px dashed var(--accent);
+      border-radius: 16px;
       touch-action: none;
       cursor: crosshair;
-      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      height: 360px;
     }
 
     .herramientas-lienzo {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
       background: #ffffff;
-      padding: 10px 18px;
-      border-radius: 30px;
-      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 8px 14px;
+      border-radius: 25px;
+      border: 1px solid var(--accent-light);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
     }
 
     .btn-herramienta {
       background: #f0f0f0;
       border: none;
-      padding: 8px 12px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 0.9rem;
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 0.85rem;
       font-weight: 600;
-      color: #333;
+      cursor: pointer;
     }
 
     .btn-herramienta.activo {
-      background: #ff6b81;
+      background: var(--primary);
       color: white;
     }
 
-    input[type="color"] {
-      border: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      background: none;
+    /* PÁGINA 3: MÚSICA & NOTAS */
+    .reproductor-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 22px;
+      text-align: center;
+      border: 1.5px solid var(--accent);
+      box-shadow: 0 4px 12px rgba(255,182,193,0.3);
     }
 
-    input[type="range"] {
-      width: 80px;
+    .disco-animado {
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #333 30%, #111 70%);
+      margin: 0 auto 15px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    .disco-animado.girando {
+      animation: girar 4s linear infinite;
+    }
+
+    @keyframes girar {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* MODAL DENTRO DE LA APP (REEMPLAZO DE ALERT) */
+    .modal-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 20px;
+      backdrop-filter: blur(2px);
+    }
+
+    .modal-box {
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 24px 20px;
+      text-align: center;
+      max-width: 340px;
+      width: 100%;
+      border: 2px solid var(--accent);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .modal-box p {
+      font-size: 1.02rem;
+      color: #333;
+      margin-bottom: 20px;
+      line-height: 1.45;
     }
   </style>
 </head>
 <body>
 
-  <div class="app-container">
-    
-    <div class="corazon-icon">❤️</div>
-    <h1>Siempre estaré aquí para ti</h1>
-    <p class="subtitulo">Un pequeño rincón digital hecho especialmente para ti, chaparrita, para recordarte lo mucho que me importas.</p>
+  <!-- CONTENEDOR TIPO CUADERNO/LIBRO -->
+  <div class="libro-wrapper">
 
-    <!-- Galería de fotos -->
-    <div class="galeria-fotos">
-      <div class="foto-marco">
-        <img src="foto1.jpg" alt="Foto 1" onerror="this.src='https://via.placeholder.com/150/ffb6c1/ffffff?text=Foto+1'">
+    <!-- ANILLAS LATERALES DE CUADERNO -->
+    <div class="libro-anillas">
+      <div class="anilla"></div>
+      <div class="anilla"></div>
+      <div class="anilla"></div>
+      <div class="anilla"></div>
+      <div class="anilla"></div>
+      <div class="anilla"></div>
+      <div class="anilla"></div>
+      <div class="anilla"></div>
+    </div>
+
+    <!-- PORTADA DEL LIBRO -->
+    <div id="portadaLibro" class="portada" onclick="abrirLibro()">
+      <div class="esquina-garabato esquina-tl"></div>
+      <div class="esquina-garabato esquina-tr"></div>
+      <div class="esquina-garabato esquina-bl"></div>
+      <div class="esquina-garabato esquina-br"></div>
+
+      <div class="portada-marco">
+        <div class="portada-titulo">4-You</div>
+        <div class="portada-sub">Un espacio hecho con todo el corazón para Sami 💖</div>
       </div>
-      <div class="foto-marco">
-        <img src="foto2.jpg" alt="Foto 2" onerror="this.src='https://via.placeholder.com/150/ffb6c1/ffffff?text=Foto+2'">
-      </div>
-    </div>
 
-    <!-- Un recordatorio constante... -->
-    <div class="seccion-tarjeta">
-      <h3>Un recordatorio constante...</h3>
-      <p>Quería crear algo único que fuera completamente tuyo, algo que nunca se vaya a perder. Un lugar que puedas abrir en cualquier momento para recordarte que <strong>"siempre estaré a tu lado, escuchándote, cuidándote y apoyándote"</strong>.</p>
-      <p>Nunca dejarás de importarme. Sin importar lo que pase, aquí tienes un espacio seguro pensado solo para ti, donde siempre serás muy valorada y apreciada.</p>
-    </div>
-
-    <!-- Mensaje Especial para hoy -->
-    <div class="seccion-tarjeta" style="text-align: center;">
-      <h3>Un mensaje especial para hoy ✨</h3>
-      <p style="font-size: 0.8rem; color: #888; margin-bottom: 8px;">(Se actualiza automáticamente cada 12 horas)</p>
-      <p id="textoNota" style="font-style: italic; color: #d63031; font-weight: 600; font-size: 1.05rem; text-align: center;">
-        "Cargando mensaje..."
-      </p>
-      <button class="btn-principal" onclick="cambiarNotaManual()">Ver otra nota al azar 🎲</button>
-    </div>
-
-    <!-- Buzón Especial -->
-    <div class="seccion-tarjeta">
-      <h3>Buzón Especial 📬</h3>
-      <div class="grid-buzon">
-        <div class="item-buzon" onclick="alert('🌼 Recuerda que cada día es una nueva oportunidad. ¡Sonríe y da lo mejor de ti!')">
-          🌼 Abre si estás teniendo un gran día
-        </div>
-        <div class="item-buzon" onclick="alert('🌧️ Aquí estoy contigo. No estás sola, tómate un respiro y recuerda lo fuerte que eres.')">
-          🌧️ Abre si te sientes triste o abrumada
-        </div>
-        <div class="item-buzon" onclick="alert('✨ Vales muchísimo más de lo que imaginas. Nunca lo dudes.')">
-          ✨ Abre si dudas de tu valor
-        </div>
-        <div class="item-buzon" onclick="alert('💬 Sabes que solo estás a un mensaje de distancia. Escríbeme cuando quieras.')">
-          💬 Abre si quieres hablar conmigo
-        </div>
+      <div class="flecha-abrir">
+        <span>Toca para abrir el diario</span> 📖 ➡
       </div>
     </div>
 
-    <!-- Acceso al Lienzo de Garabatos -->
-    <div style="margin: 20px 0 40px 0;">
-      <button class="btn-principal" onclick="abrirLienzo()">🎨 Abrir Lienzo de Garabatos</button>
+    <!-- PESTAÑAS SUPERIORES (1, 2, 3) -->
+    <div class="header-pestañas">
+      <div class="tabs-grupo">
+        <button class="tab-btn activa" onclick="cambiarPagina(1)">1</button>
+        <button class="tab-btn" onclick="cambiarPagina(2)">2</button>
+        <button class="tab-btn" onclick="cambiarPagina(3)">3</button>
+      </div>
+
+      <button class="btn-portada-mini" onclick="cerrarLibro()">📕 Portada</button>
+    </div>
+
+    <!-- CONTENIDO DE LAS PÁGINAS -->
+    <div class="contenido-paginas">
+
+      <!-- PÁGINA 1: PRINCIPAL / INICIO -->
+      <div id="pag1" class="pagina activa">
+        
+        <!-- Galería de fotos -->
+        <div class="galeria-fotos">
+          <div class="foto-marco">
+            <img src="foto1.jpg" alt="Foto 1" onerror="this.src='https://placehold.co/200x200/ffb6c1/ffffff?text=Foto+1'">
+          </div>
+          <div class="foto-marco">
+            <img src="foto2.jpg" alt="Foto 2" onerror="this.src='https://placehold.co/200x200/ffb6c1/ffffff?text=Foto+2'">
+          </div>
+        </div>
+
+        <!-- Mensaje Automático 12 Horas -->
+        <div class="seccion-tarjeta" style="text-align: center;">
+          <h3>Un mensaje especial para hoy ✨</h3>
+          <p style="font-size: 0.78rem; color: #888; margin-bottom: 8px;">(Se actualiza automáticamente cada 12 horas)</p>
+          <p id="textoNota" style="font-style: italic; color: var(--primary); font-weight: 600; font-size: 1.05rem;">
+            "Cargando mensaje..."
+          </p>
+          <button class="btn-principal" onclick="cambiarNotaManual()">Ver otra nota al azar 🎲</button>
+        </div>
+
+        <!-- Carta / Recordatorio constante -->
+        <div class="seccion-tarjeta">
+          <h3>Un recordatorio constante...</h3>
+          <p>Quería crear algo único que fuera completamente tuyo, algo que nunca se vaya a perder. Un lugar que puedas abrir en cualquier momento para recordarte que <strong>"siempre estaré a tu lado, escuchándote, cuidándote y apoyándote"</strong>.</p>
+          <p style="margin-top: 8px;">Nunca dejarás de importarme, chaparrita. Aquí tienes tu espacio seguro.</p>
+        </div>
+
+        <!-- Buzón Especial -->
+        <div class="seccion-tarjeta">
+          <h3>Buzón Especial 📬</h3>
+          <div class="grid-buzon">
+            <div class="item-buzon" onclick="mostrarModal('🌼 Recuerda que cada día es una nueva oportunidad. ¡Sonríe y da lo mejor de ti, chaparra!')">
+              🌼 Si tienes un gran día
+            </div>
+            <div class="item-buzon" onclick="mostrarModal('🌧️ Aquí estoy contigo, Sami. No estás sola, tómate un respiro y recuerda lo fuerte que eres.')">
+              🌧️ Si te sientes triste
+            </div>
+            <div class="item-buzon" onclick="mostrarModal('✨ Vales muchísimo más de lo que imaginas. Nunca lo dudes, chaparrita.')">
+              ✨ Si dudas de tu valor
+            </div>
+            <div class="item-buzon" onclick="mostrarModal('💬 Sabes que solo estás a un mensaje de distancia. Escríbeme cuando quieras.')">
+              💬 Si quieres hablar conmigo
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PÁGINA 2: LIENZO DE GARABATOS -->
+      <div id="pag2" class="pagina">
+        <div class="seccion-tarjeta" style="text-align: center; padding: 12px;">
+          <h3>🎨 Lienzo de Garabatos</h3>
+          <p style="font-size: 0.85rem; color: #666;">Dibuja lo que quieras, tus trazos se guardan automáticamente.</p>
+        </div>
+
+        <div class="lienzo-container">
+          <canvas id="canvasDibujo"></canvas>
+
+          <div class="herramientas-lienzo">
+            <button id="btnPincel" onclick="activarPincel()" class="btn-herramienta activo">✏️ Pincel</button>
+            <button id="btnBorrador" onclick="activarBorrador()" class="btn-herramienta">🧹 Borrador</button>
+            <input type="color" id="colorPincel" value="#ff4757" style="border:none; width:28px; height:28px; cursor:pointer; background:none;">
+            <input type="range" id="grosorPincel" min="2" max="25" value="6" style="width:70px;">
+            <button onclick="borrarLienzo()" class="btn-herramienta" style="background:#ff4757; color:white;">🗑️ Limpiar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PÁGINA 3: MÚSICA & NOTAS -->
+      <div id="pag3" class="pagina">
+        <div class="reproductor-card">
+          <div id="disco" class="disco-animado">🎧</div>
+          <h3 style="margin-bottom: 6px;">Nuestra Música 🎶</h3>
+          <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">Una canción especial para acompañar tu lectura.</p>
+
+          <button class="btn-principal" onclick="toggleMusica()" id="btnMusicaTexto">
+            ▶️ Reproducir canción
+          </button>
+
+          <audio id="musicaFondo" src="cancion.mp3" loop></audio>
+        </div>
+
+        <div class="seccion-tarjeta">
+          <h3>Notas de Música & Recuerdos 📝</h3>
+          <p>Esta página está pensada para que la música te acompañe mientras lees tus frases o te inspires dibujando en la pestaña 2.</p>
+          <p style="margin-top: 10px; font-style: italic; color: #777; text-align: center;">"La música expresa todo aquello que no se puede decir con palabras..." 💖</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MODAL PERSONALIZADO (REEMPLAZA AL ALERT TRADICIONAL) -->
+    <div id="modalBuzon" class="modal-overlay">
+      <div class="modal-box">
+        <p id="modalTexto">Mensaje aquí...</p>
+        <button class="btn-principal" onclick="cerrarModal()">Cerrar ✨</button>
+      </div>
     </div>
 
   </div>
 
-  <!-- PANTALLA INDEPENDIENTE: LIENZO DE DIBUJO -->
-  <div id="pantallaLienzo">
-    <div class="header-lienzo">
-      <button onclick="cerrarLienzo()" class="btn-volver">⬅ Volver</button>
-      <h2>🎨 Nuestro Lienzo</h2>
-      <button onclick="borrarLienzo()" class="btn-limpiar">🗑️ Limpiar</button>
-    </div>
-
-    <canvas id="canvasDibujo"></canvas>
-
-    <div class="herramientas-lienzo">
-      <button id="btnPincel" onclick="activarPincel()" class="btn-herramienta activo">✏️ Pincel</button>
-      <button id="btnBorrador" onclick="activarBorrador()" class="btn-herramienta">🧹 Borrador</button>
-      <input type="color" id="colorPincel" value="#ff4757">
-      <input type="range" id="grosorPincel" min="2" max="25" value="6">
-    </div>
-  </div>
-
-  <!-- JAVASCRIPT MEJORADO -->
   <script>
-    // --- LISTA EXTENSA DE FRASES PERSONALIZADAS PARA SAMI ---
+    // --- LISTA DE FRASES PERSONALIZADAS PARA SAMI (+25 FRASES) ---
     const notas = [
       '"creo en ti 🐽"',
       '"Admiro mucho tu manera de ser y el gran corazón que tienes, chaparrita."',
@@ -346,20 +623,45 @@
 
     let indiceActual = -1;
 
-    // --- LÓGICA DE ACTUALIZACIÓN AUTOMÁTICA CADA 12 HORAS ---
+    // --- ABRIR Y CERRAR LIBRO/PORTADA ---
+    function abrirLibro() {
+      document.getElementById('portadaLibro').classList.add('abierta');
+    }
+
+    function cerrarLibro() {
+      document.getElementById('portadaLibro').classList.remove('abierta');
+    }
+
+    // --- SISTEMA DE PESTAÑAS (1, 2, 3) ---
+    function cambiarPagina(numPagina) {
+      const botones = document.querySelectorAll('.tab-btn');
+      const paginas = document.querySelectorAll('.pagina');
+
+      botones.forEach((btn, idx) => {
+        btn.classList.toggle('activa', idx === numPagina - 1);
+      });
+
+      paginas.forEach((pag, idx) => {
+        pag.classList.toggle('activa', idx === numPagina - 1);
+      });
+
+      if (numPagina === 2) {
+        setTimeout(redimensionarCanvas, 50);
+      }
+    }
+
+    // --- ROTACIÓN DE FRASES CADA 12 HORAS ---
     function gestionarNotaAutomatica() {
       const ahora = new Date().getTime();
-      const intervalo12Horas = 12 * 60 * 60 * 1000; // 12 horas
+      const intervalo12Horas = 12 * 60 * 60 * 1000;
       
       let ultimaTimestamp = localStorage.getItem('timestampNota_4you');
       let indiceGuardado = localStorage.getItem('indiceNota_4you');
 
-      if (!ultimaTimestamp || !indiceGuardado || (ahora - ultimaTimestamp > intervalo12Horas)) {
+      if (!ultimaTimestamp || !indiceGuardado || (ahora - parseInt(ultimaTimestamp) > intervalo12Horas)) {
         let nuevoIndice = Math.floor(Math.random() * notas.length);
-        
         localStorage.setItem('indiceNota_4you', nuevoIndice);
         localStorage.setItem('timestampNota_4you', ahora);
-        
         indiceActual = nuevoIndice;
         document.getElementById('textoNota').innerText = notas[nuevoIndice];
       } else {
@@ -368,7 +670,6 @@
       }
     }
 
-    // --- BOTÓN MANUAL: GARANTIZA QUE NUNCA REPITA LA MISMA CONSECUTIVA ---
     function cambiarNotaManual() {
       let nuevoIndice;
       do {
@@ -379,11 +680,39 @@
       document.getElementById('textoNota').innerText = notas[nuevoIndice];
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      gestionarNotaAutomatica();
-    });
+    // --- MODALES (BUZÓN) ---
+    function mostrarModal(texto) {
+      document.getElementById('modalTexto').innerText = texto;
+      document.getElementById('modalBuzon').style.display = 'flex';
+    }
 
-    // --- LIENZO DE DIBUJO PERMANENTE ---
+    function cerrarModal() {
+      document.getElementById('modalBuzon').style.display = 'none';
+    }
+
+    // --- REPRODUCTOR DE MÚSICA ---
+    const audio = document.getElementById('musicaFondo');
+    const disco = document.getElementById('disco');
+    const btnTexto = document.getElementById('btnMusicaTexto');
+    let reproduciendo = false;
+
+    function toggleMusica() {
+      if (reproduciendo) {
+        audio.pause();
+        disco.classList.remove('girando');
+        if (btnTexto) btnTexto.innerText = "▶️ Reproducir canción";
+      } else {
+        audio.play().then(() => {
+          disco.classList.add('girando');
+          if (btnTexto) btnTexto.innerText = "⏸️ Pausar canción";
+        }).catch((err) => {
+          mostrarModal("⚠️ Para escuchar la canción, primero debes subir el archivo 'cancion.mp3' a tu repositorio de GitHub.");
+        });
+      }
+      reproduciendo = !reproduciendo;
+    }
+
+    // --- LIENZO DE GARABATOS ---
     const canvas = document.getElementById('canvasDibujo');
     const ctx = canvas.getContext('2d');
     const colorInput = document.getElementById('colorPincel');
@@ -394,20 +723,10 @@
     let dibujando = false;
     let esBorrador = false;
 
-    function abrirLienzo() {
-      document.getElementById('pantallaLienzo').style.display = 'flex';
-      redimensionarCanvas();
-    }
-
-    function cerrarLienzo() {
-      document.getElementById('pantallaLienzo').style.display = 'none';
-    }
-
     function redimensionarCanvas() {
-      const ancho = Math.min(window.innerWidth * 0.9, 450);
-      const alto = window.innerHeight * 0.65;
-      canvas.width = ancho;
-      canvas.height = alto;
+      const container = canvas.parentElement;
+      canvas.width = container.clientWidth - 10;
+      canvas.height = 360;
       
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -485,12 +804,14 @@
     }
 
     function borrarLienzo() {
-      if (confirm("¿Quieres borrar el dibujo actual?")) {
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        localStorage.removeItem('dibujoGuardado_4you');
-      }
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      localStorage.removeItem('dibujoGuardado_4you');
     }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      gestionarNotaAutomatica();
+    });
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
