@@ -10,7 +10,7 @@
   <meta http-equiv="Expires" content="0">
 
   <title>4 You</title>
-  <link rel="manifest" href="./manifest.json?v=4">
+  <link rel="manifest" href="./manifest.json?v=5">
   <meta name="theme-color" content="#fff0f3">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -486,7 +486,7 @@
       color: #3d3234;
       position: relative;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
       word-break: break-word;
       display: flex;
       flex-direction: column;
@@ -508,7 +508,17 @@
       pointer-events: none;
     }
 
-    /* Animación y efecto de Corazones flotantes al hacer clic en nota */
+    .delete-hint {
+      font-size: 0.65rem;
+      text-align: right;
+      color: #b71c1c;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      opacity: 0.6;
+      margin-top: 4px;
+    }
+
+    /* Animación y efecto de Corazones flotantes */
     @keyframes floatUpHeart {
       0% {
         transform: translateY(0) scale(0.6) rotate(0deg);
@@ -706,7 +716,7 @@
       <div class="card-box" style="margin-top: 20px;">
         <h2 class="section-h2">Notas de Música & Recuerdos 📝</h2>
         <p class="constant-text">
-          Esta página está pensada para que la música te acompañe mientras lees tus frases o te inspires dibujando en la pestaña 2.<br><br>
+          Эта página está pensada para que la música te acompañe mientras lees tus frases o te inspires dibujando en la pestaña 2.<br><br>
           <em>La música expresa todo aquello que no se puede decir con palabras :)</em>
         </p>
       </div>
@@ -715,17 +725,23 @@
     <!-- Pestaña 4: Pizarrón de Corcho Interactivo -->
     <div class="page-content" id="tab4">
       <h2 class="section-h2">Pizarrón de Notas 📌</h2>
-      <p class="sub-title">Un corcho para dejar notitas lindas. ¡Toca cualquier nota para ver corazones!</p>
+      <p class="sub-title">Toca una nota para sacar corazones 💖 o hazle **doble clic** para quitarla 🗑️</p>
 
       <div class="corkboard" id="corkboardArea">
         <!-- Notas iniciales de ejemplo -->
-        <div class="post-it" style="transform: rotate(-3deg);" onclick="burstHearts(event)">
+        <div class="post-it" style="transform: rotate(-3deg);" onclick="handleNoteClick(event)" ondblclick="deleteNote(event)">
           <span class="pin">📌</span>
-          <p>¡Eres increíble, chaparrita! 💖</p>
+          <div>
+            <p>¡Eres increíble, chaparrita! 💖</p>
+          </div>
+          <div class="delete-hint">doble clic para borrar</div>
         </div>
-        <div class="post-it" style="transform: rotate(4deg); background: #ffccbc;" onclick="burstHearts(event)">
+        <div class="post-it" style="transform: rotate(4deg); background: #ffccbc;" onclick="handleNoteClick(event)" ondblclick="deleteNote(event)">
           <span class="pin">📌</span>
-          <p>Confía siempre en ti misma. 🌟</p>
+          <div>
+            <p>Confía siempre en ti misma. 🌟</p>
+          </div>
+          <div class="delete-hint">doble clic para borrar</div>
         </div>
       </div>
 
@@ -845,18 +861,47 @@
       }
     }
 
-    /* Funciones del Pizarrón de Corcho y Corazones */
+    /* Funciones del Pizarrón de Corcho, Corazones y Borrado */
+    let clickTimeout = null;
+
+    function handleNoteClick(e) {
+      const note = e.currentTarget;
+      
+      // Control para distinguir toque simple (corazones) de doble toque (borrar en móviles)
+      if (clickTimeout) {
+        clearTimeout(clickTimeout);
+        clickTimeout = null;
+        deleteNoteDirect(note);
+        return;
+      }
+
+      clickTimeout = setTimeout(() => {
+        clickTimeout = null;
+        burstHearts(e);
+      }, 250);
+    }
+
+    function deleteNote(e) {
+      e.stopPropagation();
+      deleteNoteDirect(e.currentTarget);
+    }
+
+    function deleteNoteDirect(noteElement) {
+      noteElement.style.transform = 'scale(0) rotate(15deg)';
+      noteElement.style.opacity = '0';
+      setTimeout(() => {
+        noteElement.remove();
+      }, 300);
+    }
+
     function burstHearts(e) {
       const note = e.currentTarget;
-      const rect = note.getBoundingClientRect();
       const boardRect = document.getElementById('corkboardArea').getBoundingClientRect();
-      
       const clickX = e.clientX - boardRect.left;
       const clickY = e.clientY - boardRect.top;
 
       const heartSymbols = ['💖', '✨', '💕', '🌸', '💓'];
 
-      // Generar 4 corazoncitos flotantes por clic
       for (let i = 0; i < 4; i++) {
         const heart = document.createElement('div');
         heart.className = 'floating-heart';
@@ -896,16 +941,22 @@
       const newPostIt = document.createElement('div');
       newPostIt.className = 'post-it';
 
-      // Rotación aleatoria ligera para que se vea natural en el corcho
       const randomRot = Math.floor(Math.random() * 10) - 5;
       const colors = ['#fff9c4', '#ffccbc', '#c8e6c9', '#b3e5fc', '#f8bbd0'];
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
       newPostIt.style.transform = `rotate(${randomRot}deg)`;
       newPostIt.style.background = randomColor;
-      newPostIt.innerHTML = `<span class="pin">📌</span><p>${text}</p>`;
+      newPostIt.innerHTML = `
+        <span class="pin">📌</span>
+        <div>
+          <p>${text}</p>
+        </div>
+        <div class="delete-hint">doble clic para borrar</div>
+      `;
 
-      newPostIt.addEventListener('click', burstHearts);
+      newPostIt.addEventListener('click', handleNoteClick);
+      newPostIt.addEventListener('dblclick', deleteNote);
 
       board.appendChild(newPostIt);
       closeNoteModal();
@@ -1085,6 +1136,7 @@
     }
 
     canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove5', drawing); // fallback seguro
     canvas.addEventListener('mousemove', drawing);
     canvas.addEventListener('mouseup', stopDraw);
     canvas.addEventListener('mouseleave', stopDraw);
