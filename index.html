@@ -10,7 +10,7 @@
   <meta http-equiv="Expires" content="0">
 
   <title>4 You</title>
-  <link rel="manifest" href="./manifest.json?v=3">
+  <link rel="manifest" href="./manifest.json?v=4">
   <meta name="theme-color" content="#fff0f3">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,7 +53,7 @@
       margin-top: 20px;
     }
 
-    /* Portada Estilo Libro Real (Forzada a cubrir toda la libreta) */
+    /* Portada Estilo Libro Real */
     .cover-overlay {
       position: absolute !important;
       top: 0 !important;
@@ -161,13 +161,13 @@
 
     .tab-btn {
       flex: 1;
-      min-width: 42px;
-      padding: 6px 4px;
+      min-width: 38px;
+      padding: 6px 2px;
       border: none;
       background: #f8bbd0;
       border-radius: 10px 10px 0 0;
       font-family: 'Caveat', cursive;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: #880e4f;
       cursor: pointer;
@@ -186,13 +186,13 @@
       background: #f8bbd0;
       border: 1px solid #f48fb1;
       border-radius: 6px;
-      padding: 4px 8px;
-      font-size: 0.75rem;
+      padding: 4px 6px;
+      font-size: 0.7rem;
       font-weight: 700;
       color: #880e4f;
       cursor: pointer;
       align-self: center;
-      margin-left: 4px;
+      margin-left: 2px;
     }
 
     /* Contenido de Páginas */
@@ -252,16 +252,6 @@
 
     .photo-card:nth-child(2) {
       transform: rotate(2deg);
-    }
-
-    .photo-card:hover, .photo-card:active {
-      animation: shake 0.5s ease-in-out infinite;
-    }
-
-    @keyframes shake {
-      0%, 100% { transform: rotate(-2deg) translateY(0); }
-      25% { transform: rotate(2deg) translateY(-3px); }
-      75% { transform: rotate(-2deg) translateY(3px); }
     }
 
     .photo-card img {
@@ -464,6 +454,80 @@
       box-shadow: 0 4px 12px rgba(255, 92, 138, 0.35);
     }
 
+    /* Pestaña 4: Pizarrón de Corcho Interactivo */
+    .corkboard {
+      background-color: #d2a679;
+      background-image: radial-gradient(#b88654 15%, transparent 16%), radial-gradient(#b88654 15%, transparent 16%);
+      background-size: 12px 12px;
+      background-position: 0 0, 6px 6px;
+      border: 10px solid #8B5A2B;
+      border-radius: 6px;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.15);
+      min-height: 380px;
+      padding: 14px;
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-content: flex-start;
+      overflow-y: auto;
+      margin-bottom: 12px;
+    }
+
+    .post-it {
+      background: #fff9c4;
+      width: 120px;
+      min-height: 110px;
+      padding: 10px;
+      padding-top: 18px;
+      box-shadow: 2px 4px 10px rgba(0,0,0,0.2);
+      font-family: 'Caveat', cursive;
+      font-size: 1.25rem;
+      color: #3d3234;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      word-break: break-word;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .post-it:hover {
+      transform: scale(1.05) rotate(0deg) !important;
+      box-shadow: 3px 6px 15px rgba(0,0,0,0.3);
+      z-index: 10;
+    }
+
+    .pin {
+      position: absolute;
+      top: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+
+    /* Animación y efecto de Corazones flotantes al hacer clic en nota */
+    @keyframes floatUpHeart {
+      0% {
+        transform: translateY(0) scale(0.6) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-70px) scale(1.3) rotate(15deg);
+        opacity: 0;
+      }
+    }
+
+    .floating-heart {
+      position: absolute;
+      font-size: 1.4rem;
+      pointer-events: none;
+      animation: floatUpHeart 0.9s ease-out forwards;
+      z-index: 50;
+    }
+
     /* Modal Emergente */
     .modal {
       position: fixed;
@@ -501,15 +565,28 @@
       margin-bottom: 18px;
       font-weight: 700;
     }
+
+    .modal-textarea {
+      width: 100%;
+      height: 90px;
+      border: 2px solid #f48fb1;
+      border-radius: 10px;
+      padding: 10px;
+      font-family: 'Caveat', cursive;
+      font-size: 1.3rem;
+      resize: none;
+      outline: none;
+      margin-bottom: 12px;
+      background: #fff9c4;
+      color: #3d3234;
+    }
   </style>
 </head>
 <body>
 
   <div class="book-container">
-    <!-- Portada con 4 Calcomanías Repartidas -->
+    <!-- Portada -->
     <div class="cover-overlay" id="cover">
-      
-      <!-- Calcomanías -->
       <div class="sticker sticker-1">
         <img id="stickerImg1" src="./sticker1.png" alt="Sticker 1" onerror="this.src='https://via.placeholder.com/80/ff85a2/ffffff?text=✨'">
       </div>
@@ -538,7 +615,7 @@
       <button class="tab-btn active" onclick="switchTab(1)">1</button>
       <button class="tab-btn" onclick="switchTab(2)">2</button>
       <button class="tab-btn" onclick="switchTab(3)">3</button>
-      <button class="tab-btn" onclick="switchTab(4)">?</button>
+      <button class="tab-btn" onclick="switchTab(4)">📌</button>
       <button class="tab-btn" onclick="switchTab(5)">?</button>
       <button class="cover-back-btn" onclick="closeCover()">📕 Portada</button>
     </div>
@@ -634,14 +711,47 @@
         </p>
       </div>
     </div>
+
+    <!-- Pestaña 4: Pizarrón de Corcho Interactivo -->
+    <div class="page-content" id="tab4">
+      <h2 class="section-h2">Pizarrón de Notas 📌</h2>
+      <p class="sub-title">Un corcho para dejar notitas lindas. ¡Toca cualquier nota para ver corazones!</p>
+
+      <div class="corkboard" id="corkboardArea">
+        <!-- Notas iniciales de ejemplo -->
+        <div class="post-it" style="transform: rotate(-3deg);" onclick="burstHearts(event)">
+          <span class="pin">📌</span>
+          <p>¡Eres increíble, chaparrita! 💖</p>
+        </div>
+        <div class="post-it" style="transform: rotate(4deg); background: #ffccbc;" onclick="burstHearts(event)">
+          <span class="pin">📌</span>
+          <p>Confía siempre en ti misma. 🌟</p>
+        </div>
+      </div>
+
+      <button class="action-btn" onclick="openNoteModal()">➕ Agregar nueva notita al corcho</button>
+    </div>
   </div>
 
-  <!-- Modal -->
+  <!-- Modal Normal -->
   <div class="modal" id="customModal">
     <div class="modal-content">
       <div class="modal-emojis" id="modalEmojis">✨</div>
       <div class="modal-text" id="modalText">Mensaje aquí</div>
       <button class="action-btn" onclick="closeModal()">Entendido ✨</button>
+    </div>
+  </div>
+
+  <!-- Modal para Escribir Nota en el Corcho -->
+  <div class="modal" id="noteModal">
+    <div class="modal-content">
+      <div class="modal-emojis">📌💖</div>
+      <div class="modal-text">Escribe tu mensaje para la notita:</div>
+      <textarea id="noteInputText" class="modal-textarea" placeholder="Escribe algo lindo aquí..."></textarea>
+      <div style="display: flex; gap: 8px;">
+        <button class="action-btn" style="background:#ccc; color:#3d3234;" onclick="closeNoteModal()">Cancelar</button>
+        <button class="action-btn" onclick="addNewNote()">¡Colgar en el corcho! 📌</button>
+      </div>
     </div>
   </div>
 
@@ -660,7 +770,6 @@
 
     function loadRandomStickers() {
       let shuffled = [...availableStickers].sort(() => 0.5 - Math.random());
-      
       if (shuffled[0]) document.getElementById('stickerImg1').src = shuffled[0];
       if (shuffled[1]) document.getElementById('stickerImg2').src = shuffled[1];
       if (shuffled[2]) document.getElementById('stickerImg3').src = shuffled[2];
@@ -719,13 +828,13 @@
     }
 
     function switchTab(tabNumber) {
-      if (tabNumber === 4 || tabNumber === 5) {
+      if (tabNumber === 5) {
         showModal("¡Esta actualización está en camino, no desesperes!", "🚀⏳✨");
         return;
       }
 
       document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
-        if(idx < 3) btn.classList.toggle('active', idx + 1 === tabNumber);
+        if(idx < 4) btn.classList.toggle('active', idx + 1 === tabNumber);
       });
       document.querySelectorAll('.page-content').forEach((page, idx) => {
         page.classList.toggle('active', idx + 1 === tabNumber);
@@ -734,6 +843,72 @@
       if (tabNumber === 2) {
         setTimeout(resizeAndDrawCanvas, 100);
       }
+    }
+
+    /* Funciones del Pizarrón de Corcho y Corazones */
+    function burstHearts(e) {
+      const note = e.currentTarget;
+      const rect = note.getBoundingClientRect();
+      const boardRect = document.getElementById('corkboardArea').getBoundingClientRect();
+      
+      const clickX = e.clientX - boardRect.left;
+      const clickY = e.clientY - boardRect.top;
+
+      const heartSymbols = ['💖', '✨', '💕', '🌸', '💓'];
+
+      // Generar 4 corazoncitos flotantes por clic
+      for (let i = 0; i < 4; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+        
+        const offsetX = (Math.random() - 0.5) * 50;
+        const offsetY = (Math.random() - 0.5) * 30;
+        
+        heart.style.left = (clickX + offsetX) + 'px';
+        heart.style.top = (clickY + offsetY) + 'px';
+
+        document.getElementById('corkboardArea').appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 900);
+      }
+    }
+
+    function openNoteModal() {
+      document.getElementById('noteInputText').value = '';
+      document.getElementById('noteModal').style.display = 'flex';
+    }
+
+    function closeNoteModal() {
+      document.getElementById('noteModal').style.display = 'none';
+    }
+
+    function addNewNote() {
+      const text = document.getElementById('noteInputText').value.trim();
+      if (!text) {
+        alert("Escribe un mensaje para la nota por favor.");
+        return;
+      }
+
+      const board = document.getElementById('corkboardArea');
+      const newPostIt = document.createElement('div');
+      newPostIt.className = 'post-it';
+
+      // Rotación aleatoria ligera para que se vea natural en el corcho
+      const randomRot = Math.floor(Math.random() * 10) - 5;
+      const colors = ['#fff9c4', '#ffccbc', '#c8e6c9', '#b3e5fc', '#f8bbd0'];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+      newPostIt.style.transform = `rotate(${randomRot}deg)`;
+      newPostIt.style.background = randomColor;
+      newPostIt.innerHTML = `<span class="pin">📌</span><p>${text}</p>`;
+
+      newPostIt.addEventListener('click', burstHearts);
+
+      board.appendChild(newPostIt);
+      closeNoteModal();
     }
 
     function showModal(text, emojis = "✨💖") {
